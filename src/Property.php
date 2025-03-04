@@ -8,13 +8,14 @@ class Property
 
     public function __construct($nameProperty = 'Example', $dir = 'base')
     {
-        require_once 'config.php';
-
-        $namespace = $config['paths']['properties']['namespace'][$dir] ?? '';
+        $namespace = Logger::$config['paths']['properties']['namespace'][$dir] ?? '';
         $pathProperty = strtolower($namespace);
+
         $extendClass = $dir === 'base' ? 'Core' : 'Kernel';
-        $use = $config['paths']['properties']['use'][$dir] ?? '';
+
+        $use = Logger::$config['paths']['properties']['use'][$dir] ?? '';
         $pathBaseClass = str_replace('\\', '/', $use) . '/';
+
         if (!file_exists($pathBaseClass . $extendClass . '.php')) {
             self::baseClass($use, $extendClass);
         }
@@ -82,11 +83,11 @@ class Property
     public static function message(string $nameProperty, int $status = 1): void
     {
         if ($status == 0) {
-            echo info(" - Створено Property " . GREEN . BOLD . "`" . $nameProperty . "`\n" . NC);
+            echo Logger::info(" - Створено Property " . Logger::GREEN . Logger::BOLD . "`" . $nameProperty . "`\n" . Logger::NC);
         } elseif ($status == 2) {
-            echo error(" - Помилка створення Property " . RED . BOLD . "`" . $nameProperty . "`\n" . NC);
+            echo Logger::error(" - Помилка створення Property " . Logger::RED . Logger::BOLD . "`" . $nameProperty . "`\n" . Logger::NC);
         } else {
-            echo warn(" - Property " . BLUE . BOLD . "`" . $nameProperty . "` вже існує\n" . NC);
+            echo Logger::warn(" - Property " . Logger::BLUE . Logger::BOLD . "`" . $nameProperty . "` вже існує\n" . Logger::NC);
         }
     }
 }
