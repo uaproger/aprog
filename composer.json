@@ -1,5 +1,6 @@
 {
   "name": "uaproger/aprog",
+  "version": "1.1",
   "description": "Бібліотека для роботи з властивостями",
   "type": "library",
   "license": "MIT",
@@ -7,7 +8,6 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Uaproger\\": "src/",
       "Src\\": "src/"
     }
   },
@@ -19,5 +19,12 @@
   ],
   "require": {
     "php": ">=8.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Src\\AprogServiceProvider"
+      ]
+    }
   }
 }
