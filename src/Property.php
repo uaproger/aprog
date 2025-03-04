@@ -89,6 +89,7 @@ class Property
         } else {
             echo Logger::warn("Property " . Logger::BLUE . Logger::BOLD . "`" . $nameProperty . "`" .  Logger::NC . " вже існує" . Logger::NC);
         }
-        echo "Дякую що обрали " . Logger::GREEN . "`aprog`" . Logger::NC . " . Since 2025";
+        echo PHP_EOL . Logger::GREEN . "Finish process.";
+        echo PHP_EOL . "Дякую що обрали " . Logger::GREEN . "`aprog`" . Logger::NC . " . Since 2025";
     }
 }
