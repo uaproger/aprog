@@ -1,6 +1,5 @@
 {
   "name": "uaproger/aprog",
-  "version": "1.1.3",
   "description": "Бібліотека для роботи з властивостями",
   "type": "library",
   "license": "MIT",

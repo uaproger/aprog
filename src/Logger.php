@@ -8,6 +8,9 @@ class Logger
     const string GREEN = "\033[0;32m";
     const string YELLOW = "\033[0;33m";
     const string BLUE = "\033[0;34m";
+    const string BACKGROUND_BLUE = "\033[48;5;21m";
+    const string BACKGROUND_RED = "\033[48;5;196m";
+    const string BACKGROUND_YELLOW = "\033[48;5;226m";
     const string BOLD = "\033[1m";
     const string NC = "\033[0m";
 
@@ -28,16 +31,16 @@ class Logger
 
     public static function info($message): string
     {
-        return sprintf('%s<info> INFO </info> %s.', '  ', $message);
+        return sprintf("%s" . self::BACKGROUND_BLUE . " INFO %s.", '  ', $message);
     }
 
     public static function warn($message): string
     {
-        return sprintf('%s<warn> WARN </warn> %s.', '  ', $message);
+        return sprintf("%s" . self::BACKGROUND_YELLOW . " WARN %s.", '  ', $message);
     }
 
     public static function error($message): string
     {
-        return sprintf('%s<error> ERROR </error> %s.', '  ', $message);
+        return sprintf("%s" . self::BACKGROUND_RED . " ERROR %s.", '  ', $message);
     }
 }
