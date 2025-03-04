@@ -12,7 +12,7 @@ class MakePropertyCommand extends Command
 
     public function handle()
     {
-        $name = $this->argument('name') ?? 'ExampleProperty';
+        $name = $this->argument('name') ?? 'Example';
         $dir = $this->argument('dir') ?? 'app';
 
         $this->info("Створення Property: `$name`");

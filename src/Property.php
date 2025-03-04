@@ -6,7 +6,7 @@ class Property
 {
     private static string $property;
 
-    public function __construct($nameProperty, $dir)
+    public function __construct($nameProperty = 'Example', $dir = 'base')
     {
         require_once 'config.php';
 
@@ -82,11 +82,11 @@ class Property
     public static function message(string $nameProperty, int $status = 1): void
     {
         if ($status == 0) {
-            echo BACKGROUND_GREEN . "SUCCESS" . NC . "\n  - Створено Property " . GREEN . BOLD . "`" . $nameProperty . "`\n" . NC;
+            echo info(" - Створено Property " . GREEN . BOLD . "`" . $nameProperty . "`\n" . NC);
         } elseif ($status == 2) {
-            echo BACKGROUND_RED . "ERROR" . NC . "\n  - Помилка створення Property " . RED . BOLD . "`" . $nameProperty . "`\n" . NC;
+            echo error(" - Помилка створення Property " . RED . BOLD . "`" . $nameProperty . "`\n" . NC);
         } else {
-            echo BACKGROUND_BLUE . "INFO" . NC . "\n  - Property " . BLUE . BOLD . "`" . $nameProperty . "` вже існує\n" . NC;
+            echo warn(" - Property " . BLUE . BOLD . "`" . $nameProperty . "` вже існує\n" . NC);
         }
     }
 }

@@ -31,3 +31,18 @@ $config = [
         ]
     ],
 ];
+
+function info($message): string
+{
+    return sprintf('%s<info> INFO </info> %s.', '  ', $message);
+}
+
+function warn($message): string
+{
+    return sprintf('%s<warn> WARN </warn> %s.', '  ', $message);
+}
+
+function error($message): string
+{
+    return sprintf('%s<error> ERROR </error> %s.', '  ', $message);
+}
