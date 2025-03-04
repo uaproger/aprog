@@ -15,9 +15,10 @@ class MakePropertyCommand extends Command
         $name = $this->argument('name') ?? 'ExampleProperty';
         $dir = $this->argument('dir') ?? 'app';
 
-        $this->info("Створення Property: " . $this->warn("`$name`"));
-        $this->newLine();
+        $this->info("Створення Property: `$name`");
 
         new Property($name, $dir);
+
+        $this->newLine();
     }
 }
