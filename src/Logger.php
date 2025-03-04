@@ -31,16 +31,16 @@ class Logger
 
     public static function info($message): string
     {
-        return PHP_EOL . sprintf("%s" . self::BACKGROUND_DARK_BLUE . " INFO " . self::NC . " %s.", '  ', $message) . PHP_EOL . PHP_EOL;
+        return PHP_EOL . sprintf("%s" . self::BACKGROUND_DARK_BLUE . " INFO " . self::NC . " %s.", '  ', $message) . PHP_EOL;
     }
 
     public static function warn($message): string
     {
-        return PHP_EOL . sprintf("%s" . self::BACKGROUND_ORANGE . " WARN " . self::NC . " %s.", '  ', $message) . PHP_EOL . PHP_EOL;
+        return PHP_EOL . sprintf("%s" . self::BACKGROUND_ORANGE . " WARN " . self::NC . " %s.", '  ', $message) . PHP_EOL;
     }
 
     public static function error($message): string
     {
-        return PHP_EOL . sprintf("%s" . self::BACKGROUND_RED . " ERROR " . self::NC . " %s.", '  ', $message) . PHP_EOL . PHP_EOL;
+        return PHP_EOL . sprintf("%s" . self::BACKGROUND_RED . " ERROR " . self::NC . " %s.", '  ', $message) . PHP_EOL;
     }
 }
