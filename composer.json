@@ -10,6 +10,9 @@
       "Src\\": "src/"
     }
   },
+  "bin": [
+    "aprog"
+  ],
   "authors": [
     {
       "name": "Oleksandr Zadorozhnii",
