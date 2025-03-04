@@ -78,7 +78,6 @@ class Property
         }
         $res = file_put_contents("{$pathProperty}{$class}.php", self::$property);
         self::message($class, $res ? 0 : 2);
-        echo "Дякую що обрали " . Logger::GREEN . "`aprog`" . Logger::NC . " . Since 2025";
     }
 
     public static function message(string $nameProperty, int $status = 1): void
@@ -90,5 +89,6 @@ class Property
         } else {
             echo Logger::warn("Property " . Logger::BLUE . Logger::BOLD . "`" . $nameProperty . "`" .  Logger::NC . " вже існує" . Logger::NC);
         }
+        echo "Дякую що обрали " . Logger::GREEN . "`aprog`" . Logger::NC . " . Since 2025";
     }
 }
