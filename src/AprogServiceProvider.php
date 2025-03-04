@@ -3,7 +3,7 @@
 namespace Src;
 
 use Illuminate\Support\ServiceProvider;
-use Src\Console\MakePropertyCommand;
+use Uaproger\Aprog\Src\Console\MakePropertyCommand;
 
 class AprogServiceProvider extends ServiceProvider
 {

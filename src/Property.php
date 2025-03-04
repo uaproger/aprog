@@ -1,6 +1,6 @@
 <?php
 
-namespace Src;
+namespace Uaproger\Aprog\Src;
 
 class Property
 {
