@@ -2,10 +2,6 @@
 
 Допоміжна бібліотека для створення Properties.
 
-### Version
-
-v1.2
-
 ### Installation
 
 Aprog requires PHP >= 8.0.
