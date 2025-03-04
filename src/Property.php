@@ -6,27 +6,25 @@ class Property
 {
     private static string $property;
 
-    public function __construct($nameProperty = 'Example', $dir = 'base')
+    public function __construct($nameProperty, $dir)
     {
         $namespace = Logger::$config['paths']['properties']['namespace'][$dir] ?? '';
         $pathProperty = strtolower($namespace);
 
-        $extendClass = $dir === 'base' ? 'Core' : 'Kernel';
-
         $use = Logger::$config['paths']['properties']['use'][$dir] ?? '';
         $pathBaseClass = str_replace('\\', '/', $use) . '/';
 
-        if (!file_exists($pathBaseClass . $extendClass . '.php')) {
-            self::baseClass($use, $extendClass);
+        if (!file_exists($pathBaseClass . 'Kernel.php')) {
+            self::baseClass($use);
         }
 
         self::$property = '<?php'.PHP_EOL;
         self::$property .= PHP_EOL;
         self::$property .= "namespace $namespace;".PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "use $use\\$extendClass;".PHP_EOL;
+        self::$property .= "use $use\\Kernel;".PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "class $nameProperty extends $extendClass".PHP_EOL;
+        self::$property .= "class $nameProperty extends Kernel".PHP_EOL;
         self::$property .= "{".PHP_EOL;
         self::$property .= "    public function __construct(object|array \$data = [])".PHP_EOL;
         self::$property .= "    {".PHP_EOL;
@@ -46,13 +44,13 @@ class Property
         }
     }
 
-    public static function baseClass($namespace, $class): void
+    public static function baseClass($namespace): void
     {
         self::$property = '<?php'.PHP_EOL;
         self::$property .= PHP_EOL;
         self::$property .= "namespace $namespace;".PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "class $class".PHP_EOL;
+        self::$property .= "class Kernel".PHP_EOL;
         self::$property .= "{".PHP_EOL;
         self::$property .= "    public function __construct(array|object \$data = [])".PHP_EOL;
         self::$property .= "    {".PHP_EOL;
@@ -76,8 +74,8 @@ class Property
         if (!file_exists($pathProperty) || !is_dir($pathProperty)) {
             mkdir($pathProperty, 0777, true);
         }
-        $res = file_put_contents("{$pathProperty}{$class}.php", self::$property);
-        self::message($class, $res ? 0 : 2);
+        $res = file_put_contents("{$pathProperty}Kernel.php", self::$property);
+        self::message('Kernel', $res ? 0 : 2);
     }
 
     public static function message(string $nameProperty, int $status = 1): void

@@ -6,7 +6,6 @@ class Logger
 {
     const RED = "\033[0;31m";
     const GREEN = "\033[0;32m";
-    const YELLOW = "\033[0;33m";
     const BLUE = "\033[0;34m";
     const BACKGROUND_ORANGE = "\033[48;2;255;136;0m";   // #FF8800 (Жовто-оранжевий)
     const BACKGROUND_RED = "\033[48;2;255;40;0m";      // #FF2800 (Червоний)
@@ -18,11 +17,9 @@ class Logger
         'paths' => [
             'properties' => [
                 'namespace' => [
-                    'base' => 'Properties\Files',
                     'app' => 'App\Properties\Items',
                 ],
                 'use' => [
-                    'base' => 'Properties',
                     'app' => 'App\Properties',
                 ],
             ]
