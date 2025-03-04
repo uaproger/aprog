@@ -14,7 +14,7 @@ fi
 
 # Виконання відповідних дій залежно від першої та другої частини
 if [ "$firstPart1" = "make" ] && [ "$secondPart1" = "property" ]; then
-  php console.php "$1" "$2" "$3"
+  php "$(dirname "$0")/../vendor/uaproger/aprog/console.php" "$firstPart1:$secondPart1" "$2" "$3"
 
 elif [ "$1" = "-v" ] || [ "$1" = "--version" ]; then
   echo -e "\n\n${GREEN}APROG${NC} version ${YELLOW}1.1.0${NC} 2024.08.24 12:00:40\n"
