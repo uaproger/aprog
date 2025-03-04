@@ -82,11 +82,11 @@ class Property
     public static function message(string $nameProperty, int $status = 1): void
     {
         if ($status == 0) {
-            echo BLUE . "\n  - Створено Property `" . GREEN . $nameProperty . "`\n" . NC;
+            echo BLUE . "\n  - Створено Property `" . GREEN . BOLD . $nameProperty . "`\n" . NC;
         } elseif ($status == 2) {
-            echo RED . "\n  - Помилка створення Property `" . YELLOW . $nameProperty . RED . "`\n" . NC;
+            echo RED . "\n  - Помилка створення Property `" . YELLOW . BOLD . $nameProperty . RED . "`\n" . NC;
         } else {
-            echo YELLOW . "\n  - Property `" . BLUE . $nameProperty . YELLOW . "` вже існує\n" . NC;
+            echo YELLOW . "\n  - Property `" . BLUE . BOLD . $nameProperty . YELLOW . "` вже існує\n" . NC;
         }
     }
 }
