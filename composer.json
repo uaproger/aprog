@@ -22,8 +22,8 @@
   ],
   "require": {
     "php": ">=8.0",
-    "symfony/console": "^6.0",
-    "illuminate/console": "^8.0"
+    "illuminate/console": "^8.0",
+    "symfony/console": "^5.4"
   },
   "extra": {
     "laravel": {
