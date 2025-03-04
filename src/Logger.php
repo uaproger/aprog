@@ -31,16 +31,16 @@ class Logger
 
     public static function info($message): string
     {
-        return sprintf("%s" . self::BACKGROUND_BLUE . " INFO %s.", '  ', $message);
+        return sprintf("%s" . self::BACKGROUND_BLUE . " INFO " . self::NC . "%s.", '  ', $message);
     }
 
     public static function warn($message): string
     {
-        return sprintf("%s" . self::BACKGROUND_YELLOW . " WARN %s.", '  ', $message);
+        return sprintf("%s" . self::BACKGROUND_YELLOW . " WARN " . self::NC . "%s.", '  ', $message);
     }
 
     public static function error($message): string
     {
-        return sprintf("%s" . self::BACKGROUND_RED . " ERROR %s.", '  ', $message);
+        return sprintf("%s" . self::BACKGROUND_RED . " ERROR " . self::NC . "%s.", '  ', $message);
     }
 }
