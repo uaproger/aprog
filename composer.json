@@ -25,5 +25,13 @@
         "Src\\AprogServiceProvider"
       ]
     }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "@php -r \"if (PHP_OS_FAMILY !== 'Windows') { chmod(__DIR__ . '/aprog', 0755); }\""
+    ],
+    "post-update-cmd": [
+      "@php -r \"if (PHP_OS_FAMILY !== 'Windows') { chmod(__DIR__ . '/aprog', 0755); }\""
+    ]
   }
 }
