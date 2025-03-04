@@ -4,7 +4,7 @@
 require __DIR__ . '/../../autoload.php';
 
 use Symfony\Component\Console\Application;
-use Uaproger\Aprog\Src\Console\MakePropertyCommand;
+use Src\Console\MakePropertyCommand;
 
 $app = new Application();
 $app->add(new MakePropertyCommand());

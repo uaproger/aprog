@@ -1,9 +1,9 @@
 <?php
 
-namespace Uaproger\Aprog\Src\Console;
+namespace Src\Console;
 
 use Illuminate\Console\Command;
-use Uaproger\Aprog\Src\Property;
+use Src\Property;
 
 class MakePropertyCommand extends Command
 {

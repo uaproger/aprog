@@ -1,6 +1,6 @@
 <?php
 
-namespace Uaproger\Aprog\Src;
+namespace Src;
 
 class Logger
 {

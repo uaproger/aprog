@@ -7,8 +7,7 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Src\\": "src/",
-      "Uaproger\\Aprog\\": "src/"
+      "Uaproger\\Aprog\\Src\\": "src/"
     }
   },
   "bin": [
