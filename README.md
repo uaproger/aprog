@@ -1,6 +1,6 @@
 # aprog
 
-Допоміжна бібліотека для створення Properties.
+Допоміжна бібліотека `Laravel` для створення Properties.
 
 ### Installation
 

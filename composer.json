@@ -7,12 +7,9 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Uaproger\\Aprog\\Src\\": "src/"
+      "Src\\": "src/"
     }
   },
-  "bin": [
-    "aprog"
-  ],
   "authors": [
     {
       "name": "Oleksandr Zadorozhnii",
@@ -20,9 +17,7 @@
     }
   ],
   "require": {
-    "php": ">=8.0",
-    "illuminate/console": "^8.0",
-    "symfony/console": "^5.4"
+    "php": ">=8.0"
   },
   "extra": {
     "laravel": {
@@ -30,13 +25,5 @@
         "Src\\AprogServiceProvider"
       ]
     }
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "@php -r \"if (PHP_OS_FAMILY !== 'Windows') { chmod(__DIR__ . '/aprog', 0755); }\""
-    ],
-    "post-update-cmd": [
-      "@php -r \"if (PHP_OS_FAMILY !== 'Windows') { chmod(__DIR__ . '/aprog', 0755); }\""
-    ]
   }
 }
