@@ -1,0 +1,21 @@
+{
+  "name": "uaproger/aprog",
+  "description": "Бібліотека для роботи з властивостями",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Uaproger\\": "src/",
+      "Src\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Oleksandr Zadorozhnii",
+      "email": "developer@alexproger.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.0"
+  }
+}
