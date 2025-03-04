@@ -3,6 +3,8 @@
   "description": "Бібліотека для роботи з властивостями",
   "type": "library",
   "license": "MIT",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "Uaproger\\": "src/",
