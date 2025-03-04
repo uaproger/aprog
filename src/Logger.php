@@ -8,9 +8,9 @@ class Logger
     const string GREEN = "\033[0;32m";
     const string YELLOW = "\033[0;33m";
     const string BLUE = "\033[0;34m";
-    const string BACKGROUND_BLUE = "\033[4;52;88m";
-    const string BACKGROUND_RED = "\033[255;40;0m";
-    const string BACKGROUND_YELLOW = "\033[255;136;0m";
+    const string BACKGROUND_BLUE = "\033[48;2;0;0;255m";   // Синій фон
+    const string BACKGROUND_RED = "\033[48;2;255;0;0m";    // Червоний фон
+    const string BACKGROUND_YELLOW = "\033[48;2;255;255;0m"; // Жовтий фон
     const string BOLD = "\033[1m";
     const string NC = "\033[0m";
 
