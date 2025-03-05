@@ -98,6 +98,6 @@ class Property
             echo Logger::warn("Property " . Logger::WHITE . Logger::BOLD . "[./app/Properties/$items" . $nameProperty . "]" .  Logger::NC . " вже існує" . Logger::NC);
         }
         echo PHP_EOL . Logger::GREEN . "Finish process." . Logger::NC;
-        echo PHP_EOL . "Дякую що обрали " . Logger::GREEN . "`aprog`" . Logger::NC . ". Copyright (c) 2025 AlexProger";
+        echo PHP_EOL . "Дякую що обрали " . Logger::DARK_BLUE . "`aprog`" . Logger::NC . ". Copyright (c) 2025 AlexProger";
     }
 }

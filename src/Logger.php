@@ -4,15 +4,18 @@ namespace Src;
 
 class Logger
 {
-    const WHITE = "\033[1;37m";
-    const RED = "\033[0;31m";
-    const GREEN = "\033[0;32m";
-    const BLUE = "\033[0;34m";
-    const BACKGROUND_ORANGE = "\033[48;2;255;136;0m";   // #FF8800 (Жовто-оранжевий)
-    const BACKGROUND_RED = "\033[48;2;255;40;0m";      // #FF2800 (Червоний)
-    const BACKGROUND_DARK_BLUE = "\033[48;2;4;52;88m"; // #043458 (Темно-синій)
-    const BOLD = "\033[1m";
-    const NC = "\033[0m";
+    const WHITE = "\x1b[1;37m"; #ffffff
+    const DARK_BLUE = "\x1b[38;2;4;52;88m"; #043458
+    const RED = "\x1b[38;2;255;40;0m"; #FF2800
+    const ORANGE = "\x1b[38;2;255;136;0m"; #FF8800
+    const GREEN = "\x1b[38;2;0;255;0m"; #green
+    const WHITE_BG = "\x1b[48;2;255;255;255m"; #ffffff
+    const DARK_BLUE_BG = "\x1b[48;2;4;52;88m"; #043458
+    const RED_BG = "\x1b[48;2;255;40;0m"; #FF2800
+    const ORANGE_BG = "\x1b[48;2;255;136;0m"; #FF8800
+    const GREEN_BG = "\x1b[48;2;0;255;0m"; #green
+    const BOLD = "\x1b[1m";  # Жирний текст
+    const NC = "\x1b[0m"; # Скидає форматування (нормальний колір та стиль)
 
     public static array $config = [
         'paths' => [
@@ -29,16 +32,16 @@ class Logger
 
     public static function info($message): string
     {
-        return PHP_EOL . sprintf("%s" . self::BACKGROUND_DARK_BLUE . " INFO " . self::NC . " %s.", '  ', $message) . PHP_EOL;
+        return PHP_EOL . sprintf("%s" . self::DARK_BLUE_BG . " INFO " . self::NC . " %s.", '  ', $message) . PHP_EOL;
     }
 
     public static function warn($message): string
     {
-        return PHP_EOL . sprintf("%s" . self::BACKGROUND_ORANGE . " WARN " . self::NC . " %s.", '  ', $message) . PHP_EOL;
+        return PHP_EOL . sprintf("%s" . self::ORANGE_BG . " WARN " . self::NC . " %s.", '  ', $message) . PHP_EOL;
     }
 
     public static function error($message): string
     {
-        return PHP_EOL . sprintf("%s" . self::BACKGROUND_RED . " ERROR " . self::NC . " %s.", '  ', $message) . PHP_EOL;
+        return PHP_EOL . sprintf("%s" . self::RED_BG . " ERROR " . self::NC . " %s.", '  ', $message) . PHP_EOL;
     }
 }
