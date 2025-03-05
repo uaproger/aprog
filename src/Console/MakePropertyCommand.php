@@ -16,7 +16,7 @@ class MakePropertyCommand extends Command
 
         $this->info("Створення Property: `$name`");
 
-        new Property($name, 'app');
+        new Property($name);
 
         $this->newLine();
     }

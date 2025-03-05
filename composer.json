@@ -25,5 +25,8 @@
         "Src\\AprogServiceProvider"
       ]
     }
+  },
+  "require-dev": {
+    "larapack/dd": "1.1"
   }
 }

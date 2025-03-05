@@ -14,12 +14,19 @@ composer require uaproger/aprog --dev
 
 ### Basic Usage
 
+Property:
 ```shell
 php artisan make:property <name>
 ```
 
+Service:
+```shell
+php artisan make:service <name>
+```
+
 ### Info
 
+- На цей час сервіс вже створює properties та services
 - З часом будуть додаватися можливості створення додаткових інструментів
 
 ### License

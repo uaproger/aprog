@@ -20,15 +20,30 @@ class Logger
     public static array $config = [
         'paths' => [
             'properties' => [
-                'namespace' => [
-                    'app' => 'App\Properties\Items',
-                ],
-                'use' => [
-                    'app' => 'App\Properties',
-                ],
-            ]
+                'namespace' => 'App\Properties\Items',
+                'use' => 'App\Properties',
+            ],
+            'services' => [
+                'namespace' => 'App\Services',
+                'use' => 'App\Services'
+            ],
         ],
     ];
+
+    public static function seName($namespace, $slashName): array
+    {
+        $arr = explode('/', $slashName);
+
+        if (count($arr) > 1) {
+            $name = ucfirst(end($arr));
+            unset($arr[count($arr) - 1]);
+            $namespace .= "\\" . implode('\\', $arr);
+        } else {
+            $name = ucfirst($arr[0]);
+        }
+
+        return [$namespace, $name];
+    }
 
     public static function info($message): string
     {
@@ -43,5 +58,12 @@ class Logger
     public static function error($message): string
     {
         return PHP_EOL . sprintf("%s" . self::RED_BG . Logger::WHITE . " ERROR " . self::NC . " %s.", '  ', $message) . PHP_EOL;
+    }
+
+    public static function finishMessage(): void
+    {
+        echo PHP_EOL . Logger::GREEN . "Процес завершено." . Logger::NC;
+        echo PHP_EOL . "Дякуємо що обрали " . Logger::GREEN . "aprog" . Logger::NC . ". Слава Україні 🇺🇦!";
+        echo PHP_EOL . "Copyright (c) " . date('Y') . " AlexProger.";
     }
 }

@@ -4,6 +4,7 @@ namespace Src;
 
 use Illuminate\Support\ServiceProvider;
 use Src\Console\MakePropertyCommand;
+use Src\Console\MakeServiceCommand;
 
 class AprogServiceProvider extends ServiceProvider
 {
@@ -11,6 +12,7 @@ class AprogServiceProvider extends ServiceProvider
     {
         $this->commands([
             MakePropertyCommand::class,
+            MakeServiceCommand::class,
         ]);
     }
 
