@@ -86,18 +86,27 @@ class Property
 
     public static function message(string $nameProperty, int $status = 1): void
     {
+        $parent = 'Property';
         $items = 'Items/';
         if ($nameProperty === 'Kernel') {
+            $parent = 'батьківський клас';
             $items = '';
         }
+
         if ($status == 0) {
-            echo Logger::info("Створено Property " . Logger::WHITE . Logger::BOLD . "[./app/Properties/$items" . $nameProperty . "]" . Logger::NC);
+            echo Logger::info("Створено {$parent} " . Logger::WHITE . Logger::BOLD . "[./app/Properties/{$items}{$nameProperty}]" . Logger::NC);
         } elseif ($status == 2) {
-            echo Logger::error("Помилка створення Property " . Logger::WHITE . Logger::BOLD . "[" . $nameProperty . "]" . Logger::NC);
+            echo Logger::error("Помилка створення Property " . Logger::WHITE . Logger::BOLD . "[$nameProperty]" . Logger::NC);
         } else {
-            echo Logger::warn("Property " . Logger::WHITE . Logger::BOLD . "[./app/Properties/$items" . $nameProperty . "]" .  Logger::NC . " вже існує" . Logger::NC);
+            echo Logger::warn("Property " . Logger::WHITE . Logger::BOLD . "[./app/Properties/{$items}{$nameProperty}]" .  Logger::NC . " вже існує");
         }
-        echo PHP_EOL . Logger::GREEN . "Finish process." . Logger::NC;
-        echo PHP_EOL . "Дякую що обрали " . Logger::DARK_BLUE . "`aprog`" . Logger::NC . ". Copyright (c) 2025 AlexProger";
+
+        if ($nameProperty === 'Kernel') {
+            echo PHP_EOL . Logger::GREEN . "Було створено батьківський клас `$nameProperty` для правильної роботи `Properties`." . Logger::NC . PHP_EOL;
+        } else {
+            echo PHP_EOL . Logger::GREEN . "Процес завершено." . Logger::NC;
+            echo PHP_EOL . "Дякуємо що обрали " . Logger::GREEN . "aprog" . Logger::NC . ". Слава Україні 🇺🇦!";
+            echo PHP_EOL . "Copyright (c) " . date('Y') . " AlexProger.";
+        }
     }
 }

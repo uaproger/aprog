@@ -4,7 +4,7 @@ namespace Src;
 
 class Logger
 {
-    const WHITE = "\x1b[1;37m"; #ffffff
+    const WHITE = "\x1b[38;2;255;255;255m"; # Білий колір тексту (RGB)
     const DARK_BLUE = "\x1b[38;2;4;52;88m"; #043458
     const RED = "\x1b[38;2;255;40;0m"; #FF2800
     const ORANGE = "\x1b[38;2;255;136;0m"; #FF8800
@@ -32,16 +32,16 @@ class Logger
 
     public static function info($message): string
     {
-        return PHP_EOL . sprintf("%s" . self::DARK_BLUE_BG . " INFO " . self::NC . " %s.", '  ', $message) . PHP_EOL;
+        return PHP_EOL . sprintf("%s" . self::DARK_BLUE_BG . Logger::WHITE . " INFO " . self::NC . " %s.", '  ', $message) . PHP_EOL;
     }
 
     public static function warn($message): string
     {
-        return PHP_EOL . sprintf("%s" . self::ORANGE_BG . " WARN " . self::NC . " %s.", '  ', $message) . PHP_EOL;
+        return PHP_EOL . sprintf("%s" . self::ORANGE_BG . Logger::WHITE . " WARN " . self::NC . " %s.", '  ', $message) . PHP_EOL;
     }
 
     public static function error($message): string
     {
-        return PHP_EOL . sprintf("%s" . self::RED_BG . " ERROR " . self::NC . " %s.", '  ', $message) . PHP_EOL;
+        return PHP_EOL . sprintf("%s" . self::RED_BG . Logger::WHITE . " ERROR " . self::NC . " %s.", '  ', $message) . PHP_EOL;
     }
 }
