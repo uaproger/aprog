@@ -4,6 +4,7 @@ namespace Src;
 
 class Logger
 {
+    const WHITE = "\033[1;37m";
     const RED = "\033[0;31m";
     const GREEN = "\033[0;32m";
     const BLUE = "\033[0;34m";

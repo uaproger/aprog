@@ -26,6 +26,12 @@ class Property
         self::$property .= PHP_EOL;
         self::$property .= "class $nameProperty extends Kernel".PHP_EOL;
         self::$property .= "{".PHP_EOL;
+        self::$property .= PHP_EOL;
+        self::$property .= "    # public int \$number = 0; # example property number" . PHP_EOL;
+        self::$property .= "    # public ?string \$string = null; # example property string" . PHP_EOL;
+        self::$property .= "    # public bool \$boolean = false; # example property boolean" . PHP_EOL;
+        self::$property .= "    # public array \$array = []; # example property array" . PHP_EOL;
+        self::$property .= PHP_EOL;
         self::$property .= "    public function __construct(object|array \$data = [])".PHP_EOL;
         self::$property .= "    {".PHP_EOL;
         self::$property .= "        parent::__construct(\$data);".PHP_EOL;
@@ -80,14 +86,18 @@ class Property
 
     public static function message(string $nameProperty, int $status = 1): void
     {
+        $items = 'Items/';
+        if ($nameProperty === 'Kernel') {
+            $items = '';
+        }
         if ($status == 0) {
-            echo Logger::info("Створено Property " . Logger::GREEN . Logger::BOLD . "`" . $nameProperty . "`" . Logger::NC);
+            echo Logger::info("Створено Property " . Logger::WHITE . Logger::BOLD . "[./app/Properties/$items" . $nameProperty . "]" . Logger::NC);
         } elseif ($status == 2) {
-            echo Logger::error("Помилка створення Property " . Logger::RED . Logger::BOLD . "`" . $nameProperty . "`" . Logger::NC);
+            echo Logger::error("Помилка створення Property " . Logger::WHITE . Logger::BOLD . "[" . $nameProperty . "]" . Logger::NC);
         } else {
-            echo Logger::warn("Property " . Logger::BLUE . Logger::BOLD . "`" . $nameProperty . "`" .  Logger::NC . " вже існує" . Logger::NC);
+            echo Logger::warn("Property " . Logger::WHITE . Logger::BOLD . "[./app/Properties/$items" . $nameProperty . "]" .  Logger::NC . " вже існує" . Logger::NC);
         }
         echo PHP_EOL . Logger::GREEN . "Finish process." . Logger::NC;
-        echo PHP_EOL . "Дякую що обрали " . Logger::GREEN . "`aprog`" . Logger::NC . ". Since 2025";
+        echo PHP_EOL . "Дякую що обрали " . Logger::GREEN . "`aprog`" . Logger::NC . ". Copyright (c) 2025 AlexProger";
     }
 }
