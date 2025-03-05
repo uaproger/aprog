@@ -4,6 +4,12 @@
 
 *require for dev*
 
+### Packagist resource
+
+```shell
+https://packagist.org/packages/uaproger/aprog
+```
+
 ### Installation
 
 Aprog requires PHP >= 8.0.
