@@ -17,8 +17,7 @@
     }
   ],
   "require": {
-    "php": ">=8.0",
-    "ext-openssl": "*"
+    "php": ">=8.0"
   },
   "extra": {
     "laravel": {
