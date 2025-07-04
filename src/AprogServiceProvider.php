@@ -5,6 +5,7 @@ namespace Src;
 use Illuminate\Support\ServiceProvider;
 use Src\Console\MakePropertyCommand;
 use Src\Console\MakeServiceCommand;
+use Src\Services\AccumulatedErrorsService;
 
 class AprogServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,7 @@ class AprogServiceProvider extends ServiceProvider
             MakePropertyCommand::class,
             MakeServiceCommand::class,
         ]);
+        $this->app->singleton(AccumulatedErrorsService::class);
     }
 
     public function boot()
