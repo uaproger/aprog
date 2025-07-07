@@ -32,7 +32,7 @@ php artisan make:service <name>
 
 Config for Lang::translations():
 ```shell
-php artisan vendor:publish --provider="Alexproger\LaravelErrors\LaravelErrorsServiceProvider" --tag=config
+php artisan vendor:publish --provider="Aprog\AprogServiceProvider" --tag=config
 ```
 
 
