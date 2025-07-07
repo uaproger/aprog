@@ -15,11 +15,19 @@ class AprogServiceProvider extends ServiceProvider
             MakePropertyCommand::class,
             MakeServiceCommand::class,
         ]);
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/config/accum.php',
+            'accum'
+        );
+
         $this->app->singleton(AccumulatedErrorsService::class);
     }
 
     public function boot()
     {
-        //
+        $this->publishes([
+            __DIR__ . '/config/accum.php' => config_path('accum.php'),
+        ], 'config');
     }
 }

@@ -30,6 +30,12 @@ Service:
 php artisan make:service <name>
 ```
 
+Config for Lang::translations():
+```shell
+php artisan vendor:publish --provider="Alexproger\LaravelErrors\LaravelErrorsServiceProvider" --tag=config
+```
+
+
 ### Info
 
 - На цей час сервіс вже створює properties та services
