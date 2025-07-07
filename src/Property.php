@@ -21,34 +21,34 @@ class Property
 
         sleep(5);
 
-        self::$property = '<?php'.PHP_EOL;
+        self::$property = '<?php' . PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "namespace $namespace;".PHP_EOL;
+        self::$property .= "namespace $namespace;" . PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "use $use\\Kernel;".PHP_EOL;
+        self::$property .= "use $use\\Kernel;" . PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "/**".PHP_EOL;
-        self::$property .= " * Aprog Service".PHP_EOL;
-        self::$property .= " * ".PHP_EOL;
-        self::$property .= " * ######################################".PHP_EOL;
-        self::$property .= " * --- Клас `$name` для оголошення property ---".PHP_EOL;
-        self::$property .= " * ######################################".PHP_EOL;
-        self::$property .= " * ".PHP_EOL;
-        self::$property .= " * Copyright (c) " . date('Y') . " AlexProger.".PHP_EOL;
-        self::$property .= " */".PHP_EOL;
-        self::$property .= "class $name extends Kernel".PHP_EOL;
-        self::$property .= "{".PHP_EOL;
+        self::$property .= "/**" . PHP_EOL;
+        self::$property .= " * Aprog Service" . PHP_EOL;
+        self::$property .= " * " . PHP_EOL;
+        self::$property .= " * ######################################" . PHP_EOL;
+        self::$property .= " * --- Клас `$name` для оголошення property ---" . PHP_EOL;
+        self::$property .= " * ######################################" . PHP_EOL;
+        self::$property .= " * " . PHP_EOL;
+        self::$property .= " * Copyright (c) " . date('Y') . " AlexProger." . PHP_EOL;
+        self::$property .= " */" . PHP_EOL;
+        self::$property .= "class $name extends Kernel" . PHP_EOL;
+        self::$property .= "{" . PHP_EOL;
         self::$property .= "    # Приклади properties" . PHP_EOL;
         self::$property .= "    # public int \$number = 0;" . PHP_EOL;
         self::$property .= "    # public ?string \$string = null;" . PHP_EOL;
         self::$property .= "    # public bool \$boolean = false;" . PHP_EOL;
         self::$property .= "    # public array \$array = [];" . PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "    public function __construct(object|array \$data = [])".PHP_EOL;
-        self::$property .= "    {".PHP_EOL;
-        self::$property .= "        parent::__construct(\$data);".PHP_EOL;
-        self::$property .= "    }".PHP_EOL;
-        self::$property .= "}".PHP_EOL;
+        self::$property .= "    public function __construct(object|array \$data = [])" . PHP_EOL;
+        self::$property .= "    {" . PHP_EOL;
+        self::$property .= "        parent::__construct(\$data);" . PHP_EOL;
+        self::$property .= "    }" . PHP_EOL;
+        self::$property .= "}" . PHP_EOL;
 
         $pathProperty = str_replace('\\', '/', lcfirst($namespace)) . '/';
         if (!file_exists($pathProperty) || !is_dir($pathProperty)) {
@@ -57,37 +57,37 @@ class Property
 
         if (!file_exists("{$pathProperty}{$name}.php")) {
             $res = file_put_contents("{$pathProperty}{$name}.php", self::$property);
-            self::message($name, $res ? 0 : 2);
+            self::message($pathProperty . $name, $res ? 0 : 2);
         } else {
-            self::message($name);
+            self::message($pathProperty . $name);
         }
     }
 
     public static function baseClass($namespace): void
     {
-        self::$property = '<?php'.PHP_EOL;
+        self::$property = '<?php' . PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "namespace $namespace;".PHP_EOL;
+        self::$property .= "namespace $namespace;" . PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "class Kernel".PHP_EOL;
-        self::$property .= "{".PHP_EOL;
-        self::$property .= "    public function __construct(array|object \$data = [])".PHP_EOL;
-        self::$property .= "    {".PHP_EOL;
-        self::$property .= "        foreach (\$data as \$key => \$value) {".PHP_EOL;
-        self::$property .= "            \$this->\$key = \$value;".PHP_EOL;
-        self::$property .= "        }".PHP_EOL;
-        self::$property .= "    }".PHP_EOL;
+        self::$property .= "class Kernel" . PHP_EOL;
+        self::$property .= "{" . PHP_EOL;
+        self::$property .= "    public function __construct(array|object \$data = [])" . PHP_EOL;
+        self::$property .= "    {" . PHP_EOL;
+        self::$property .= "        foreach (\$data as \$key => \$value) {" . PHP_EOL;
+        self::$property .= "            \$this->\$key = \$value;" . PHP_EOL;
+        self::$property .= "        }" . PHP_EOL;
+        self::$property .= "    }" . PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "    public function __get(\$name)".PHP_EOL;
-        self::$property .= "    {".PHP_EOL;
-        self::$property .= "        return \$this->\$name ?? (\$this->defaults[\$name] ?? null);".PHP_EOL;
-        self::$property .= "    }".PHP_EOL;
+        self::$property .= "    public function __get(\$name)" . PHP_EOL;
+        self::$property .= "    {" . PHP_EOL;
+        self::$property .= "        return \$this->\$name ?? (\$this->defaults[\$name] ?? null);" . PHP_EOL;
+        self::$property .= "    }" . PHP_EOL;
         self::$property .= PHP_EOL;
-        self::$property .= "    public function __set(\$name, \$value)".PHP_EOL;
-        self::$property .= "    {".PHP_EOL;
-        self::$property .= "        \$this->\$name = \$value;".PHP_EOL;
-        self::$property .= "    }".PHP_EOL;
-        self::$property .= "}".PHP_EOL;
+        self::$property .= "    public function __set(\$name, \$value)" . PHP_EOL;
+        self::$property .= "    {" . PHP_EOL;
+        self::$property .= "        \$this->\$name = \$value;" . PHP_EOL;
+        self::$property .= "    }" . PHP_EOL;
+        self::$property .= "}" . PHP_EOL;
 
         $pathProperty = str_replace('\\', '/', lcfirst($namespace)) . '/';
         if (!file_exists($pathProperty) || !is_dir($pathProperty)) {
@@ -107,11 +107,11 @@ class Property
         }
 
         if ($status == 0) {
-            echo Logger::info("Створено {$parent} " . Logger::WHITE . Logger::BOLD . "[./app/Properties/{$items}{$name}]" . Logger::NC);
+            echo Logger::info("Створено {$parent} " . Logger::GREEN . Logger::BOLD . "[./app/Properties/{$items}{$name}]" . Logger::NC);
         } elseif ($status == 2) {
-            echo Logger::error("Помилка створення Property " . Logger::WHITE . Logger::BOLD . "[$name]" . Logger::NC);
+            echo Logger::error("Помилка створення Property " . Logger::RED . Logger::BOLD . "[$name]" . Logger::NC);
         } else {
-            echo Logger::warn("Property " . Logger::WHITE . Logger::BOLD . "[./app/Properties/{$items}{$name}]" .  Logger::NC . " вже існує");
+            echo Logger::warn("Property " . Logger::ORANGE . Logger::BOLD . "[./app/Properties/{$items}{$name}]" . Logger::NC . " вже існує");
         }
 
         if ($name === 'Kernel') {

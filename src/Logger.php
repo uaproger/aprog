@@ -8,12 +8,12 @@ class Logger
     const DARK_BLUE = "\x1b[38;2;4;52;88m"; #043458
     const RED = "\x1b[38;2;255;40;0m"; #FF2800
     const ORANGE = "\x1b[38;2;255;136;0m"; #FF8800
-    const GREEN = "\x1b[38;2;0;255;0m"; #green
+    const GREEN = "\x1b[38;2;0;136;0m"; #green
     const WHITE_BG = "\x1b[48;2;255;255;255m"; #ffffff
     const DARK_BLUE_BG = "\x1b[48;2;4;52;88m"; #043458
     const RED_BG = "\x1b[48;2;255;40;0m"; #FF2800
     const ORANGE_BG = "\x1b[48;2;255;136;0m"; #FF8800
-    const GREEN_BG = "\x1b[48;2;0;255;0m"; #green
+    const GREEN_BG = "\x1b[48;2;0;136;0m"; #green
     const BOLD = "\x1b[1m";  # Жирний текст
     const NC = "\x1b[0m"; # Скидає форматування (нормальний колір та стиль)
 

@@ -5,7 +5,7 @@ namespace Aprog;
 class Service
 {
     private static string $service;
-    
+
     public function __construct($slashName)
     {
         $namespace = Logger::$config['paths']['services']['namespace'] ?? '';
@@ -13,26 +13,26 @@ class Service
 
         sleep(5);
 
-        self::$service = '<?php'.PHP_EOL;
+        self::$service = '<?php' . PHP_EOL;
         self::$service .= PHP_EOL;
-        self::$service .= "namespace $namespace;".PHP_EOL;
+        self::$service .= "namespace $namespace;" . PHP_EOL;
         self::$service .= PHP_EOL;
-        self::$service .= "/**".PHP_EOL;
-        self::$service .= " * Aprog Service".PHP_EOL;
-        self::$service .= " * ".PHP_EOL;
-        self::$service .= " * ######################################".PHP_EOL;
-        self::$service .= " * --- Клас `$name` для розробки сервісу ---".PHP_EOL;
-        self::$service .= " * ######################################".PHP_EOL;
-        self::$service .= " * ".PHP_EOL;
-        self::$service .= " * Copyright (c) " . date('Y') . " AlexProger.".PHP_EOL;
-        self::$service .= " */".PHP_EOL;
-        self::$service .= "class $name".PHP_EOL;
-        self::$service .= "{".PHP_EOL;
-        self::$service .= "    public function __construct()".PHP_EOL;
-        self::$service .= "    {".PHP_EOL;
-        self::$service .= "        // code...".PHP_EOL;
-        self::$service .= "    }".PHP_EOL;
-        self::$service .= "}".PHP_EOL;
+        self::$service .= "/**" . PHP_EOL;
+        self::$service .= " * Aprog Service" . PHP_EOL;
+        self::$service .= " * " . PHP_EOL;
+        self::$service .= " * ######################################" . PHP_EOL;
+        self::$service .= " * --- Клас `$name` для розробки сервісу ---" . PHP_EOL;
+        self::$service .= " * ######################################" . PHP_EOL;
+        self::$service .= " * " . PHP_EOL;
+        self::$service .= " * Copyright (c) " . date('Y') . " AlexProger." . PHP_EOL;
+        self::$service .= " */" . PHP_EOL;
+        self::$service .= "class $name" . PHP_EOL;
+        self::$service .= "{" . PHP_EOL;
+        self::$service .= "    public function __construct()" . PHP_EOL;
+        self::$service .= "    {" . PHP_EOL;
+        self::$service .= "        // code..." . PHP_EOL;
+        self::$service .= "    }" . PHP_EOL;
+        self::$service .= "}" . PHP_EOL;
 
         $pathService = str_replace('\\', '/', lcfirst($namespace)) . '/';
         if (!file_exists($pathService) || !is_dir($pathService)) {
@@ -41,20 +41,20 @@ class Service
 
         if (!file_exists("{$pathService}{$name}.php")) {
             $res = file_put_contents("{$pathService}{$name}.php", self::$service);
-            self::message($name, $res ? 0 : 2);
+            self::message($pathService . $name, $res ? 0 : 2);
         } else {
-            self::message($name);
+            self::message($pathService . $name);
         }
     }
 
     public static function message(string $name, int $status = 1): void
     {
         if ($status == 0) {
-            echo Logger::info("Створено сервіс " . Logger::WHITE . Logger::BOLD . "[./app/Services/$name]" . Logger::NC);
+            echo Logger::info("Створено сервіс " . Logger::GREEN . Logger::BOLD . "[./app/Services/$name]" . Logger::NC);
         } elseif ($status == 2) {
-            echo Logger::error("Помилка створення сервісу " . Logger::WHITE . Logger::BOLD . "[$name]" . Logger::NC);
+            echo Logger::error("Помилка створення сервісу " . Logger::RED . Logger::BOLD . "[$name]" . Logger::NC);
         } else {
-            echo Logger::warn("Сервіс " . Logger::WHITE . Logger::BOLD . "[./app/Services/$name]" .  Logger::NC . " вже існує");
+            echo Logger::warn("Сервіс " . Logger::ORANGE . Logger::BOLD . "[./app/Services/$name]" . Logger::NC . " вже існує");
         }
 
         Logger::finishMessage();
