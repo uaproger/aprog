@@ -1,11 +1,11 @@
 <?php
 
-namespace Src;
+namespace Aprog;
 
 use Illuminate\Support\ServiceProvider;
-use Src\Console\MakePropertyCommand;
-use Src\Console\MakeServiceCommand;
-use Src\Services\AccumulatedErrorsService;
+use Aprog\Console\MakePropertyCommand;
+use Aprog\Console\MakeServiceCommand;
+use Aprog\Services\AccumulatedErrorsService;
 
 class AprogServiceProvider extends ServiceProvider
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Src\Exceptions;
+namespace Aprog\Exceptions;
 
 use Exception;
-use Src\Helpers\Lang;
-use Src\Services\AccumulatedErrorsService;
+use Aprog\Helpers\Lang;
+use Aprog\Services\AccumulatedErrorsService;
 use Throwable;
 
 /**

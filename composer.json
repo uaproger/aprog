@@ -7,7 +7,7 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Src\\": "src/"
+      "Aprog\\": "src/"
     }
   },
   "authors": [

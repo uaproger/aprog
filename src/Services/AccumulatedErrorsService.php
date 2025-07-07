@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Services;
+namespace Aprog\Services;
 
-use Src\Exceptions\AprogException;
+use Aprog\Exceptions\AprogException;
 
 /**
  * Aprog Service

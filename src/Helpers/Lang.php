@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Helpers;
+namespace Aprog\Helpers;
 
 class Lang
 {
