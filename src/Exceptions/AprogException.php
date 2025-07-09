@@ -16,7 +16,7 @@ class AprogException extends Exception
 {
     public function __construct($message = null, $code = 0, Throwable $previous = null, $params = [])
     {
-        parent::__construct(__($message), $code, $previous);
+        parent::__construct(__($message, $params), $code, $previous);
         $errors = app(AccumulatedErrorsService::class);
         $errors->addTrace($this);
         if (!is_null($message)) {
