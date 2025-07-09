@@ -6,6 +6,10 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "autoload": {
+    "files": [
+      "src/Helpers/Helper.php",
+      "src/Helpers/Lang.php"
+    ],
     "psr-4": {
       "Aprog\\": "src/"
     }
