@@ -19,7 +19,17 @@ class AccumulatedErrorsService
     protected ?string $trace = null;
 
     /**
-     * Додати помилку до списку
+     * --- Оголошення об'єкта класу AccumulatedErrorsService::class ---
+     * @return AccumulatedErrorsService
+     */
+    public static function init(): AccumulatedErrorsService
+    {
+        return app(AccumulatedErrorsService::class);
+    }
+
+    /**
+     * --- Додати помилку до списку ---
+     * @return void
      */
     public function add(string|array $message, ?string $context = null, string|int|null $key = null): void
     {
@@ -46,7 +56,8 @@ class AccumulatedErrorsService
     }
 
     /**
-     * Отримати всі помилки
+     * --- Отримати всі помилки ---
+     * @return array
      */
     public function all(): array
     {
@@ -54,7 +65,8 @@ class AccumulatedErrorsService
     }
 
     /**
-     * Перевірити, чи є помилки
+     * --- Перевірити, чи є помилки ---
+     * @return bool
      */
     public function has(): bool
     {
@@ -62,18 +74,28 @@ class AccumulatedErrorsService
     }
 
     /**
-     * Очистити список помилок
+     * --- Очистити список помилок ---
+     * @return void
      */
     public function clear(): void
     {
         $this->errors = [];
     }
 
+    /**
+     * --- Додавання посилання на файл та строку ---
+     * @param AprogException $exception
+     * @return void
+     */
     public function addTrace(AprogException $exception): void
     {
         $this->trace = $exception->getFile() . ':' . $exception->getLine();
     }
 
+    /**
+     * --- Отримання посилання на файл та строку ---
+     * @return string|null
+     */
     public function getTrace(): ?string
     {
         return $this->trace;
