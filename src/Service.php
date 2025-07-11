@@ -11,7 +11,7 @@ class Service
         $namespace = Logger::$config['paths']['services']['namespace'] ?? '';
         [$namespace, $name] = Logger::seName($namespace, $slashName);
 
-        sleep(5);
+        sleep(3);
 
         self::$service = '<?php' . PHP_EOL;
         self::$service .= PHP_EOL;

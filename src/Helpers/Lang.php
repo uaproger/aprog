@@ -2,6 +2,15 @@
 
 namespace Aprog\Helpers;
 
+/**
+ * @class Lang
+ *
+ * --------------------------------------------------------------------------
+ * --- Хелпер для отримання всіх перекладів за одним ключем ---
+ * --------------------------------------------------------------------------
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
 class Lang
 {
     public static function translations(string $key, array $params = []): array

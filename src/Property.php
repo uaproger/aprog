@@ -15,11 +15,11 @@ class Property
         $pathBaseClass = str_replace('\\', '/', $use) . '/';
 
         if (!file_exists($pathBaseClass . 'Kernel.php')) {
-            sleep(5);
+            sleep(3);
             self::baseClass($use);
         }
 
-        sleep(5);
+        sleep(3);
 
         self::$property = '<?php' . PHP_EOL;
         self::$property .= PHP_EOL;

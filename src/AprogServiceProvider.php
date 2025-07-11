@@ -7,6 +7,15 @@ use Aprog\Console\MakePropertyCommand;
 use Aprog\Console\MakeServiceCommand;
 use Aprog\Services\AccumulatedErrorsService;
 
+/**
+ * @class AprogServiceProvider
+ *
+ * --------------------------------------------------------------------------
+ * --- Кастомний сервіс провайдер ---
+ * --------------------------------------------------------------------------
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
 class AprogServiceProvider extends ServiceProvider
 {
     public function register()
