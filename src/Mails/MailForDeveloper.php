@@ -28,7 +28,7 @@ class MailForDeveloper extends Mailable
         return $this->from(config('mail.from.address'), $this->name)
             ->to(config('mail.developer', $this->mail))
             ->subject($this->header)
-            ->view('emails.error_log')
+            ->view('emails.for_developer')
             ->with([
                 'header' => $this->header,
                 'content' => $this->content,
