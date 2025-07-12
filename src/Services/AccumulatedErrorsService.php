@@ -3,12 +3,13 @@
 namespace Aprog\Services;
 
 use Aprog\Exceptions\AprogException;
+use Exception;
 
 /**
  * Aprog Service
  *
  * --------------------------------------------------------------------------
- * --- Клас `AccumulatedErrorsService` для збору помилок ---
+ * Сервіс AccumulatedErrorsService для накопичення помилок
  * --------------------------------------------------------------------------
  *
  * Copyright (c) 2025 AlexProger.
@@ -16,6 +17,7 @@ use Aprog\Exceptions\AprogException;
 class AccumulatedErrorsService
 {
     protected array $errors = [];
+    protected array $messages = [];
     protected ?string $trace = null;
 
     /**
@@ -28,7 +30,10 @@ class AccumulatedErrorsService
     }
 
     /**
-     * --- Додати помилку до списку ---
+     * --- Додати повідомлення до списку ---
+     * @param string|array $message
+     * @param string|null $context
+     * @param string|int|null $key
      * @return void
      */
     public function add(string|array $message, ?string $context = null, string|int|null $key = null): void
@@ -39,47 +44,47 @@ class AccumulatedErrorsService
 
                 if (!is_null($key)) {
                     # Якщо масив, ключі інтерпретуються як дочірні
-                    $this->errors[$key][$k] = $fullMessage;
+                    $this->messages[$key][$k] = $fullMessage;
                 } else {
-                    $this->errors[] = $fullMessage;
+                    $this->messages[] = $fullMessage;
                 }
             }
         } else {
             $fullMessage = $context ? "[{$context}] {$message}" : $message;
 
             if (!is_null($key)) {
-                $this->errors[$key] = $fullMessage;
+                $this->messages[$key] = $fullMessage;
             } else {
-                $this->errors[] = $fullMessage;
+                $this->messages[] = $fullMessage;
             }
         }
     }
 
     /**
-     * --- Отримати всі помилки ---
+     * --- Отримати всі повідомлення ---
      * @return array
      */
     public function all(): array
     {
-        return $this->errors;
+        return $this->messages;
     }
 
     /**
-     * --- Перевірити, чи є помилки ---
+     * --- Перевірити, чи є повідомлення ---
      * @return bool
      */
     public function has(): bool
     {
-        return !empty($this->errors);
+        return !empty($this->messages);
     }
 
     /**
-     * --- Очистити список помилок ---
+     * --- Очистити список повідомлень ---
      * @return void
      */
     public function clear(): void
     {
-        $this->errors = [];
+        $this->messages = [];
     }
 
     /**
@@ -99,5 +104,27 @@ class AccumulatedErrorsService
     public function getTrace(): ?string
     {
         return $this->trace;
+    }
+
+    /**
+     * --- Додати помилки до списку ---
+     * @param Exception $exception
+     * @return void
+     */
+    public function addError(Exception $exception): void
+    {
+        $this->errors[] = [
+            'message' => $exception->getMessage(),
+            'trace' => $exception->getFile() . ':' . $exception->getLine(),
+        ];
+    }
+
+    /**
+     * --- Отримати всі помилки ---
+     * @return array
+     */
+    public function allErrors(): array
+    {
+        return $this->errors;
     }
 }
