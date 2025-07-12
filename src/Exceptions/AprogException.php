@@ -8,17 +8,23 @@ use Aprog\Services\AccumulatedErrorsService;
 use Throwable;
 
 /**
- * @class AprogException
+ * AprogException
  *
  * --------------------------------------------------------------------------
- * --- Кастомний Exception для збору та відображення помилок ---
+ * Кастомний Exception для збору та відображення помилок
  * --------------------------------------------------------------------------
  *
  * Copyright (c) 2025 AlexProger.
  */
 class AprogException extends Exception
 {
-    public function __construct($message = null, $code = 0, Throwable $previous = null, $params = [])
+    /**
+     * @param string|null $message
+     * @param int $code
+     * @param Throwable|null $previous
+     * @param array $params
+     */
+    public function __construct(string $message = null, int $code = 0, Throwable $previous = null, array $params = [])
     {
         parent::__construct(__($message, $params), $code, $previous);
         $errors = app(AccumulatedErrorsService::class);
@@ -26,7 +32,7 @@ class AprogException extends Exception
         if (!is_null($message)) {
             $errors->add(Lang::translations($message, $params));
         } else {
-            $errors->add(Lang::translations('AprogException Error!'));
+            $errors->add(Lang::translations('Server Error!'));
         }
     }
 }

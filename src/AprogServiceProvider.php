@@ -8,16 +8,20 @@ use Aprog\Console\MakeServiceCommand;
 use Aprog\Services\AccumulatedErrorsService;
 
 /**
- * @class AprogServiceProvider
+ * AprogServiceProvider
  *
  * --------------------------------------------------------------------------
- * --- Кастомний сервіс провайдер ---
+ * Кастомний сервіс провайдер
  * --------------------------------------------------------------------------
  *
  * Copyright (c) 2025 AlexProger.
  */
 class AprogServiceProvider extends ServiceProvider
 {
+    /**
+     * --- Реєстр ---
+     * @return void
+     */
     public function register()
     {
         $this->commands([
@@ -33,6 +37,10 @@ class AprogServiceProvider extends ServiceProvider
         $this->app->singleton(AccumulatedErrorsService::class);
     }
 
+    /**
+     * --- Boot ---
+     * @return void
+     */
     public function boot()
     {
         $this->publishes([

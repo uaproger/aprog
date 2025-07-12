@@ -3,16 +3,22 @@
 namespace Aprog\Helpers;
 
 /**
- * @class Lang
+ * Lang
  *
  * --------------------------------------------------------------------------
- * --- Хелпер для отримання всіх перекладів за одним ключем ---
+ * Хелпер для отримання всіх перекладів за одним ключем
  * --------------------------------------------------------------------------
  *
  * Copyright (c) 2025 AlexProger.
  */
 class Lang
 {
+    /**
+     * --- Метод отримання всіх перекладів ---
+     * @param string $key
+     * @param array $params
+     * @return array[]
+     */
     public static function translations(string $key, array $params = []): array
     {
         $locales = config('accum.locales', ['uk', 'en']);
@@ -26,6 +32,12 @@ class Lang
         return [$translations];
     }
 
+    /**
+     * --- Парсер перекладів ---
+     * @param array $params
+     * @param string $locale
+     * @return array
+     */
     private static function translateParams(array $params, string $locale): array
     {
         $translated = [];
