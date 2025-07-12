@@ -1,12 +1,12 @@
 <?php
 
-namespace Aprog\Mail;
+namespace Aprog\Mails;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ForDeveloper extends Mailable
+class MailForDeveloper extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -23,7 +23,7 @@ class ForDeveloper extends Mailable
         $this->mail = $mail;
     }
 
-    public function build(): ForDeveloper
+    public function build(): MailForDeveloper
     {
         return $this->from(config('mail.from.address'), $this->name)
             ->to(config('mail.developer', $this->mail))
