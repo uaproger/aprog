@@ -118,6 +118,9 @@ class AccumulatedErrorsService
             'message' => $exception->getMessage(),
             'trace' => $exception->getFile() . ':' . $exception->getLine(),
         ];
+
+        if (!$this->has())
+            $this->add('Please contact your support!', 'Server Error!');
     }
 
     /**
