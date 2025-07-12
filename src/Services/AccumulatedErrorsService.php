@@ -38,21 +38,29 @@ class AccumulatedErrorsService
      * @param string|int|null $key
      * @return void
      */
-    public function add(string|array $message, ?string $context = null, string|int|null $key = null): void
+    public function add(string|array $message, string $context = null, string|int $key = null): void
     {
         if (is_array($message)) {
             foreach ($message as $k => $msg) {
-                $fullMessage = $context && !is_array($msg) ? "[{$context}] {$msg}" : $msg;
+                if (is_array($msg)) {
+                    $newMsg = [];
+                    foreach ($msg as $_k => $_m) {
+                        $newMsg[$_k] = $context ? "[$context] $_m" : $_m;
+                    }
+                    $fullMessage = $newMsg;
+                } else {
+                    $fullMessage = $context ? "[$context] $msg" : $msg;
+                }
 
                 if (!is_null($key)) {
                     # Якщо масив, ключі інтерпретуються як дочірні
                     $this->messages[$key][$k] = $fullMessage;
                 } else {
-                    $this->messages[][$k] = $fullMessage;
+                    $this->messages[] = $fullMessage;
                 }
             }
         } else {
-            $fullMessage = $context ? "[{$context}] {$message}" : $message;
+            $fullMessage = $context ? "[$context] $message" : $message;
 
             if (!is_null($key)) {
                 $this->messages[$key] = $fullMessage;
@@ -91,10 +99,10 @@ class AccumulatedErrorsService
 
     /**
      * --- Додавання посилання на файл та строку ---
-     * @param AprogException $exception
+     * @param AprogException|Exception|Throwable $exception
      * @return void
      */
-    public function addTrace(AprogException $exception): void
+    public function addTrace(AprogException|Exception|Throwable $exception): void
     {
         $this->trace = $exception->getFile() . ':' . $exception->getLine();
     }
@@ -131,5 +139,14 @@ class AccumulatedErrorsService
     public function allErrors(): array
     {
         return $this->errors;
+    }
+
+    /**
+     * --- Очистити список помилок ---
+     * @return void
+     */
+    public function clearErrors(): void
+    {
+        $this->errors = [];
     }
 }
