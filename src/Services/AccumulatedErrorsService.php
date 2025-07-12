@@ -3,6 +3,7 @@
 namespace Aprog\Services;
 
 use Aprog\Exceptions\AprogException;
+use Aprog\Helpers\Lang;
 use Exception;
 use Throwable;
 
@@ -47,7 +48,7 @@ class AccumulatedErrorsService
                     # Якщо масив, ключі інтерпретуються як дочірні
                     $this->messages[$key][$k] = $fullMessage;
                 } else {
-                    $this->messages[] = $fullMessage;
+                    $this->messages[][$k] = $fullMessage;
                 }
             }
         } else {
@@ -120,7 +121,7 @@ class AccumulatedErrorsService
         ];
 
         if (!$this->has())
-            $this->add('Please contact your support!', 'Server Error!');
+            $this->add(Lang::translations('Please contact your support!'), 'Server Error!');
     }
 
     /**
