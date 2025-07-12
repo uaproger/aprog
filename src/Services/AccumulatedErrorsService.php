@@ -4,6 +4,7 @@ namespace Aprog\Services;
 
 use Aprog\Exceptions\AprogException;
 use Exception;
+use Throwable;
 
 /**
  * Aprog Service
@@ -108,10 +109,10 @@ class AccumulatedErrorsService
 
     /**
      * --- Додати помилки до списку ---
-     * @param Exception $exception
+     * @param AprogException|Exception|Throwable $exception
      * @return void
      */
-    public function addError(Exception $exception): void
+    public function addError(AprogException|Exception|Throwable $exception): void
     {
         $this->errors[] = [
             'message' => $exception->getMessage(),
