@@ -49,6 +49,7 @@ php artisan vendor:publish --provider="Aprog\AprogServiceProvider" --tag=views
     - `code_location()` для отримання файлу та лінії
     - `arr()` для безпечного отримання значень з масиву, або об'єкта
     - `object()` формування об'єкта з масиву, або створення порожнього об'єкта
+    - `mail_for_developer()` дозволяє формувати `MailForDeveloper` лист
     - `mail_content_exception()` формування контенту для тіла листа
 - Додано клас `MailForDeveloper` - формує лист з помилкою для розробника
 - З часом будуть додаватися можливості створення додаткових інструментів
