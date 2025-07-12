@@ -6,6 +6,15 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Aprog Mail
+ *
+ * --------------------------------------------------------------------------
+ *                               MailForDeveloper
+ * --------------------------------------------------------------------------
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
 class MailForDeveloper extends Mailable
 {
     use Queueable, SerializesModels;

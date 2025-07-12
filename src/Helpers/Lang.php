@@ -17,7 +17,7 @@ class Lang
      * --- Метод отримання всіх перекладів ---
      * @param string $key
      * @param array $params
-     * @return array[]
+     * @return array
      */
     public static function translations(string $key, array $params = []): array
     {
