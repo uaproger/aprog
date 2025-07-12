@@ -128,8 +128,10 @@ class AccumulatedErrorsService
             'trace' => $exception->getFile() . ':' . $exception->getLine(),
         ];
 
-        if (!$this->has())
+        if (!$this->has()) {
+            $this->addTrace($exception);
             $this->add(Lang::translations('Please contact your support!'), 'Server Error!');
+        }
     }
 
     /**
