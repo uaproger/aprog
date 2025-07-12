@@ -43,8 +43,17 @@ class AprogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        # Публікація конфігів
         $this->publishes([
             __DIR__ . '/config/accum.php' => config_path('accum.php'),
         ], 'config');
+
+        # Публікація email шаблону
+        $this->publishes([
+            __DIR__ . '/views/emails/for_developer.blade.php' => resource_path('views/emails/for_developer.blade.php'),
+        ], 'views');
+
+        # Реєстрація namespace для переглядів
+        $this->loadViewsFrom(__DIR__ . '/views', 'aprog');
     }
 }
