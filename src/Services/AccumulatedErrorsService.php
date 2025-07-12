@@ -38,7 +38,7 @@ class AccumulatedErrorsService
      * @param string|int|null $key
      * @return void
      */
-    public function add(string|array $message, string $context = null, string|int $key = null): void
+    public function add(string|array $message, ?string $context = null, string|int|null $key = null): void
     {
         if (is_array($message)) {
             foreach ($message as $k => $msg) {

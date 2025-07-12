@@ -24,7 +24,13 @@ class MailForDeveloper extends Mailable
     public string $content;
     public ?string $mail = null;
 
-    public function __construct(string $name, string $header, string $content, string $mail = null)
+    /**
+     * @param string $name
+     * @param string $header
+     * @param string $content
+     * @param string|null $mail
+     */
+    public function __construct(string $name, string $header, string $content, ?string $mail = null)
     {
         $this->name = $name;
         $this->header = $header;
@@ -32,6 +38,9 @@ class MailForDeveloper extends Mailable
         $this->mail = $mail;
     }
 
+    /**
+     * @return MailForDeveloper
+     */
     public function build(): MailForDeveloper
     {
         return $this->from(config('mail.from.address'), $this->name)

@@ -24,7 +24,7 @@ class AprogException extends Exception
      * @param Throwable|null $previous
      * @param array $params
      */
-    public function __construct(string $message = null, int $code = 0, Throwable $previous = null, array $params = [])
+    public function __construct(string $message = null, int $code = 0, ?Throwable $previous = null, array $params = [])
     {
         parent::__construct(__($message, $params), $code, $previous);
         $errors = app(AccumulatedErrorsService::class);

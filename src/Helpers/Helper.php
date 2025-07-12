@@ -1,5 +1,7 @@
 <?php
 
+use Aprog\Mails\MailForDeveloper;
+
 /**
  * --------------------------------------------------------------------------
  *                              code_location()
@@ -9,8 +11,6 @@
  *
  * Copyright (c) 2025 AlexProger.
  */
-
-use Aprog\Mails\MailForDeveloper;
 
 if (!function_exists('code_location')) {
     function code_location(): string
@@ -108,7 +108,7 @@ if (!function_exists('mail_content_exception')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('mail_for_developer')) {
-    function mail_for_developer(string $name, string $header, string|Throwable $content, string $mail = null): MailForDeveloper
+    function mail_for_developer(string $name, string $header, string|Throwable $content, ?string $mail = null): MailForDeveloper
     {
         if ($content instanceof Throwable) {
             $content = mail_content_exception($content);
