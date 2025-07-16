@@ -12,7 +12,7 @@ https://packagist.org/packages/uaproger/aprog
 
 ### Installation
 
-Aprog requires PHP >= 8.0.
+Aprog requires PHP >= 8.1.
 
 ```shell
 composer require uaproger/aprog --dev

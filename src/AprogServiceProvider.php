@@ -55,5 +55,8 @@ class AprogServiceProvider extends ServiceProvider
 
         # Реєстрація namespace для переглядів
         $this->loadViewsFrom(__DIR__ . '/views', 'aprog');
+
+        # Публікація міграцій
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
     }
 }
