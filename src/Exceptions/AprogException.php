@@ -26,13 +26,14 @@ class AprogException extends Exception
      */
     public function __construct(string $message = null, int $code = 0, ?Throwable $previous = null, array $params = [])
     {
-        parent::__construct(__($message, $params), $code, $previous);
-        $errors = app(AccumulatedErrorsService::class);
-        $errors->addTrace($this);
+
         if (!is_null($message)) {
+            parent::__construct(__($message, $params), $code, $previous);
+            $errors = app(AccumulatedErrorsService::class);
+            $errors->addTrace($this);
             $errors->add(Lang::translations($message, $params));
         } else {
-            $errors->add(Lang::translations('Server Error!'));
+            parent::__construct($message, $code, $previous);
         }
     }
 }
