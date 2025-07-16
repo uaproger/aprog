@@ -45,13 +45,19 @@ php artisan vendor:publish --provider="Aprog\AprogServiceProvider" --tag=views
 
 - На цей час сервіс вже створює properties та services
 - Додано Сервіс накопичення помилок
-- Додано чотири функції хелперів:
+- Додано функції хелперів:
     - `code_location()` для отримання файлу та лінії
     - `arr()` для безпечного отримання значень з масиву, або об'єкта
     - `object()` формування об'єкта з масиву, або створення порожнього об'єкта
     - `mail_for_developer()` дозволяє формувати `MailForDeveloper` лист
     - `mail_content_exception()` формування контенту для тіла листа
+    - `guid()`
+    - `blockLogError()`
+    - `blockInfo()`
+    - `blockExceptionError()`
+    - `zerosArticle()`
 - Додано клас `MailForDeveloper` - формує лист з помилкою для розробника
+- Додано модель, сідер та міграцію `ErrorCodes`
 - З часом будуть додаватися можливості створення додаткових інструментів
 
 ### License
