@@ -12,7 +12,7 @@ return [
      | Official docs - https://ai.google.dev/gemini-api/docs
      |
      */
-    'key' => env('GEMINI_KEY', 'AIzaSyDNDl3F-zKEcH6FBxq5YImJQH1SfH1nxiA'),
+    'key' => env('GEMINI_KEY'),
 
     /*
      |
