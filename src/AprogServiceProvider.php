@@ -34,6 +34,11 @@ class AprogServiceProvider extends ServiceProvider
             'accum'
         );
 
+        $this->mergeConfigFrom(
+            __DIR__ . '/config/gemini.php',
+            'gemini'
+        );
+
         $this->app->singleton(AccumulatedErrorsService::class);
     }
 
@@ -46,6 +51,7 @@ class AprogServiceProvider extends ServiceProvider
         # Публікація конфігів
         $this->publishes([
             __DIR__ . '/config/accum.php' => config_path('accum.php'),
+            __DIR__ . '/config/gemini.php' => config_path('gemini.php'),
         ], 'config');
 
         # Публікація email шаблону

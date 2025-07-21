@@ -2,8 +2,9 @@
 
 use Aprog\Exceptions\AprogException;
 use Aprog\Mails\MailForDeveloper;
+use Aprog\Services\Gemini;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Log;
-use Random\RandomException;
 
 /**
  * --------------------------------------------------------------------------
@@ -277,9 +278,6 @@ if (!function_exists('blockExceptionError')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('guid')) {
-    /**
-     * @throws RandomException
-     */
     function guid(): string
     {
         $data = random_bytes(16);
@@ -288,5 +286,60 @@ if (!function_exists('guid')) {
         $data[8] = chr((ord($data[8]) & 0x3f) | 0x80); # варіант RFC 4122
 
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ *                                  gemini()
+ * --------------------------------------------------------------------------
+ *
+ * Функція `gemini()` дозволяє використовувати чат з AI Gemini
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('gemini')) {
+    /**
+     * @throws ConnectionException
+     */
+    function gemini(string $content, string $userID = '001'): string
+    {
+        $gemini = new Gemini($userID);
+        return $gemini->ask($content);
+    }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ *                            parseCustomMarkup()
+ * --------------------------------------------------------------------------
+ *
+ * Функція `parseCustomMarkup()` дозволяє екранізувати текст з AI чатів як (GPT, Gemini і тд)
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('parseCustomMarkup')) {
+    function parseCustomMarkup(string $text): string
+    {
+        # ```code``` -> <pre><code>...</code></pre>
+        $text = preg_replace_callback('/```([\s\S]*?)```/', function ($matches) {
+            $code = trim($matches[1]);
+            return '<pre style="width: max-content; padding: 2px 8px; color: #333333; background-color: #fdfdfd; border: 0.03125rem solid #dddddd; border-radius: 4px;">' .
+                '<code style="font-family: Monospaced, serif; font-style: italic; font-weight: 100; letter-spacing: 2px;">' .
+                htmlspecialchars($code) .
+                '</code></pre>';
+        }, $text);
+
+        # **bold** -> <strong>
+        $text = preg_replace('/\*\*(.*?)\*\*/', '<strong style="font-weight: 700;">$1</strong>', $text);
+
+        # `inline code` -> <code>
+        $text = preg_replace('/`([^`]+?)`/', '<code style="font-family: Monospaced, serif; font-style: italic; font-weight: 100; letter-spacing: 2px;">$1</code>', $text);
+
+        # * list item -> <li>
+        $text = preg_replace('/^\* (.+)$/m', '<li style="font-family: Times New Roman, serif; font-weight: 400;">$1</li>', $text);
+
+        # Wrap in base <div>
+        return '<div style="font-family: Times New Roman, serif; font-weight: 400;">' . $text . '</div>';
     }
 }
