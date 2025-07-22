@@ -45,6 +45,11 @@ class ErrorCodes
         return self::$cache;
     }
 
+    public static function all($columns = ['*'])
+    {
+        return ErrorCode::all();
+    }
+
     /**
      * --- Завантажуємо помилки з кешу ---
      * @return void
