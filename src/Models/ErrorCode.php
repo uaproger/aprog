@@ -90,7 +90,7 @@ class ErrorCode extends Model
      * --- Очищаємо кеш помилок ---
      * @return void
      */
-    public static function refresh(): void
+    public static function clear(): void
     {
         self::$cache = [];
     }
