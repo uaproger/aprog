@@ -36,7 +36,7 @@ class ErrorCodes
      * --- Отримуємо всі помилки ---
      * @return array
      */
-    public static function all(): array
+    public static function getAll(): array
     {
         if (empty(self::$cache)) {
             self::loadCache();
