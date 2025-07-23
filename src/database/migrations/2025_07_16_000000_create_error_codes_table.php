@@ -21,6 +21,10 @@ return new class extends Migration {
             $table->string('description');
             $table->timestamps();
         });
+
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => \Aprog\database\seeders\ErrorCodesSeeder::class
+        ]);
     }
 
     public function down(): void
