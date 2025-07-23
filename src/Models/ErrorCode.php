@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * Copyright (c) 2025 AlexProger.
  * @method static updateOrCreate(array $array, string[] $array1)
+ * @method static where(string $column, mixed $value)
  * @method static create(array $array)
  * @method static find(mixed $column)
  * @method static query()
@@ -75,9 +76,10 @@ class ErrorCode extends Model
 
     /**
      * --- Отримуємо всі помилки ---
+     * @param array|string $columns
      * @return array
      */
-    public static function all($columns = ['*']): array
+    public static function all(array|string $columns = ['*']): array
     {
         if (empty(self::$cache)) {
             self::loadCache();
