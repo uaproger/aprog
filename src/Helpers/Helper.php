@@ -231,7 +231,7 @@ if (!function_exists('blockLogError')) {
  *
  * Copyright (c) 2025 AlexProger.
  */
-if (! function_exists('blockInfo')) {
+if (!function_exists('blockInfo')) {
     function blockInfo(string $url, string|array|object $message = 'err-except'): void
     {
         if ($message === 'err-except') {
@@ -341,5 +341,81 @@ if (!function_exists('parseCustomMarkup')) {
 
         # Wrap in base <div>
         return '<div style="font-family: Times New Roman, serif; font-weight: 400;">' . $text . '</div>';
+    }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ *                                      ip()
+ * --------------------------------------------------------------------------
+ *
+ * Функція `ip()` дозволяє отримати ip адресу користувача
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('ip')) {
+    function ip(): ?string
+    {
+        $_server = [
+            'HTTP_CLIENT_IP',
+            'HTTP_X_FORWARDED_FOR',
+            'HTTP_X_FORWARDED',
+            'HTTP_X_CLUSTER_CLIENT_IP',
+            'HTTP_FORWARDED_FOR',
+            'HTTP_FORWARDED',
+            'REMOTE_ADDR',
+        ];
+
+        foreach ($_server as $key) {
+            if (array_key_exists($key, $_SERVER) === true) {
+                foreach (explode(',', $_SERVER[$key]) as $ip) {
+                    if (filter_var($ip, FILTER_VALIDATE_IP) !== false) {
+                        return $ip;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ *                              uniqueBrowser()
+ * --------------------------------------------------------------------------
+ *
+ * Функція `uniqueBrowser()` дозволяє отримати унікальний id браузера користувача
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('uniqueBrowser')) {
+    function uniqueBrowser(): string
+    {
+        $userAgent = arr($_SERVER, 'HTTP_USER_AGENT');
+        $ip = ip();
+        $uniqueIdBrowser = arr($_COOKIE, 'uniqueBrowser', rand(100000, 9999999));
+        $salt = 'aprog';
+
+        return sha1($userAgent . $ip . $uniqueIdBrowser . $salt);
+    }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ *                                  isPhone()
+ * --------------------------------------------------------------------------
+ *
+ * Функція `isPhone()` дозволяє перевіряти на валідність ua номера телефону
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('isPhone')) {
+    function isPhone(string $number): bool
+    {
+        # Перевірка: має починатися з 380, бути довжиною 12, і містити лише цифри
+        return str_starts_with($number, '380') &&
+            strlen($number) === 12 &&
+            ctype_digit($number);
     }
 }
