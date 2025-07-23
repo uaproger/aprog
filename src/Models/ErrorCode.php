@@ -76,10 +76,8 @@ class ErrorCode extends Model
 
     /**
      * --- Отримуємо всі помилки ---
-     * @param array|string $columns
-     * @return array
      */
-    public static function all(array|string $columns = ['*']): array
+    public static function all($columns = ['*']): array
     {
         if (empty(self::$cache)) {
             self::loadCache();
