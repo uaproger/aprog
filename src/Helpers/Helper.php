@@ -400,3 +400,22 @@ if (!function_exists('uniqueBrowser')) {
         return sha1($userAgent . $ip . $uniqueIdBrowser . $salt);
     }
 }
+
+/**
+ * --------------------------------------------------------------------------
+ *                                  isPhone()
+ * --------------------------------------------------------------------------
+ *
+ * Функція `isPhone()` дозволяє перевіряти на валідність ua номера телефону
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('isPhone')) {
+    function isPhone(string $number): bool
+    {
+        # Перевірка: має починатися з 380, бути довжиною 12, і містити лише цифри
+        return str_starts_with($number, '380') &&
+            strlen($number) === 12 &&
+            ctype_digit($number);
+    }
+}
