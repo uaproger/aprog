@@ -52,6 +52,10 @@ class AccumulatedErrorsService
                     $fullMessage = $context ? "[$context] $msg" : $msg;
                 }
 
+                if ($this->messageExists($fullMessage)) {
+                    continue;
+                }
+
                 if (!is_null($key)) {
                     # Якщо масив, ключі інтерпретуються як дочірні
                     $this->messages[$key][$k] = $fullMessage;
@@ -61,6 +65,10 @@ class AccumulatedErrorsService
             }
         } else {
             $fullMessage = $context ? "[$context] $message" : $message;
+
+            if ($this->messageExists($fullMessage)) {
+                return;
+            }
 
             if (!is_null($key)) {
                 $this->messages[$key] = $fullMessage;
@@ -150,5 +158,28 @@ class AccumulatedErrorsService
     public function clearErrors(): void
     {
         $this->errors = [];
+    }
+
+    private function messageExists(array|string $new): bool
+    {
+        foreach ($this->messages as $existing) {
+            if (is_array($existing) && is_array($new)) {
+                if ($this->arraysAreEqual($existing, $new)) {
+                    return true;
+                }
+            } elseif (is_string($existing) && is_string($new)) {
+                if ($existing === $new) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private function arraysAreEqual(array $a, array $b): bool
+    {
+        ksort($a);
+        ksort($b);
+        return $a === $b;
     }
 }
