@@ -52,6 +52,7 @@ class AprogServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/config/accum.php' => config_path('accum.php'),
             __DIR__ . '/config/gemini.php' => config_path('gemini.php'),
+            __DIR__ . '/config/phone.php' => config_path('phone.php'),
         ], 'config');
 
         # Публікація email шаблону
