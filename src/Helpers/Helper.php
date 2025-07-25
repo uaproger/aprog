@@ -406,16 +406,28 @@ if (!function_exists('uniqueBrowser')) {
  *                                  isPhone()
  * --------------------------------------------------------------------------
  *
- * Функція `isPhone()` дозволяє перевіряти на валідність ua номера телефону
+ * Функція `isPhone()` дозволяє перевіряти на валідність номерів телефонів
  *
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('isPhone')) {
     function isPhone(string $number): bool
     {
-        # Перевірка: має починатися з 380, бути довжиною 12, і містити лише цифри
-        return str_starts_with($number, '380') &&
-            strlen($number) === 12 &&
-            ctype_digit($number);
+        # Має складатися лише з цифр
+        if (!ctype_digit($number)) {
+            return false;
+        }
+
+        # Отримуємо коди телефонів
+        $codes = config('phone.codes', ['380']);
+
+        # Перевіряємо по кодах
+        foreach ($codes as $code) {
+            if (str_starts_with($number, $code) && strlen($number) === strlen($code) + 9) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
