@@ -23,7 +23,6 @@ class ErrorCodesSeeder extends Seeder
             'CL404' => 'Класу не існує!',
             'MT404' => 'Методу не існує!',
             'TP400' => 'Невірний тип виклику!',
-            'EX500' => 'Помилка виконання методу!',
         ];
 
         foreach ($defaultErrors as $code => $desc) {
