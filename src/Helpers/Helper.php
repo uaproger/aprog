@@ -1,7 +1,7 @@
 <?php
 
 use Aprog\Exceptions\AprogException;
-use Aprog\Exceptions\Set;
+use Aprog\Exceptions\SetAprog;
 use Aprog\Mails\MailForDeveloper;
 use Aprog\Services\Gemini;
 use Illuminate\Http\Client\ConnectionException;
@@ -448,6 +448,6 @@ if (!function_exists('exception')) {
      */
     function exception(string $class, string $method, array $params = [], string $type = 'static'): void
     {
-        Set::exception($class, $method, $params, $type);
+        SetAprog::exception($class, $method, $params, $type);
     }
 }
