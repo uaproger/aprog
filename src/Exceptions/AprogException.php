@@ -29,7 +29,7 @@ class AprogException extends Exception
 
         if (!is_null($message)) {
             parent::__construct(__($message, $params), $code, $previous);
-            $errors = app(AccumulatedErrorsService::class);
+            $errors = AccumulatedErrorsService::init();
             $errors->addTrace($this);
             $errors->add(Lang::translations($message, $params));
         } else {

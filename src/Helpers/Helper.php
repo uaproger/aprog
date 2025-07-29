@@ -1,6 +1,7 @@
 <?php
 
 use Aprog\Exceptions\AprogException;
+use Aprog\Exceptions\Set;
 use Aprog\Mails\MailForDeveloper;
 use Aprog\Services\Gemini;
 use Illuminate\Http\Client\ConnectionException;
@@ -429,5 +430,24 @@ if (!function_exists('isPhone')) {
         }
 
         return false;
+    }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ *                                 exception()
+ * --------------------------------------------------------------------------
+ *
+ * Функція `exception()` дозволяє викликати кастомні методи для AprogException
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('exception')) {
+    /**
+     * @throws AprogException
+     */
+    function exception(string $class, string $method, array $params = [], string $type = 'static'): void
+    {
+        Set::exception($class, $method, $params, $type);
     }
 }
