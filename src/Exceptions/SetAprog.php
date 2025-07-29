@@ -4,7 +4,7 @@ namespace Aprog\Exceptions;
 
 use Throwable;
 
-class Set
+class SetAprog
 {
     /**
      * Викликає метод класу з перевірками.
