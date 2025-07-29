@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Log;
  */
 
 if (!function_exists('code_location')) {
+    /**
+     * @return string
+     */
     function code_location(): string
     {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1] ?? null;
@@ -40,6 +43,12 @@ if (!function_exists('code_location')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('arr')) {
+    /**
+     * @param $array
+     * @param $key
+     * @param $default
+     * @return mixed|null
+     */
     function arr($array, $key, $default = null)
     {
         if (is_array($array)) {
@@ -62,6 +71,10 @@ if (!function_exists('arr')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('object')) {
+    /**
+     * @param array $data
+     * @return stdClass
+     */
     function object(array $data = []): stdClass
     {
         if (!empty($data)) {
@@ -97,6 +110,10 @@ if (!function_exists('object')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('mail_content_exception')) {
+    /**
+     * @param Throwable $exception
+     * @return string
+     */
     function mail_content_exception(Throwable $exception): string
     {
         return $exception->getMessage() . PHP_EOL . $exception->getTraceAsString();
@@ -113,6 +130,13 @@ if (!function_exists('mail_content_exception')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('mail_for_developer')) {
+    /**
+     * @param string $name
+     * @param string $header
+     * @param string|Throwable $content
+     * @param string|null $mail
+     * @return MailForDeveloper
+     */
     function mail_for_developer(string $name, string $header, string|Throwable $content, ?string $mail = null): MailForDeveloper
     {
         if ($content instanceof Throwable) {
@@ -132,6 +156,10 @@ if (!function_exists('mail_for_developer')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('parse_ipn')) {
+    /**
+     * @param string $ipn
+     * @return array
+     */
     function parse_ipn(string $ipn): array
     {
         # Базова перевірка: має бути 10 цифр
@@ -171,9 +199,14 @@ if (!function_exists('parse_ipn')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('zerosArticle')) {
-    function zerosArticle($number): string
+    /**
+     * @param string|int $number
+     * @param int $countChars
+     * @return string
+     */
+    function zerosArticle(string|int $number, int $countChars = 5): string
     {
-        return str_pad($number, 5, '0', STR_PAD_LEFT);
+        return str_pad($number, $countChars, '0', STR_PAD_LEFT);
     }
 }
 
@@ -187,6 +220,10 @@ if (!function_exists('zerosArticle')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('bold')) {
+    /**
+     * @param $text
+     * @return string
+     */
     function bold($text): string
     {
         return "<b>$text</b>";
@@ -203,6 +240,11 @@ if (!function_exists('bold')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('blockLogError')) {
+    /**
+     * @param string $url
+     * @param string|array|object $message
+     * @return void
+     */
     function blockLogError(string $url, string|array|object $message = 'err-except'): void
     {
         if ($message === 'err-except') {
@@ -233,6 +275,11 @@ if (!function_exists('blockLogError')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('blockInfo')) {
+    /**
+     * @param string $url
+     * @param string|array|object $message
+     * @return void
+     */
     function blockInfo(string $url, string|array|object $message = 'err-except'): void
     {
         if ($message === 'err-except') {
@@ -263,6 +310,10 @@ if (!function_exists('blockInfo')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('blockExceptionError')) {
+    /**
+     * @param Exception|AprogException|Throwable $exception
+     * @return void
+     */
     function blockExceptionError(Exception|AprogException|Throwable $exception): void
     {
         blockLogError($exception->getFile() . ':' . $exception->getLine(), $exception->getMessage());
@@ -279,6 +330,9 @@ if (!function_exists('blockExceptionError')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('guid')) {
+    /**
+     * @return string
+     */
     function guid(): string
     {
         $data = random_bytes(16);
@@ -301,6 +355,9 @@ if (!function_exists('guid')) {
  */
 if (!function_exists('gemini')) {
     /**
+     * @param string $content
+     * @param string $userID
+     * @return string
      * @throws ConnectionException
      */
     function gemini(string $content, string $userID = '001'): string
@@ -320,6 +377,10 @@ if (!function_exists('gemini')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('parseCustomMarkup')) {
+    /**
+     * @param string $text
+     * @return string
+     */
     function parseCustomMarkup(string $text): string
     {
         # ```code``` -> <pre><code>...</code></pre>
@@ -355,6 +416,9 @@ if (!function_exists('parseCustomMarkup')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('ip')) {
+    /**
+     * @return string|null
+     */
     function ip(): ?string
     {
         $_server = [
@@ -391,6 +455,9 @@ if (!function_exists('ip')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('uniqueBrowser')) {
+    /**
+     * @return string
+     */
     function uniqueBrowser(): string
     {
         $userAgent = arr($_SERVER, 'HTTP_USER_AGENT');
@@ -412,6 +479,10 @@ if (!function_exists('uniqueBrowser')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('isPhone')) {
+    /**
+     * @param string $number
+     * @return bool
+     */
     function isPhone(string $number): bool
     {
         # Має складатися лише з цифр
@@ -444,10 +515,15 @@ if (!function_exists('isPhone')) {
  */
 if (!function_exists('exception')) {
     /**
+     * @param string $class
+     * @param string $method
+     * @param array $params
+     * @param string $type
+     * @return AprogException
      * @throws AprogException
      */
-    function exception(string $class, string $method, array $params = [], string $type = 'static'): void
+    function exception(string $class, string $method, array $params = [], string $type = 'static'): AprogException
     {
-        SetAprog::exception($class, $method, $params, $type);
+        return SetAprog::exception($class, $method, $params, $type);
     }
 }
