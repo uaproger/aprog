@@ -13,26 +13,27 @@ class SetAprog
      * @param string $method — назва методу, який викликається.
      * @param array $params — параметри для методу.
      * @param string $type — 'static' або 'instance'.
+     * @return AprogException
      *
      * @throws AprogException
      */
-    public static function exception(string $class, string $method, array $params = [], string $type = 'static'): void
+    public static function exception(string $class, string $method, array $params = [], string $type = 'static'): AprogException
     {
         try {
             if (!class_exists($class)) {
-                throw new AprogException('Error! Code: CL404', 404, null, [
+                return new AprogException('Error! Code: CL404', 404, null, [
                     'class' => $class
                 ]);
             }
 
             if (!method_exists($class, $method)) {
-                throw new AprogException('Error! Code: MT404', 404, null, [
+                return new AprogException('Error! Code: MT404', 404, null, [
                     'class' => $class,
                     'method' => $method
                 ]);
             }
 
-            match ($type) {
+            return match ($type) {
                 'static' => $class::$method(...$params),
                 'instance' => (new $class())->$method(...$params),
                 default => throw new AprogException('Error! Code: TP400', 400, null, [
@@ -40,7 +41,7 @@ class SetAprog
                 ]),
             };
         } catch (Throwable $e) {
-            throw new AprogException('Error! Code: EX500', 500, $e, [
+            return new AprogException('Error! Code: EX500', 500, $e, [
                 'class' => $class,
                 'method' => $method,
                 'message' => $e->getMessage()
