@@ -204,9 +204,9 @@ if (!function_exists('zerosArticle')) {
      * @param int $countChars
      * @return string
      */
-    function zerosArticle(string|int $number = null, int $countChars = 5): string
+    function zerosArticle(string|int|null $number = null, int $countChars = 5): string
     {
-        return str_pad($number, $countChars, '0', STR_PAD_LEFT);
+        return str_pad((string)$number, $countChars, '0', STR_PAD_LEFT);
     }
 }
 
