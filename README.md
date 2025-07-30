@@ -56,6 +56,8 @@ php artisan vendor:publish --provider="Aprog\AprogServiceProvider" --tag=views
     - `blockInfo()`
     - `blockExceptionError()`
     - `zerosArticle()`
+    - `exception()` функція для виклику класу `SetAprog` та методу `exception`, 
+    який своєю чергою викликає клас та метод які в нього передають
 - Додано клас `MailForDeveloper` - формує лист з помилкою для розробника
 - Додано модель, сідер та міграцію `ErrorCodes`
 - З часом будуть додаватися можливості створення додаткових інструментів

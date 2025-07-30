@@ -19,7 +19,7 @@ class SetAprog
      * --------------------------------------------------------------------------
      *
      * @param string $class — повне ім’я класу з namespace.
-     * @param string $method — назва методу, який викликається.
+     * @param string $method — назва методу, який викликається (Attention: метод має повертати `new AprogException()`).
      * @param array $params — параметри для методу.
      * @param string $type — 'static' або 'instance'.
      * @return AprogException
@@ -43,7 +43,7 @@ class SetAprog
         return match ($type) {
             'static' => $class::$method(...$params),
             'instance' => (new $class())->$method(...$params),
-            default => throw new AprogException('Error! Code: TP400', 400, null, [
+            default => new AprogException('Error! Code: TP400', 400, null, [
                 'given_type' => $type
             ]),
         };

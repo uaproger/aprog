@@ -200,11 +200,11 @@ if (!function_exists('parse_ipn')) {
  */
 if (!function_exists('zerosArticle')) {
     /**
-     * @param string|int $number
+     * @param string|int|null $number
      * @param int $countChars
      * @return string
      */
-    function zerosArticle(string|int $number, int $countChars = 5): string
+    function zerosArticle(string|int $number = null, int $countChars = 5): string
     {
         return str_pad($number, $countChars, '0', STR_PAD_LEFT);
     }
@@ -480,11 +480,15 @@ if (!function_exists('uniqueBrowser')) {
  */
 if (!function_exists('isPhone')) {
     /**
-     * @param string $number
+     * @param string|null $number
      * @return bool
      */
-    function isPhone(string $number): bool
+    function isPhone(?string $number = null): bool
     {
+        if (is_null($number)) {
+            return false;
+        }
+
         # Має складатися лише з цифр
         if (!ctype_digit($number)) {
             return false;
