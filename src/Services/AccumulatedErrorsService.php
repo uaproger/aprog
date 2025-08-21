@@ -97,6 +97,29 @@ class AccumulatedErrorsService
     }
 
     /**
+     * --- Видалити повідомлення з масиву ---
+     * @param $value
+     * @return bool
+     */
+    public function remove($value): bool
+    {
+        try {
+            $key = array_search($value, $this->messages, true);
+            if ($key !== false) {
+                unset($this->messages[$key]);
+                $res = true;
+            } else {
+                throw new AprogException('The message does not exist');
+            }
+        } catch (Exception $exception) {
+            blockExceptionError($exception);
+            $res = false;
+        }
+
+        return $res;
+    }
+
+    /**
      * --- Очистити список повідомлень ---
      * @return void
      */
