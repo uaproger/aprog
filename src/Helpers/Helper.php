@@ -531,3 +531,39 @@ if (!function_exists('exception')) {
         return SetAprog::exception($class, $method, $params, $type);
     }
 }
+
+/**
+ * --------------------------------------------------------------------------
+ *  sanitize_quotes()
+ * --------------------------------------------------------------------------
+ *
+ * Функція `sanitize_quotes()` Видаляє всі види лапок і апострофів з рядка
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('sanitize_quotes')) {
+    /**
+     * @param string|null $value
+     * @return string|null
+     */
+    function sanitize_quotes(?string $value): ?string
+    {
+        if (is_null($value)) return null;
+
+        $charsToRemove = [
+            '"',  # ASCII "
+            "'",  # ASCII '
+            '‘',  # U+2018 left single quotation mark
+            '’',  # U+2019 right single quotation mark
+            '“',  # U+201C left double quotation mark
+            '”',  # U+201D right double quotation mark
+            '„',  # U+201E double low-9 quotation mark
+            '«',  # U+00AB left-pointing double angle quote
+            '»',  # U+00BB right-pointing double angle quote
+            '`',  # backtick
+        ];
+
+        return str_replace($charsToRemove, '', $value);
+    }
+}
+
