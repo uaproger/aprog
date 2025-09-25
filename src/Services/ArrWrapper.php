@@ -2,7 +2,7 @@
 
 namespace Aprog\Services;
 
-use stdClass;
+use Illuminate\Support\Collection;
 
 class ArrWrapper
 {
@@ -18,6 +18,12 @@ class ArrWrapper
      */
     public function get(string|int $key, mixed $default = null): static
     {
+        # Додано: підтримка Laravel Collection
+        if ($this->value instanceof Collection) {
+            $array = $this->value->toArray();
+            return new static($array[$key] ?? $default);
+        }
+
         if (is_array($this->value) && array_key_exists($key, $this->value)) {
             return new static($this->value[$key]);
         }
