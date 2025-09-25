@@ -32,7 +32,7 @@ class ArrWrapper
     /**
      * Отримати реальне значення
      */
-    public function value(): mixed
+    public function val(): mixed
     {
         return $this->value;
     }

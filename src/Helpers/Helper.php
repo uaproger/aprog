@@ -566,7 +566,7 @@ if (!function_exists('sanitize_quotes')) {
 }
 
 if (!function_exists('wrap')) {
-    function wrap(mixed $array, string|int $key = null, mixed $default = null): ArrWrapper
+    function wrap(mixed $array, string|int|null $key = null, mixed $default = null): ArrWrapper
     {
         $wrapper = new ArrWrapper($array);
         return $key === null ? $wrapper : $wrapper->get($key, $default);
