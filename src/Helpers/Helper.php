@@ -3,6 +3,7 @@
 use Aprog\Exceptions\AprogException;
 use Aprog\Exceptions\SetAprog;
 use Aprog\Mails\MailForDeveloper;
+use Aprog\Services\ArrWrapper;
 use Aprog\Services\Gemini;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Log;
@@ -330,9 +331,6 @@ if (!function_exists('blockExceptionError')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('guid')) {
-    /**
-     * @return string
-     */
     function guid(): string
     {
         $data = random_bytes(16);
@@ -567,3 +565,10 @@ if (!function_exists('sanitize_quotes')) {
     }
 }
 
+if (!function_exists('wrap')) {
+    function wrap(mixed $array, string|int $key = null, mixed $default = null): ArrWrapper
+    {
+        $wrapper = new ArrWrapper($array);
+        return $key === null ? $wrapper : $wrapper->get($key, $default);
+    }
+}
