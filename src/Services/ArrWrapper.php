@@ -245,15 +245,72 @@ class ArrWrapper
      * wrap($data)->set('newKey', 'value')->val();
      * ```
      *
-     * @param string|int $key
-     * @param mixed $value
+     * @param string|int|null $key
+     * @param mixed|null $value
      * @return static
      */
-    public function set(string|int $key, mixed $value): static
+    public function set(string|int|null $key, mixed $value = null): static
     {
-        $array = $this->toArray();
-        $array[$key] = $value;
-        return new static($array);
+        $data = $this->toArray();
+
+        if ($value === null) {
+            $value = $key;
+            $key = null;
+        }
+
+        if ($key === null) {
+            # Додати в кінець масиву
+            $data[] = $value;
+            return new static($data);
+        }
+
+        # Якщо ключ має шлях "a.b.c"
+        if (str_contains($key, '.')) {
+            $segments = explode('.', $key);
+            $ref = &$data;
+
+            foreach ($segments as $segment) {
+                if (!is_array($ref)) {
+                    $ref = []; # Створити масив, якщо раніше було щось інше
+                }
+
+                if (!array_key_exists($segment, $ref)) {
+                    $ref[$segment] = [];
+                }
+
+                $ref = &$ref[$segment];
+            }
+
+            $ref = $value;
+            return new static($data);
+        }
+
+        # Просте встановлення
+        $data[$key] = $value;
+        return new static($data);
+    }
+
+    /**
+     * Оновити значення або кілька значень у структурі
+     *
+     * @param string|array $keyOrArray — або ключ зі шляхом (наприклад, 'user.name'), або масив ключів => значень
+     * @param mixed|null $value — нове значення (використовується тільки, якщо $keyOrArray — це рядок)
+     * @return static
+     */
+    public function update(string|array $keyOrArray, mixed $value = null): static
+    {
+        $data = $this->toArray();
+
+        # Масове оновлення
+        if (is_array($keyOrArray)) {
+            foreach ($keyOrArray as $key => $val) {
+                $data = (new static($data))->set($key, $val)->toArray();
+            }
+            return new static($data);
+        }
+
+        # Один ключ
+        return $this->set($keyOrArray, $value);
     }
 
     /**
