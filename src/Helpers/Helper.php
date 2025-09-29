@@ -572,12 +572,12 @@ if (!function_exists('sanitize_quotes')) {
  * --------------------------------------------------------------------------
  *
  * Функція `wrap()` Дозволяє безпечно працювати з вкладеними даними
- * також має методи `map`, `filter`, `pluck`, 'sort`, `set`
+ * також має методи `map`, `filter`, `pluck`, `sort`, `set`
  *
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('wrap')) {
-    function wrap(mixed $array, string|int|null $key = null, mixed $default = null): ArrWrapper
+    function wrap(mixed $array = [], string|int|null $key = null, mixed $default = null): ArrWrapper
     {
         $wrapper = new ArrWrapper($array);
         return $key === null ? $wrapper : $wrapper->get($key, $default);
