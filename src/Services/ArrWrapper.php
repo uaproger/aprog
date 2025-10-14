@@ -117,10 +117,18 @@ class ArrWrapper
     /**
      * Отримати реальне значення без обгортки.
      *
+     * @param string|int|null $key
      * @return mixed
      */
-    public function val(): mixed
+    public function val(string|int|null $key = null): mixed
     {
+        if (!is_null($key)) {
+            $segments = explode('.', $key);
+            if (count($segments) > 1) {
+                return $this->path($key)->value;
+            }
+            return $this->get($key)->value;
+        }
         return $this->value;
     }
 
