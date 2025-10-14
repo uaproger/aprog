@@ -117,19 +117,35 @@ class ArrWrapper
     /**
      * Отримати реальне значення без обгортки.
      *
-     * @param string|int|null $key
+     *  Використання:
+     *  ```php
+     *  wrap($data)->val('user.profile.name');
+     *  wrap($data)->get('user')->get('profile')->val('name');
+     *  wrap($data)->getValue('user');
+     *  wrap($data)->pathValue('user.profile.name');
+     *  ```
+     *
+     * @param string|int|null $pathOrKey
      * @return mixed
      */
-    public function val(string|int|null $key = null): mixed
+    public function val(string|int|null $pathOrKey = null): mixed
     {
-        if (!is_null($key)) {
-            $segments = explode('.', $key);
+        if (!is_null($pathOrKey)) {
+            $segments = explode('.', $pathOrKey);
             if (count($segments) > 1) {
-                return $this->path($key)->value;
+                return $this->path($pathOrKey)->value;
             }
-            return $this->get($key)->value;
+            return $this->get($pathOrKey)->value;
         }
         return $this->value;
+    }
+    public function getValue(string|int $key, mixed $default = null): mixed
+    {
+        return $this->get($key, $default)->value;
+    }
+    public function pathValue(string $path, mixed $default = null): mixed
+    {
+        return $this->path($path, $default)->value;
     }
 
     /**
@@ -333,6 +349,11 @@ class ArrWrapper
 
     /**
      * Магічний доступ до властивостей об'єкта як $wrap->key.
+     *
+     *  Використання:
+     *  ```php
+     *  wrap($data)->key;
+     *  ```
      *
      * @param string $name
      * @return static
