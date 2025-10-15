@@ -11,7 +11,7 @@ use Aprog\Properties\Kernel;
  * --- Клас `TelegramDataProperty` для оголошення property ---
  * ######################################
  *
- * Copyright (c) {{ date('Y') }} AlexProger.
+ * Copyright (c) 2025 AlexProger.
  */
 class TelegramDataProperty extends Kernel
 {
