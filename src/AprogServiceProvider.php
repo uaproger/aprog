@@ -39,6 +39,11 @@ class AprogServiceProvider extends ServiceProvider
             'gemini'
         );
 
+        $this->mergeConfigFrom(
+            __DIR__ . '/config/telegram.php',
+            'telegram'
+        );
+
         $this->app->singleton(AccumulatedErrorsService::class);
     }
 
@@ -53,6 +58,7 @@ class AprogServiceProvider extends ServiceProvider
             __DIR__ . '/config/accum.php' => config_path('accum.php'),
             __DIR__ . '/config/gemini.php' => config_path('gemini.php'),
             __DIR__ . '/config/phone.php' => config_path('phone.php'),
+            __DIR__ . '/config/telegram.php' => config_path('telegram.php'),
         ], 'config');
 
         # Публікація email шаблону

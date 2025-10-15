@@ -2,6 +2,8 @@
 
 namespace Aprog\Services;
 
+use Aprog\Exceptions\AprogException;
+use Aprog\Properties\Items\TelegramDataProperty;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Str;
@@ -32,7 +34,7 @@ class Telegram
 
     public function __construct(?string $token = null)
     {
-        $this->botToken = $token ?? env('TELEGRAM_BOT_TOKEN');
+        $this->botToken = $token ?? config('telegram.token');
 
         if (!$this->botToken) {
             throw new RuntimeException("Telegram token не задано");
@@ -71,13 +73,13 @@ class Telegram
      * Відправити текстове повідомлення
      */
     public function message(
-        int|string $chatId,
         string $text,
+        int|string|null $chatId = null,
         ?string $parseMode = null,
         bool $disableWebPagePreview = false
     ): array {
         return $this->request('sendMessage', [
-            'chat_id' => $chatId,
+            'chat_id' => $chatId || config('telegram.user_id'),
             'text' => $text,
             'parse_mode' => $parseMode,
             'disable_web_page_preview' => $disableWebPagePreview,
@@ -88,13 +90,13 @@ class Telegram
      * Надіслати зображення (фото)
      */
     public function photo(
-        int|string $chatId,
         string $photoUrlOrFileId,
+        int|string|null $chatId = null,
         ?string $caption = null,
         ?string $parseMode = null
     ): array {
         return $this->request('sendPhoto', [
-            'chat_id' => $chatId,
+            'chat_id' => $chatId || config('telegram.user_id'),
             'photo' => $photoUrlOrFileId,
             'caption' => $caption,
             'parse_mode' => $parseMode,
@@ -105,13 +107,13 @@ class Telegram
      * Надіслати файл (документ)
      */
     public function document(
-        int|string $chatId,
         string $documentUrlOrFileId,
+        int|string|null $chatId = null,
         ?string $caption = null,
         ?string $parseMode = null
     ): array {
         return $this->request('sendDocument', [
-            'chat_id' => $chatId,
+            'chat_id' => $chatId || config('telegram.user_id'),
             'document' => $documentUrlOrFileId,
             'caption' => $caption,
             'parse_mode' => $parseMode,
@@ -152,5 +154,21 @@ class Telegram
         $instance = clone $this;
         $instance->botToken = $newToken;
         return $instance;
+    }
+
+    /**
+     * Отримати інформацію про чат (user, group, channel)
+     *
+     * @param string|int $chatIdOrUsername Наприклад: @al___er або числовий ID
+     * @return TelegramDataProperty Інформація про чат, зокрема 'id'
+     *
+     * @throws RuntimeException Якщо Telegram API повернув помилку
+     * @throws AprogException
+     */
+    public function info(string|int $chatIdOrUsername): TelegramDataProperty
+    {
+        return new TelegramDataProperty($this->request('getChat', [
+            'chat_id' => $chatIdOrUsername,
+        ]));
     }
 }
