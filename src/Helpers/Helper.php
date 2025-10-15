@@ -605,3 +605,34 @@ if (!function_exists('telegram')) {
         return new Telegram($token);
     }
 }
+
+/**
+ * --- Слава Україні 🇺🇦 ---
+ * --------------------------------------------------------------------------
+ *  content_exception()
+ * --------------------------------------------------------------------------
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('content_exception')) {
+    /**
+     * @param Throwable|null $exception
+     * @return string
+     */
+    function content_exception(?Throwable $exception = null): string
+    {
+        if (is_null($exception)) return code_location();
+
+        $trace = array_slice($exception->getTrace(), 0, 3);
+
+        $formattedTrace = array_map(function ($frame) {
+            $file = $frame['file'] ?? '[internal]';
+            $line = $frame['line'] ?? '??';
+            $func = $frame['function'] ?? '';
+            $class = $frame['class'] ?? '';
+            return "{$file}:{$line} — {$class}{$func}()";
+        }, $trace);
+
+        return $exception->getMessage() . PHP_EOL . implode(PHP_EOL, $formattedTrace);
+    }
+}
