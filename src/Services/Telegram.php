@@ -165,7 +165,7 @@ class Telegram
      * @throws RuntimeException Якщо Telegram API повернув помилку
      * @throws AprogException
      */
-    public function getChat(string|int $chatIdOrUsername): TelegramDataProperty
+    public function info(string|int $chatIdOrUsername): TelegramDataProperty
     {
         return new TelegramDataProperty($this->request('getChat', [
             'chat_id' => $chatIdOrUsername,
