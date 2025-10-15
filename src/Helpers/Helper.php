@@ -625,14 +625,17 @@ if (!function_exists('content_exception')) {
 
         $trace = array_slice($exception->getTrace(), 0, 3);
 
-        $formattedTrace = array_map(function ($frame) {
+        $formattedTrace = array_map(function ($frame, $index) {
             $file = $frame['file'] ?? '[internal]';
             $line = $frame['line'] ?? '??';
-            $func = $frame['function'] ?? '';
             $class = $frame['class'] ?? '';
-            return "{$file}:{$line} — {$class}{$func}()";
-        }, $trace);
+            $func = $frame['function'] ?? '';
+            return "{$index}) {$file}:{$line} — {$class}{$func}()";
+        }, $trace, array_keys($trace));
 
-        return $exception->getMessage() . PHP_EOL . implode(PHP_EOL, $formattedTrace);
+        $traceBlock = '<pre>' . htmlspecialchars(implode(PHP_EOL, $formattedTrace)) . '</pre>';
+        $messageBlock = '<code>' . htmlspecialchars($exception->getMessage()) . '</code>';
+
+        return $messageBlock . PHP_EOL . $traceBlock;
     }
 }
