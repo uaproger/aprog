@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
  *  Сервіс ArrWrapper Дозволяє безпечно працювати з вкладеними даними
  * --------------------------------------------------------------------------
  *
- * Copyright (c) {{ date('Y') }} AlexProger.
+ * Copyright (c) 2025 AlexProger.
  */
 class ArrWrapper
 {

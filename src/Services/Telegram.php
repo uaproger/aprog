@@ -3,28 +3,16 @@
 namespace Aprog\Services;
 
 use Aprog\Exceptions\AprogException;
-use Aprog\Properties\Items\TelegramDataProperty;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Client\Response;
-use Illuminate\Support\Str;
 use RuntimeException;
 use Throwable;
 
 /**
  * --- Слава Україні 🇺🇦 ---
  *
- * TelegramService — Повноцінний сервіс для Telegram Bot API
+ * TelegramService — Повноцінний сервіс для Telegram Bot API для надсилання повідомлень (text)
  *
- * Підтримка:
- * - Надсилання повідомлень (text)
- * - Надсилання зображень (photo)
- * - Надсилання файлів (document)
- * - Webhook-інтеграція
- * - Retry/reconnect логіка
- * - Кілька ботів (через параметр токена або env)
- *
- * @author
- * Copyright (c) {{ date('Y') }} AlexProger
+ * Copyright (c) 2025 AlexProger
  */
 class Telegram
 {
@@ -37,7 +25,7 @@ class Telegram
         $this->botToken = $token ?? config('telegram.token');
 
         if (!$this->botToken) {
-            throw new RuntimeException("Telegram token не задано");
+            throw new RuntimeException("Telegram token не задано!");
         }
     }
 
@@ -49,20 +37,47 @@ class Telegram
         $url = "https://api.telegram.org/bot{$this->botToken}/{$method}";
         $attempt = 0;
 
+        # 🧹 Видаляємо параметри з null-значеннями
+        $params = array_filter($params, fn($v) => !is_null($v));
+
         while ($attempt < $this->maxRetries) {
             try {
+                # Основний спосіб — через Laravel HTTP client
                 $response = Http::timeout(10)->post($url, $params);
 
                 if ($response->successful()) {
-                    return $response->json();
-                }
+                    $data = $response->json();
 
-                blockLogError("Telegram API error: {$response->status()} - {$response->body()}");
+                    if (is_array($data)) {
+                        return $data;
+                    }
+
+                    blockLogError("Telegram API повернув некоректний JSON: " . $response->body());
+                } else {
+                    blockLogError("Telegram API error: {$response->status()} — {$response->body()}");
+                }
             } catch (Throwable $e) {
-                blockLogError("TelegramService error: " . $e->getMessage());
+                blockLogError("TelegramService (Laravel HTTP) exception: " . $e->getMessage());
+
+                # fallback: file_get_contents (GET-запит)
+                try {
+                    $query = http_build_query($params);
+                    $fallbackUrl = $url . '?' . $query;
+
+                    $raw = file_get_contents($fallbackUrl);
+                    $data = json_decode($raw, true);
+
+                    if (is_array($data)) {
+                        return $data;
+                    }
+
+                    blockLogError("Telegram fallback JSON decode error: " . $raw);
+                } catch (Throwable $e2) {
+                    blockLogError("TelegramService fallback exception: " . $e2->getMessage());
+                }
             }
 
-            usleep($this->retryDelay * 1000); # затримка перед повтором
+            usleep($this->retryDelay * 1000);
             $attempt++;
         }
 
@@ -71,6 +86,7 @@ class Telegram
 
     /**
      * Відправити текстове повідомлення
+     * @throws AprogException
      */
     public function message(
         string $text,
@@ -78,97 +94,41 @@ class Telegram
         ?string $parseMode = null,
         bool $disableWebPagePreview = false
     ): array {
-        return $this->request('sendMessage', [
-            'chat_id' => $chatId || config('telegram.user_id'),
-            'text' => $text,
-            'parse_mode' => $parseMode,
-            'disable_web_page_preview' => $disableWebPagePreview,
-        ]);
+        try {
+            return $this->request('sendMessage', [
+                'chat_id' => $this->resolveChatId($chatId),
+                'text' => $text,
+                'parse_mode' => $this->sanitizeParseMode($parseMode),
+                'disable_web_page_preview' => $disableWebPagePreview,
+            ]);
+        } catch (Throwable $e) {
+            throw new AprogException($e->getMessage());
+        }
     }
 
-    /**
-     * Надіслати зображення (фото)
-     */
-    public function photo(
-        string $photoUrlOrFileId,
-        int|string|null $chatId = null,
-        ?string $caption = null,
-        ?string $parseMode = null
-    ): array {
-        return $this->request('sendPhoto', [
-            'chat_id' => $chatId || config('telegram.user_id'),
-            'photo' => $photoUrlOrFileId,
-            'caption' => $caption,
-            'parse_mode' => $parseMode,
-        ]);
-    }
-
-    /**
-     * Надіслати файл (документ)
-     */
-    public function document(
-        string $documentUrlOrFileId,
-        int|string|null $chatId = null,
-        ?string $caption = null,
-        ?string $parseMode = null
-    ): array {
-        return $this->request('sendDocument', [
-            'chat_id' => $chatId || config('telegram.user_id'),
-            'document' => $documentUrlOrFileId,
-            'caption' => $caption,
-            'parse_mode' => $parseMode,
-        ]);
-    }
-
-    /**
-     * Встановити Webhook (URL)
-     */
-    public function webhook(string $webhookUrl): array
+    protected function sanitizeParseMode(?string $parseMode): ?string
     {
-        return $this->request('setWebhook', [
-            'url' => $webhookUrl
-        ]);
+        $allowed = ['Markdown', 'MarkdownV2', 'HTML'];
+
+        if (!$parseMode) return null;
+
+        if (in_array($parseMode, $allowed, true)) {
+            return $parseMode;
+        }
+
+        blockLogError("Непідтримуваний parse_mode: {$parseMode}. Буде скасовано.");
+        return null;
     }
 
-    /**
-     * Видалити Webhook
-     */
-    public function deleteWebhook(): array
+    protected function resolveChatId(int|string|null $chatId): int|string
     {
-        return $this->request('deleteWebhook', []);
-    }
+        $finalId = $chatId ?? config('telegram.user_id');
 
-    /**
-     * Отримати інформацію про Webhook
-     */
-    public function getWebhookInfo(): array
-    {
-        return $this->request('getWebhookInfo', []);
-    }
+        if (!$finalId) {
+            blockLogError("Не вказано chat_id для Telegram");
+            throw new RuntimeException("Не вказано chat_id для Telegram");
+        }
 
-    /**
-     * Змінити токен у рантаймі (для кількох ботів)
-     */
-    public function withToken(string $newToken): static
-    {
-        $instance = clone $this;
-        $instance->botToken = $newToken;
-        return $instance;
-    }
-
-    /**
-     * Отримати інформацію про чат (user, group, channel)
-     *
-     * @param string|int $chatIdOrUsername Наприклад: @al___er або числовий ID
-     * @return TelegramDataProperty Інформація про чат, зокрема 'id'
-     *
-     * @throws RuntimeException Якщо Telegram API повернув помилку
-     * @throws AprogException
-     */
-    public function info(string|int $chatIdOrUsername): TelegramDataProperty
-    {
-        return new TelegramDataProperty($this->request('getChat', [
-            'chat_id' => $chatIdOrUsername,
-        ]));
+        return $finalId;
     }
 }
