@@ -120,10 +120,22 @@ class ArrWrapper
      *  Використання:
      *  ```php
      *  wrap($data)->val('user.profile.name');
-     *  wrap($data)->get('user')->get('profile')->val('name');
-     *  wrap($data)->getValue('user');
-     *  wrap($data)->pathValue('user.profile.name');
      *  ```
+     *
+     * v2
+     * ```php
+     *  wrap($data)->get('user')->get('profile')->val('name');
+     * ```
+     *
+     * v3
+     * ```php
+     *  wrap($data)->getValue('user');
+     * ```
+     *
+     * v4
+     * ```php
+     *  wrap($data)->pathValue('user.profile.name');
+     * ```
      *
      * @param string|int|null $pathOrKey
      * @return mixed
@@ -156,6 +168,16 @@ class ArrWrapper
     public function isNull(): bool
     {
         return $this->value === null;
+    }
+
+    /**
+     * Перевірити, чи значення порожнє.
+     *
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return empty($this->value);
     }
 
     /**
@@ -262,6 +284,24 @@ class ArrWrapper
     }
 
     /**
+     * Отримати зріз елементів (як array_slice або Collection::slice).
+     *
+     * @param int $offset Індекс з якого починати
+     * @param int|null $length Кількість елементів (null — до кінця)
+     * @return static
+     */
+    public function slice(int $offset, ?int $length = null): static
+    {
+        $array = $this->toArray();
+
+        if ($length === null) {
+            return new static(array_slice($array, $offset));
+        }
+
+        return new static(array_slice($array, $offset, $length));
+    }
+
+    /**
      * Встановити значення за ключем (оновлює масив).
      *
      * Використання:
@@ -338,6 +378,17 @@ class ArrWrapper
     }
 
     /**
+     * Перевірка існування значення по шляху.
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function exists(string $path): bool
+    {
+        return !$this->path($path)->isNull();
+    }
+
+    /**
      * Приведення до рядка при echo/print.
      *
      * @return string
@@ -361,5 +412,16 @@ class ArrWrapper
     public function __get(string $name): static
     {
         return $this->get($name);
+    }
+
+    /**
+     * Магічна перевірка isset($wrap->key)
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function __isset(string $name): bool
+    {
+        return $this->has($name);
     }
 }

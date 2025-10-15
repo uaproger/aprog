@@ -5,6 +5,7 @@ use Aprog\Exceptions\SetAprog;
 use Aprog\Mails\MailForDeveloper;
 use Aprog\Services\ArrWrapper;
 use Aprog\Services\Gemini;
+use Aprog\Services\Telegram;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Log;
 
@@ -581,5 +582,26 @@ if (!function_exists('wrap')) {
     {
         $wrapper = new ArrWrapper($array);
         return $key === null ? $wrapper : $wrapper->get($key, $default);
+    }
+}
+
+/**
+ * --- Слава Україні 🇺🇦 ---
+ * --------------------------------------------------------------------------
+ *  telegram()
+ * --------------------------------------------------------------------------
+ *
+ * Функція `telegram()` Дозволяє працювати з telegram
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('telegram')) {
+    /**
+     * @param string|null $token
+     * @return Telegram
+     */
+    function telegram(?string $token = null): Telegram
+    {
+        return new Telegram($token);
     }
 }
