@@ -3,6 +3,7 @@
 use Aprog\Exceptions\AprogException;
 use Aprog\Exceptions\SetAprog;
 use Aprog\Mails\MailForDeveloper;
+use Aprog\Services\AccumulatedErrorsService;
 use Aprog\Services\ArrWrapper;
 use Aprog\Services\Gemini;
 use Aprog\Services\Telegram;
@@ -625,17 +626,30 @@ if (!function_exists('content_exception')) {
 
         $trace = array_slice($exception->getTrace(), 0, 3);
 
+        $accum = AccumulatedErrorsService::init();
+
         $formattedTrace = array_map(function ($frame, $index) {
             $file = $frame['file'] ?? '[internal]';
             $line = $frame['line'] ?? '??';
-            $class = $frame['class'] ?? '';
-            $func = $frame['function'] ?? '';
-            return "{$index}) {$file}:{$line} — {$class}{$func}()";
+            $call = '';
+            if (!empty($frame['class'])) {
+                $call = "{$frame['class']}->{$frame['function']}()";
+            } elseif (!empty($frame['function'])) {
+                $call = "{$frame['function']}()";
+            }
+            return "$index) $file:$line — $call";
         }, $trace, array_keys($trace));
 
         $traceBlock = '<pre>' . htmlspecialchars(implode(PHP_EOL, $formattedTrace)) . '</pre>';
         $messageBlock = '<code>' . htmlspecialchars($exception->getMessage()) . '</code>';
 
+        if (!empty($accum->allErrors())) {
+            foreach ($accum->allErrors() as $error) {
+                $message = htmlspecialchars(wrap($error)->getValue('message'));
+                $trace = htmlspecialchars(wrap($error)->getValue('trace'));
+                $messageBlock = "<code>$message</code>" . PHP_EOL . "<pre>$trace</pre>" . PHP_EOL . PHP_EOL . $messageBlock;
+            }
+        }
         return $messageBlock . PHP_EOL . $traceBlock;
     }
 }
