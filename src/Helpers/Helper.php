@@ -639,26 +639,29 @@ if (!function_exists('content_exception')) {
             return "$index) $file:$line — $call";
         }, $trace, array_keys($trace));
 
-        $traceBlock = '<pre>' . htmlspecialchars(implode(PHP_EOL, $formattedTrace)) . '</pre>';
+        $traceBlock = PHP_EOL . '<pre>' . htmlspecialchars(implode(PHP_EOL, $formattedTrace)) . '</pre>';
         $messageBlock = '<code>' . htmlspecialchars($exception->getMessage()) . '</code>';
 
         if (!empty($accum->allErrors())) {
+            $messageBlock = '';
+            $traceBlock = '';
             foreach ($accum->allErrors() as $error) {
                 $message = htmlspecialchars(wrap($error)->getValue('message'));
                 $trace = htmlspecialchars(wrap($error)->getValue('trace'));
-                $messageBlock = "<code>$message</code>" . PHP_EOL . "<pre>$trace</pre>" . PHP_EOL . PHP_EOL . $messageBlock;
+                $messageBlock = "<code>— $message</code>" . PHP_EOL . "<pre>$trace</pre>" . PHP_EOL . $messageBlock;
             }
         }
 
         if (!empty($accum->all())) {
             $messages = '';
+            $traceBlock = '';
             foreach ($accum->all() as $message) {
                 $message = htmlspecialchars(wrap($message)->getValue('uk'));
-                $messages .= "<code>$message</code>" . PHP_EOL;
+                $messages .= "<code>— $message</code>" . PHP_EOL;
             }
             $messageBlock = $messages . "<pre>{$accum->getTrace()}</pre>" . PHP_EOL . PHP_EOL . $messageBlock;
         }
 
-        return $messageBlock . PHP_EOL . $traceBlock;
+        return $messageBlock . $traceBlock;
     }
 }
