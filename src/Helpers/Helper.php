@@ -625,7 +625,6 @@ if (!function_exists('content_exception')) {
         if (is_null($exception)) return code_location();
 
         $trace = array_slice($exception->getTrace(), 0, 3);
-
         $accum = AccumulatedErrorsService::init();
 
         $formattedTrace = array_map(function ($frame, $index) {
