@@ -245,6 +245,24 @@ class ArrWrapper
     }
 
     /**
+     * Виконати callback-поєднання над кожним елементом.
+     *
+     * @param callable $callback
+     * @param mixed|null $initial
+     * @return mixed
+     */
+    public function reduce(callable $callback, mixed $initial = null): mixed
+    {
+        $acc = $initial;
+
+        foreach ($this->toArray() as $key => $value) {
+            $acc = $callback($acc, $value, $key);
+        }
+
+        return $acc;
+    }
+
+    /**
      * Відфільтрувати елементи (як Collection::filter()).
      *
      * @param callable|null $callback
