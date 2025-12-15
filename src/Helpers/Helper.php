@@ -333,14 +333,54 @@ if (!function_exists('blockExceptionError')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('guid')) {
-    function guid(): string
+    function guid(mixed $data = null): string
     {
-        $data = random_bytes(16);
-        # Установлюємо версію (v4) і варіант (RFC 4122)
-        $data[6] = chr((ord($data[6]) & 0x0f) | 0x40); # версія 4
-        $data[8] = chr((ord($data[8]) & 0x3f) | 0x80); # варіант RFC 4122
+        # Якщо нічого не передали — поводимось як UUID v4
+        if ($data === null) {
+            $bytes = random_bytes(16);
+        } else {
+            # 1. Нормалізуємо дані (рекурсивно, стабільно)
+            $normalized = normalizeGuidData($data);
 
-        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+            # 2. Хешуємо
+            $hash = hash('sha256', $normalized, true);
+
+            # 3. Беремо перші 16 байт
+            $bytes = substr($hash, 0, 16);
+        }
+
+        # UUID version 5 (name-based)
+        $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x50); # version 5
+        $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80); # RFC 4122
+
+        return vsprintf(
+            '%s%s-%s-%s-%s-%s%s%s',
+            str_split(bin2hex($bytes), 4)
+        );
+    }
+}
+
+if (!function_exists('normalizeGuidData')) {
+    function normalizeGuidData(mixed $data): string
+    {
+        if (is_array($data)) {
+            ksort($data); # стабільний порядок ключів
+            return json_encode(array_map('normalizeGuidData', $data), JSON_UNESCAPED_UNICODE);
+        }
+
+        if (is_object($data)) {
+            return normalizeGuidData((array) $data);
+        }
+
+        if (is_bool($data)) {
+            return $data ? 'true' : 'false';
+        }
+
+        if ($data === null) {
+            return 'null';
+        }
+
+        return (string) $data;
     }
 }
 
