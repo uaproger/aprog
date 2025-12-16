@@ -705,3 +705,27 @@ if (!function_exists('content_exception')) {
         return $messageBlock . $traceBlock;
     }
 }
+
+/**
+ * --- Слава Україні 🇺🇦 ---
+ * --------------------------------------------------------------------------
+ *  checkMemory()
+ * --------------------------------------------------------------------------
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('checkMemory')) {
+    function checkMemory(?int $start = null, ?string $label = null, bool $usage = false, bool $peak = true): int|array
+    {
+        if (is_null($start)) return memory_get_usage($usage);
+
+        $data = [
+            'used_mb' => round((memory_get_usage($usage) - $start) / 1024 / 1024, 2),
+            'peak_mb' => round(memory_get_peak_usage($peak) / 1024 / 1024, 2),
+        ];
+
+        if ($label) $data['label'] = $label;
+
+        return $data;
+    }
+}
