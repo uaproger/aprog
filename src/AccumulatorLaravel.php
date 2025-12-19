@@ -16,39 +16,41 @@ class AccumulatorLaravel
 
         sleep(3);
 
-        self::$service = '<?php' . PHP_EOL;
-        self::$service .= PHP_EOL;
-        self::$service .= "namespace $namespace;" . PHP_EOL;
-        self::$service .= PHP_EOL;
-        self::$service .= "/**" . PHP_EOL;
-        self::$service .= " * Aprog Accumulator Laravel" . PHP_EOL;
-        self::$service .= " * " . PHP_EOL;
-        self::$service .= " * ######################################" . PHP_EOL;
-        self::$service .= " * --- Клас `$name` для накопичення даних ---" . PHP_EOL;
-        self::$service .= " * ######################################" . PHP_EOL;
-        self::$service .= " * Акумулятор потрібно зареєструвати у AppServiceProvider.php" . PHP_EOL;
-        self::$service .= " * Приклад:" . PHP_EOL;
-        self::$service .= " * public function register(): void";
-        self::$service .= " * {" . PHP_EOL;
-        self::$service .= " *     \$this->app->singleton($name::class);" . PHP_EOL;
-        self::$service .= " * }" . PHP_EOL;
-        self::$service .= " * " . PHP_EOL;
-        self::$service .= " * Copyright (c) " . date('Y') . " AlexProger." . PHP_EOL;
-        self::$service .= " */" . PHP_EOL;
-        self::$service .= "final class $name" . PHP_EOL;
-        self::$service .= "{" . PHP_EOL;
-        self::$service .= "    privat mixed \$data = null" . PHP_EOL;
-        self::$service .= PHP_EOL;
-        self::$service .= "    public static function init(): $name" . PHP_EOL;
-        self::$service .= "    {" . PHP_EOL;
-        self::$service .= "        return app($name::class)" . PHP_EOL;
-        self::$service .= "    }" . PHP_EOL;
-        self::$service .= PHP_EOL;
-        self::$service .= "    public function reset(): void" . PHP_EOL;
-        self::$service .= "    {" . PHP_EOL;
-        self::$service .= "        \$this->data = null;" . PHP_EOL;
-        self::$service .= "    }" . PHP_EOL;
-        self::$service .= "}" . PHP_EOL;
+        self::$accumulator = '<?php' . PHP_EOL;
+        self::$accumulator .= PHP_EOL;
+        self::$accumulator .= "namespace $namespace;" . PHP_EOL;
+        self::$accumulator .= PHP_EOL;
+        self::$accumulator .= "/**" . PHP_EOL;
+        self::$accumulator .= " * Aprog Accumulator Laravel" . PHP_EOL;
+        self::$accumulator .= " * " . PHP_EOL;
+        self::$accumulator .= " * ######################################" . PHP_EOL;
+        self::$accumulator .= " * --- Клас `$name` для накопичення даних ---" . PHP_EOL;
+        self::$accumulator .= " * ######################################" . PHP_EOL;
+        self::$accumulator .= " * Акумулятор потрібно зареєструвати у AppServiceProvider.php" . PHP_EOL;
+        self::$accumulator .= " * " . PHP_EOL;
+        self::$accumulator .= " * Приклад:" . PHP_EOL;
+        self::$accumulator .= " * " . PHP_EOL;
+        self::$accumulator .= " * public function register(): void";
+        self::$accumulator .= " * {" . PHP_EOL;
+        self::$accumulator .= " *     \$this->app->singleton($name::class);" . PHP_EOL;
+        self::$accumulator .= " * }" . PHP_EOL;
+        self::$accumulator .= " * " . PHP_EOL;
+        self::$accumulator .= " * Copyright (c) " . date('Y') . " AlexProger." . PHP_EOL;
+        self::$accumulator .= " */" . PHP_EOL;
+        self::$accumulator .= "final class $name" . PHP_EOL;
+        self::$accumulator .= "{" . PHP_EOL;
+        self::$accumulator .= "    private mixed \$data = null;" . PHP_EOL;
+        self::$accumulator .= PHP_EOL;
+        self::$accumulator .= "    public static function init(): $name" . PHP_EOL;
+        self::$accumulator .= "    {" . PHP_EOL;
+        self::$accumulator .= "        return app($name::class);" . PHP_EOL;
+        self::$accumulator .= "    }" . PHP_EOL;
+        self::$accumulator .= PHP_EOL;
+        self::$accumulator .= "    public function reset(): void" . PHP_EOL;
+        self::$accumulator .= "    {" . PHP_EOL;
+        self::$accumulator .= "        \$this->data = null;" . PHP_EOL;
+        self::$accumulator .= "    }" . PHP_EOL;
+        self::$accumulator .= "}" . PHP_EOL;
 
         $pathAccumulator = str_replace('\\', '/', lcfirst($namespace)) . '/';
         if (!file_exists($pathAccumulator) || !is_dir($pathAccumulator)) {
@@ -56,7 +58,7 @@ class AccumulatorLaravel
         }
 
         if (!file_exists("{$pathAccumulator}{$name}.php")) {
-            $res = file_put_contents("{$pathAccumulator}{$name}.php", self::$service);
+            $res = file_put_contents("{$pathAccumulator}{$name}.php", self::$accumulator);
             self::message($pathAccumulator . $name, $res ? 0 : 2);
         } else {
             self::message($pathAccumulator . $name);
