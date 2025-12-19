@@ -13,39 +13,39 @@ class Accumulator
 
         sleep(3);
 
-        self::$service = '<?php' . PHP_EOL;
-        self::$service .= PHP_EOL;
-        self::$service .= "namespace $namespace;" . PHP_EOL;
-        self::$service .= PHP_EOL;
-        self::$service .= "/**" . PHP_EOL;
-        self::$service .= " * Aprog Accumulator" . PHP_EOL;
-        self::$service .= " * " . PHP_EOL;
-        self::$service .= " * ######################################" . PHP_EOL;
-        self::$service .= " * --- Клас `$name` для накопичення даних ---" . PHP_EOL;
-        self::$service .= " * ######################################" . PHP_EOL;
-        self::$service .= " * " . PHP_EOL;
-        self::$service .= " * Copyright (c) " . date('Y') . " AlexProger." . PHP_EOL;
-        self::$service .= " */" . PHP_EOL;
-        self::$service .= "final class $name" . PHP_EOL;
-        self::$service .= "{" . PHP_EOL;
-        self::$service .= "    privat static ?$name \$instance = null" . PHP_EOL;
-        self::$service .= "    privat mixed \$data = null" . PHP_EOL;
-        self::$service .= PHP_EOL;
-        self::$service .= "    public static function init(): $name" . PHP_EOL;
-        self::$service .= "    {" . PHP_EOL;
-        self::$service .= "        if (is_null(self::\$instance)) {" . PHP_EOL;
-        self::$service .= "            self::\$instance = new $name()" . PHP_EOL;
-        self::$service .= "        }" . PHP_EOL;
-        self::$service .= PHP_EOL;
-        self::$service .= "        return self::\$instance" . PHP_EOL;
-        self::$service .= "    }" . PHP_EOL;
-        self::$service .= PHP_EOL;
-        self::$service .= "    public function reset(): void" . PHP_EOL;
-        self::$service .= "    {" . PHP_EOL;
-        self::$service .= "        self::\$instance = null;" . PHP_EOL;
-        self::$service .= "        \$this->data = null;" . PHP_EOL;
-        self::$service .= "    }" . PHP_EOL;
-        self::$service .= "}" . PHP_EOL;
+        self::$accumulator = '<?php' . PHP_EOL;
+        self::$accumulator .= PHP_EOL;
+        self::$accumulator .= "namespace $namespace;" . PHP_EOL;
+        self::$accumulator .= PHP_EOL;
+        self::$accumulator .= "/**" . PHP_EOL;
+        self::$accumulator .= " * Aprog Accumulator" . PHP_EOL;
+        self::$accumulator .= " * " . PHP_EOL;
+        self::$accumulator .= " * ######################################" . PHP_EOL;
+        self::$accumulator .= " * --- Клас `$name` для накопичення даних ---" . PHP_EOL;
+        self::$accumulator .= " * ######################################" . PHP_EOL;
+        self::$accumulator .= " * " . PHP_EOL;
+        self::$accumulator .= " * Copyright (c) " . date('Y') . " AlexProger." . PHP_EOL;
+        self::$accumulator .= " */" . PHP_EOL;
+        self::$accumulator .= "final class $name" . PHP_EOL;
+        self::$accumulator .= "{" . PHP_EOL;
+        self::$accumulator .= "    private static ?$name \$instance = null;" . PHP_EOL;
+        self::$accumulator .= "    private mixed \$data = null;" . PHP_EOL;
+        self::$accumulator .= PHP_EOL;
+        self::$accumulator .= "    public static function init(): $name" . PHP_EOL;
+        self::$accumulator .= "    {" . PHP_EOL;
+        self::$accumulator .= "        if (is_null(self::\$instance)) {" . PHP_EOL;
+        self::$accumulator .= "            self::\$instance = new $name();" . PHP_EOL;
+        self::$accumulator .= "        }" . PHP_EOL;
+        self::$accumulator .= PHP_EOL;
+        self::$accumulator .= "        return self::\$instance;" . PHP_EOL;
+        self::$accumulator .= "    }" . PHP_EOL;
+        self::$accumulator .= PHP_EOL;
+        self::$accumulator .= "    public function reset(): void" . PHP_EOL;
+        self::$accumulator .= "    {" . PHP_EOL;
+        self::$accumulator .= "        self::\$instance = null;" . PHP_EOL;
+        self::$accumulator .= "        \$this->data = null;" . PHP_EOL;
+        self::$accumulator .= "    }" . PHP_EOL;
+        self::$accumulator .= "}" . PHP_EOL;
 
         $pathAccumulator = str_replace('\\', '/', lcfirst($namespace)) . '/';
         if (!file_exists($pathAccumulator) || !is_dir($pathAccumulator)) {
@@ -53,7 +53,7 @@ class Accumulator
         }
 
         if (!file_exists("{$pathAccumulator}{$name}.php")) {
-            $res = file_put_contents("{$pathAccumulator}{$name}.php", self::$service);
+            $res = file_put_contents("{$pathAccumulator}{$name}.php", self::$accumulator);
             self::message($pathAccumulator . $name, $res ? 0 : 2);
         } else {
             self::message($pathAccumulator . $name);
