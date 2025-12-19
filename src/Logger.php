@@ -19,6 +19,10 @@ class Logger
 
     public static array $config = [
         'paths' => [
+            'accumulators' => [
+                'namespace' => 'App\Accumulators',
+                'use' => 'App\Accumulators'
+            ],
             'properties' => [
                 'namespace' => 'App\Properties\Items',
                 'use' => 'App\Properties',
