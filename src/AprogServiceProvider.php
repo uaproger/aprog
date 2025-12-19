@@ -2,6 +2,7 @@
 
 namespace Aprog;
 
+use Aprog\Console\MakeAccumulatorCommand;
 use Illuminate\Support\ServiceProvider;
 use Aprog\Console\MakePropertyCommand;
 use Aprog\Console\MakeServiceCommand;
@@ -25,6 +26,7 @@ class AprogServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands([
+            MakeAccumulatorCommand::class,
             MakePropertyCommand::class,
             MakeServiceCommand::class,
         ]);
