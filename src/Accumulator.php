@@ -65,11 +65,11 @@ class Accumulator
     public static function message(string $name, int $status = 1): void
     {
         if ($status == 0) {
-            echo Logger::info("Створено акумулятор " . Logger::GREEN . Logger::BOLD . "[./app/Accumulators/$name]" . Logger::NC);
+            echo Logger::info("Створено акумулятор " . Logger::GREEN . Logger::BOLD . "[./$name]" . Logger::NC);
         } elseif ($status == 2) {
             echo Logger::error("Помилка створення акумулятора " . Logger::RED . Logger::BOLD . "[$name]" . Logger::NC);
         } else {
-            echo Logger::warn("Акумулятор " . Logger::ORANGE . Logger::BOLD . "[./app/Accumulators/$name]" . Logger::NC . " вже існує");
+            echo Logger::warn("Акумулятор " . Logger::ORANGE . Logger::BOLD . "[./$name]" . Logger::NC . " вже існує");
         }
 
         Logger::finishMessage();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Aprog\Enum;
+namespace Aprog\Enums;
 
 /**
  * enum TableNameEnum

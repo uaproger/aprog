@@ -2,7 +2,7 @@
 
 namespace Aprog\Models;
 
-use Aprog\Enum\TableNameEnum;
+use Aprog\Enums\TableNameEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
