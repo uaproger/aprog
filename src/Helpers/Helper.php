@@ -1,5 +1,6 @@
 <?php
 
+use Aprog\Accumulators\LogAccumulator;
 use Aprog\Exceptions\AprogException;
 use Aprog\Exceptions\SetAprog;
 use Aprog\Mails\MailForDeveloper;
@@ -729,5 +730,24 @@ if (!function_exists('checkMemory')) {
         if ($label) $data['label'] = $label;
 
         return $data;
+    }
+}
+
+/**
+ * --- Слава Україні 🇺🇦 ---
+ *  --------------------------------------------------------------------------
+ *   bugger()
+ *  --------------------------------------------------------------------------
+ *
+ * Copyright (c) 2025 AlexProger.
+ */
+if (!function_exists('bugger')) {
+    function bugger(?string $key = null, array|string|null $log = null): LogAccumulator
+    {
+        $bugger = LogAccumulator::init();
+
+        if (!is_null($key) && !is_null($log)) return $bugger->add($key, $log);
+
+        return $bugger;
     }
 }
