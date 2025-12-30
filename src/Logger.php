@@ -21,7 +21,11 @@ class Logger
         'paths' => [
             'accumulators' => [
                 'namespace' => 'App\Accumulators',
-                'use' => 'App\Accumulators'
+                'use' => 'App\Accumulators',
+            ],
+            'enums' => [
+                'namespace' => 'App\Enums',
+                'use' => 'App\Enums',
             ],
             'properties' => [
                 'namespace' => 'App\Properties\Items',
@@ -29,7 +33,7 @@ class Logger
             ],
             'services' => [
                 'namespace' => 'App\Services',
-                'use' => 'App\Services'
+                'use' => 'App\Services',
             ],
         ],
     ];

@@ -138,9 +138,10 @@ class ArrWrapper
      * ```
      *
      * @param string|int|null $pathOrKey
+     * @param mixed $default
      * @return mixed
      */
-    public function val(string|int|null $pathOrKey = null): mixed
+    public function val(string|int|null $pathOrKey = null, mixed $default = null): mixed
     {
         if (!is_null($pathOrKey)) {
             $segments = explode('.', $pathOrKey);

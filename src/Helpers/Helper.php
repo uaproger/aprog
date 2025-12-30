@@ -265,6 +265,7 @@ if (!function_exists('blockLogError')) {
             Log::error($message);
         }
         Log::error(bold('❌ BLOCK ERROR END'));
+        Log::error(PHP_EOL);
     }
 }
 
@@ -300,6 +301,7 @@ if (!function_exists('blockInfo')) {
             Log::info($message);
         }
         Log::info(bold('✔️ BLOCK INFO END'));
+        Log::error(PHP_EOL);
     }
 }
 

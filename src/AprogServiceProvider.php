@@ -3,6 +3,7 @@
 namespace Aprog;
 
 use Aprog\Console\MakeAccumulatorCommand;
+use Aprog\Console\MakeEnumCommand;
 use Illuminate\Support\ServiceProvider;
 use Aprog\Console\MakePropertyCommand;
 use Aprog\Console\MakeServiceCommand;
@@ -27,6 +28,7 @@ class AprogServiceProvider extends ServiceProvider
     {
         $this->commands([
             MakeAccumulatorCommand::class,
+            MakeEnumCommand::class,
             MakePropertyCommand::class,
             MakeServiceCommand::class,
         ]);
