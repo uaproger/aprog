@@ -9,6 +9,7 @@ use Aprog\Services\ArrWrapper;
 use Aprog\Services\Gemini;
 use Aprog\Services\Telegram;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -302,7 +303,7 @@ if (!function_exists('blockInfo')) {
             Log::info($message);
         }
         Log::info(bold('✔️ BLOCK INFO END'));
-        Log::error(PHP_EOL);
+        Log::info(PHP_EOL);
     }
 }
 
@@ -749,5 +750,41 @@ if (!function_exists('bugger')) {
         if (!is_null($key) && !is_null($log)) return $bugger->add($key, $log);
 
         return $bugger;
+    }
+}
+
+if (!function_exists('route_logs')) {
+    function route_logs()
+    {
+        $files = File::files(storage_path('logs'));
+
+        $formatSize = function ($bytes, $precision = 2) {
+            $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+            $bytes = max($bytes, 0);
+            $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+            $pow = min($pow, count($units) - 1);
+            $bytes /= pow(1024, $pow);
+            return round($bytes, $precision) . ' ' . $units[$pow];
+        };
+
+        return collect($files)->map(function ($file) use ($formatSize) {
+            return [
+                'name' => $file->getFilename(),
+                'size' => $formatSize($file->getSize()),
+                'modified' => date('Y-m-d H:i:s', $file->getMTime()),
+            ];
+        });
+    }
+}
+
+if (!function_exists('route_log')) {
+    function route_log(?string $filename)
+    {
+        $path = storage_path("logs/$filename");
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        return response()->file($path);
     }
 }
