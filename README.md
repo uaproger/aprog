@@ -30,6 +30,24 @@ Service:
 php artisan make:service <name>
 ```
 
+Accumulator:
+```shell
+# default version
+php artisan make:accumulator <name>
+
+# or Laravel version (required registry in provider)
+php artisan make:accumulator <name> --l
+```
+
+Enum:
+```shell
+# default string (--s)
+php artisan make:enum <name>
+
+# integer (--i)
+php artisan make:enum <name> --i
+```
+
 Config for Lang::translations():
 ```shell
 php artisan vendor:publish --provider="Aprog\AprogServiceProvider" --tag=config
@@ -51,13 +69,22 @@ php artisan vendor:publish --provider="Aprog\AprogServiceProvider" --tag=views
     - `object()` формування об'єкта з масиву, або створення порожнього об'єкта
     - `mail_for_developer()` дозволяє формувати `MailForDeveloper` лист
     - `mail_content_exception()` формування контенту для тіла листа
-    - `guid()`
+    - `guid()` функція дозволяє створювати нові guid, або за допомогою передачі в неї даних отримувати статичний guid
     - `blockLogError()`
     - `blockInfo()`
     - `blockExceptionError()`
     - `zerosArticle()`
     - `exception()` функція для виклику класу `SetAprog` та методу `exception`, 
     який своєю чергою викликає клас та метод які в нього передають
+    - `telegram()` функція дозволяє надсилати повідомлення у групи telegram
+    - `checkMemory()` функція дозволяє заміряти актуальну та пікову пам'ять під час запиту
+    - `bugger()` функція дозволяє накопичувати логові повідомлення і принтити їх через `blockInfo()` однією групою
+    - `route_logs()` функція отримання всіх логів
+    - `route_log()` функція отримання конкретного лога
+    - `route_remove_log()` функція видалення конкретного лога
+    - `isPhone()` проста перевірка на правильність номера телефону
+    - `uniqueBrowser()` функція дозволяє отримати унікальний id браузера користувача
+    - `ip()` функція дозволяє отримати ip адресу користувача
 - Додано клас `MailForDeveloper` - формує лист з помилкою для розробника
 - Додано модель, сідер та міграцію `ErrorCodes`
 - Додано клас `ArrWrapper` та функцію `wrap` - Вони дозволяють безпечно працювати з вкладеними даними
