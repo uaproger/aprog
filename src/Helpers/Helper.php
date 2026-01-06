@@ -11,6 +11,7 @@ use Aprog\Services\Telegram;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 /**
  * --------------------------------------------------------------------------
@@ -786,5 +787,33 @@ if (!function_exists('route_log')) {
         }
 
         return response()->file($path);
+    }
+}
+
+if (!function_exists('route_remove_log')) {
+    function route_remove_log(?string $filename)
+    {
+        if (!$filename) {
+            abort(404);
+        }
+
+        $filename = basename($filename);
+
+        if (!Str::endsWith($filename, '.log')) {
+            abort(404);
+        }
+
+        $path = storage_path("logs/{$filename}");
+
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        File::delete($path);
+
+        return response()->json([
+            'success' => true,
+            'message' => "{$filename} removed",
+        ]);
     }
 }
