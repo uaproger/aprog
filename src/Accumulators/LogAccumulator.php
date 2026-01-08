@@ -3,11 +3,13 @@
 namespace Aprog\Accumulators;
 
 /**
+ * --- Слава Україні 🇺🇦 ---
+ *
  * Aprog Accumulator
  *
- * ######################################
- * --- Клас `LogAccumulator` для накопичення даних ---
- * ######################################
+ * --------------------------------------------------------------------------
+ *  Клас `LogAccumulator` для накопичення даних
+ * --------------------------------------------------------------------------
  *
  * Copyright (c) 2025 AlexProger.
  */
@@ -21,6 +23,7 @@ final class LogAccumulator
 
     private function __construct()
     {
+        $this->alphabet = config('app.log.alphabet', $this->alphabet);
         $this->length = config('app.log.length', $this->length);
         $this->indexes = array_fill(0, $this->length, 0);
     }

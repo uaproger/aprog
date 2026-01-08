@@ -741,7 +741,8 @@ if (!function_exists('checkMemory')) {
  *   bugger()
  *  --------------------------------------------------------------------------
  *
- * Copyright (c) 2025 AlexProger.
+ * Довжина hash, дефолтно встановлюється у config - app.log.length
+ * Copyright (c) 2026 AlexProger.
  */
 if (!function_exists('bugger')) {
     function bugger(?string $key = null, array|string|null $log = null): LogAccumulator
@@ -754,6 +755,15 @@ if (!function_exists('bugger')) {
     }
 }
 
+/**
+ * --- Слава Україні 🇺🇦 ---
+ *  --------------------------------------------------------------------------
+ *   route_logs()
+ *  --------------------------------------------------------------------------
+ *
+ * Функція отримання списку логів
+ * Copyright (c) 2026 AlexProger.
+ */
 if (!function_exists('route_logs')) {
     function route_logs()
     {
@@ -778,36 +788,44 @@ if (!function_exists('route_logs')) {
     }
 }
 
+/**
+ * --- Слава Україні 🇺🇦 ---
+ *  --------------------------------------------------------------------------
+ *   route_log()
+ *  --------------------------------------------------------------------------
+ *
+ * Функція отримання конкретного логу
+ * Copyright (c) 2026 AlexProger.
+ */
 if (!function_exists('route_log')) {
     function route_log(?string $filename)
     {
         $path = storage_path("logs/$filename");
-        if (!File::exists($path)) {
-            abort(404);
-        }
+        if (!File::exists($path)) abort(404);
 
         return response()->file($path);
     }
 }
 
+/**
+ * --- Слава Україні 🇺🇦 ---
+ *  --------------------------------------------------------------------------
+ *   route_remove_log()
+ *  --------------------------------------------------------------------------
+ *
+ * Функція видалення конкретного логу
+ * Copyright (c) 2026 AlexProger.
+ */
 if (!function_exists('route_remove_log')) {
     function route_remove_log(?string $filename)
     {
-        if (!$filename) {
-            abort(404);
-        }
+        if (!$filename) abort(404);
 
         $filename = basename($filename);
-
-        if (!Str::endsWith($filename, '.log')) {
-            abort(404);
-        }
+        if (!Str::endsWith($filename, '.log')) abort(404);
 
         $path = storage_path("logs/{$filename}");
-
-        if (!File::exists($path)) {
-            abort(404);
-        }
+        if (!File::exists($path)) abort(404);
 
         File::delete($path);
 

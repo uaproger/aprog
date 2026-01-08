@@ -1,8 +1,9 @@
-# aprog
+# aprog 
+
+### Kyiv / Ukraine
 
 Допоміжна бібліотека `Laravel` для створення `Properties` і не тільки це...
-
-*require for dev*
+...функціонал розширився!
 
 ### Packagist resource
 
@@ -90,12 +91,17 @@ php artisan vendor:publish --provider="Aprog\AprogServiceProvider" --tag=views
 - Додано клас `ArrWrapper` та функцію `wrap` - Вони дозволяють безпечно працювати з вкладеними даними
 - З часом будуть додаватися можливості створення додаткових інструментів
 
---- Слава Україні 🇺🇦 ---
+###
+```
+Козацькому роду, нема переводу!
+Слава Україні 🇺🇦
+```
+###
 
 ### License
 MIT License
 
-Copyright (c) 2025 AlexProger
+Copyright (c) 2026 AlexProger
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -115,4 +121,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-*&copy; AlexProger 2025*
+*&copy; AlexProger 2026*

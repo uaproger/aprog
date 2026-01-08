@@ -1,6 +1,6 @@
 {
   "name": "uaproger/aprog",
-  "description": "Бібліотека для роботи з властивостями",
+  "description": "Бібліотека для роботи з властивостями, та інші хелпери",
   "type": "library",
   "license": "MIT",
   "minimum-stability": "stable",
