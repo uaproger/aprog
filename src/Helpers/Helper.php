@@ -727,6 +727,7 @@ if (!function_exists('checkMemory')) {
         $data = [
             'used_mb' => round((memory_get_usage($usage) - $start) / 1024 / 1024, 2),
             'peak_mb' => round(memory_get_peak_usage($peak) / 1024 / 1024, 2),
+            'limit_mb' => (int)str_replace('M', '', ini_get('memory_limit'))
         ];
 
         if ($label) $data['label'] = $label;
