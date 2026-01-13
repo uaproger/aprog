@@ -17,9 +17,11 @@ final class LogAccumulator
 {
     private static ?self $instance = null;
     private array $data = [];
+    private array $errors = [];
     private array $alphabet = ['A', 'B', 'C'];
     private int $length = 3;
     private array $indexes = [];
+    private int $index = 0;
 
     private function __construct()
     {
@@ -33,11 +35,19 @@ final class LogAccumulator
         return self::$instance ??= new LogAccumulator();
     }
 
-    public function add(string $key, string|array $log): LogAccumulator
+    public function add(string $key, mixed $log = null): LogAccumulator
     {
         $hash = $this->currentHash();
-        $this->data["[$hash]$key"] = $log;
+        $this->data["[$hash]$key"] = $log ?? '#####';
         $this->next();
+
+        return $this;
+    }
+
+    public function addError(string $key, mixed $error = null): LogAccumulator
+    {
+        $this->errors["[$this->index]$key"] = $error ?? '#####';
+        $this->index++;
 
         return $this;
     }
@@ -48,10 +58,23 @@ final class LogAccumulator
         $this->reset();
     }
 
+    public function echo(): void
+    {
+        blockLogError(code_location(), $this->errors);
+        $this->resetError();
+    }
+
     public function reset(): void
     {
         self::$instance = null;
         $this->data = [];
+    }
+
+    public function resetError(): void
+    {
+        self::$instance = null;
+        $this->errors = [];
+        $this->index = 0;
     }
 
     private function currentHash(): string

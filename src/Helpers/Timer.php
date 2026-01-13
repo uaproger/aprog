@@ -73,13 +73,16 @@ if (!function_exists('checkMemory')) {
  * Copyright (c) 2025 AlexProger.
  */
 if (!function_exists('tm')) {
-    function tm(?Timer $timer = null, ?int $start = null): ArrWrapper
+    function tm(?Timer $timer = null, ?int $start = null): ArrWrapper|string|array
     {
-        if (is_null($timer) || is_null($start)) {
+        if (is_null($timer) && is_null($start)) {
             $timer = timeStart();
             $memory = checkMemory();
             return wrap(['timer' => $timer, 'memory' => $memory]);
         }
+
+        if (!is_null($timer) && is_null($start)) return timeStop($timer);
+        if (!is_null($start) && is_null($timer)) return checkMemory($start);
 
         return wrap(['timer' => timeStop($timer), 'memory' => checkMemory($start)]);
     }
