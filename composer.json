@@ -9,6 +9,7 @@
     "files": [
       "src/Helpers/Helper.php",
       "src/Helpers/Lang.php",
+      "src/Helpers/Logger.php",
       "src/Helpers/Timer.php"
     ],
     "psr-4": {
