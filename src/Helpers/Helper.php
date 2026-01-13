@@ -713,36 +713,12 @@ if (!function_exists('content_exception')) {
 
 /**
  * --- Слава Україні 🇺🇦 ---
- * --------------------------------------------------------------------------
- *  checkMemory()
- * --------------------------------------------------------------------------
- *
- * Copyright (c) 2025 AlexProger.
- */
-if (!function_exists('checkMemory')) {
-    function checkMemory(?int $start = null, ?string $label = null, bool $usage = false, bool $peak = true): int|array
-    {
-        if (is_null($start)) return memory_get_usage($usage);
-
-        $data = [
-            'used_mb' => round((memory_get_usage($usage) - $start) / 1024 / 1024, 2),
-            'peak_mb' => round(memory_get_peak_usage($peak) / 1024 / 1024, 2),
-            'limit_mb' => (int)str_replace('M', '', ini_get('memory_limit'))
-        ];
-
-        if ($label) $data['label'] = $label;
-
-        return $data;
-    }
-}
-
-/**
- * --- Слава Україні 🇺🇦 ---
  *  --------------------------------------------------------------------------
  *   bugger()
  *  --------------------------------------------------------------------------
  *
  * Довжина hash, дефолтно встановлюється у config - app.log.length
+ *
  * Copyright (c) 2026 AlexProger.
  */
 if (!function_exists('bugger')) {
@@ -763,6 +739,7 @@ if (!function_exists('bugger')) {
  *  --------------------------------------------------------------------------
  *
  * Функція отримання списку логів
+ *
  * Copyright (c) 2026 AlexProger.
  */
 if (!function_exists('route_logs')) {
@@ -796,6 +773,7 @@ if (!function_exists('route_logs')) {
  *  --------------------------------------------------------------------------
  *
  * Функція отримання конкретного логу
+ *
  * Copyright (c) 2026 AlexProger.
  */
 if (!function_exists('route_log')) {
@@ -815,6 +793,7 @@ if (!function_exists('route_log')) {
  *  --------------------------------------------------------------------------
  *
  * Функція видалення конкретного логу
+ *
  * Copyright (c) 2026 AlexProger.
  */
 if (!function_exists('route_remove_log')) {

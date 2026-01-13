@@ -137,18 +137,18 @@ class ArrWrapper
      *  wrap($data)->pathValue('user.profile.name');
      * ```
      *
-     * @param string|int|null $pathOrKey
+     * @param string|int|null $keyOrPath
      * @param mixed $default
      * @return mixed
      */
-    public function val(string|int|null $pathOrKey = null, mixed $default = null): mixed
+    public function val(string|int|null $keyOrPath = null, mixed $default = null): mixed
     {
-        if (!is_null($pathOrKey)) {
-            $segments = explode('.', $pathOrKey);
+        if (!is_null($keyOrPath)) {
+            $segments = explode('.', $keyOrPath);
             if (count($segments) > 1) {
-                return $this->path($pathOrKey)->value;
+                return $this->path($keyOrPath, $default)->value;
             }
-            return $this->get($pathOrKey)->value;
+            return $this->get($keyOrPath, $default)->value;
         }
         return $this->value;
     }
@@ -399,12 +399,14 @@ class ArrWrapper
     /**
      * Перевірка існування значення по шляху.
      *
-     * @param string $path
+     * @param string $keyOrPath
      * @return bool
      */
-    public function exists(string $path): bool
+    public function exists(string $keyOrPath): bool
     {
-        return !$this->path($path)->isNull();
+        $segments = explode('.', $keyOrPath);
+        if (count($segments) > 1) return !$this->path($keyOrPath)->isNull();
+        return !$this->get($keyOrPath)->isNull();
     }
 
     /**
