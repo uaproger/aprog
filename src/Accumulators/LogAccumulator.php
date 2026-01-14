@@ -44,7 +44,7 @@ final class LogAccumulator
         return $this;
     }
 
-    public function addError(string $key, mixed $error = null): LogAccumulator
+    public function addError(string $key = 'Error', mixed $error = null): LogAccumulator
     {
         $this->errors["[$this->index]$key"] = $error ?? '#####';
         $this->index++;
@@ -55,13 +55,18 @@ final class LogAccumulator
     public function print(): void
     {
         blockInfo(code_location(), $this->data);
+        $this->echo();
         $this->reset();
     }
 
-    public function echo(): void
+    public function echo($resetInstance = false): LogAccumulator
     {
-        blockLogError(code_location(), $this->errors);
-        $this->resetError();
+        if (!empty($this->errors)) {
+            blockLogError(code_location(), $this->errors);
+            $this->resetError($resetInstance);
+        }
+
+        return $this;
     }
 
     public function reset(): void
@@ -70,9 +75,9 @@ final class LogAccumulator
         $this->data = [];
     }
 
-    public function resetError(): void
+    public function resetError($resetInstance = false): void
     {
-        self::$instance = null;
+        if ($resetInstance) self::$instance = null;
         $this->errors = [];
         $this->index = 0;
     }
