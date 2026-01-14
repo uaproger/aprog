@@ -1,7 +1,10 @@
 <?php
 
+use Aprog\database\seeders\ErrorCodesSeeder;
+use Aprog\Enums\TableNameEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -14,7 +17,7 @@ use Illuminate\Support\Facades\Schema;
  * Copyright (c) 2025 AlexProger.
  */
 return new class extends Migration {
-    const TABLE = \Aprog\Enum\TableNameEnum::ERROR_CODES;
+    const TABLE = TableNameEnum::ERROR_CODES;
 
     public function up(): void
     {
@@ -24,8 +27,8 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        \Illuminate\Support\Facades\Artisan::call('db:seed', [
-            '--class' => \Aprog\database\seeders\ErrorCodesSeeder::class
+        Artisan::call('db:seed', [
+            '--class' => ErrorCodesSeeder::class
         ]);
     }
 
