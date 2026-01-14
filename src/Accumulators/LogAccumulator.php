@@ -54,15 +54,16 @@ final class LogAccumulator
 
     public function print(): void
     {
-        blockInfo(code_location(), $this->data);
-        $this->echo();
+        $trace = code_location();
+        blockInfo($trace, $this->data);
+        $this->echo(false, $trace);
         $this->reset();
     }
 
-    public function echo($resetInstance = false): LogAccumulator
+    public function echo(bool $resetInstance = false, ?string $trace = null): LogAccumulator
     {
         if (!empty($this->errors)) {
-            blockLogError(code_location(), $this->errors);
+            blockLogError($trace ?? code_location(), $this->errors);
             $this->resetError($resetInstance);
         }
 
@@ -75,7 +76,7 @@ final class LogAccumulator
         $this->data = [];
     }
 
-    public function resetError($resetInstance = false): void
+    public function resetError(bool $resetInstance = false): void
     {
         if ($resetInstance) self::$instance = null;
         $this->errors = [];
