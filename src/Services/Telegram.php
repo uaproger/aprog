@@ -110,7 +110,7 @@ class Telegram
 
     protected function sanitizeParseMode(?string $parseMode): ?string
     {
-        $allowed = ['Markdown', 'MarkdownV2', 'HTML'];
+        $allowed = config('telegram.mods');
 
         if (!$parseMode) return null;
 

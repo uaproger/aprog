@@ -92,14 +92,14 @@ class ArrWrapper
      *
      * Використання:
      * ```php
-     * wrap($data)->path('user.profile.name')->val();
+     * wrap($data)->path('user.profile.name');
      * ```
      *
      * @param string $path Шлях із крапками
      * @param mixed $default Значення за замовчуванням
-     * @return static
+     * @return mixed
      */
-    public function path(string $path, mixed $default = null): static
+    public function path(string $path, mixed $default = null): mixed
     {
         $segments = explode('.', $path);
         $current = $this;
@@ -107,11 +107,11 @@ class ArrWrapper
         foreach ($segments as $key) {
             $current = $current->get($key);
             if ($current->isNull()) {
-                return new static($default);
+                return $default;
             }
         }
 
-        return $current;
+        return $current->value;
     }
 
     /**
@@ -158,7 +158,7 @@ class ArrWrapper
     }
     public function pathValue(string $path, mixed $default = null): mixed
     {
-        return $this->path($path, $default)->value;
+        return $this->path($path, $default);
     }
 
     /**

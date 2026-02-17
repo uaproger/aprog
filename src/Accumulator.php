@@ -29,21 +29,17 @@ class Accumulator
         self::$accumulator .= "final class $name" . PHP_EOL;
         self::$accumulator .= "{" . PHP_EOL;
         self::$accumulator .= "    private static ?$name \$instance = null;" . PHP_EOL;
-        self::$accumulator .= "    private mixed \$data = null;" . PHP_EOL;
+        self::$accumulator .= "    private mixed \$data = [];" . PHP_EOL;
         self::$accumulator .= PHP_EOL;
         self::$accumulator .= "    public static function init(): $name" . PHP_EOL;
         self::$accumulator .= "    {" . PHP_EOL;
-        self::$accumulator .= "        if (is_null(self::\$instance)) {" . PHP_EOL;
-        self::$accumulator .= "            self::\$instance = new $name();" . PHP_EOL;
-        self::$accumulator .= "        }" . PHP_EOL;
-        self::$accumulator .= PHP_EOL;
-        self::$accumulator .= "        return self::\$instance;" . PHP_EOL;
+        self::$accumulator .= "        return self::\$instance ??= new $name()" . PHP_EOL;
         self::$accumulator .= "    }" . PHP_EOL;
         self::$accumulator .= PHP_EOL;
         self::$accumulator .= "    public function reset(): void" . PHP_EOL;
         self::$accumulator .= "    {" . PHP_EOL;
         self::$accumulator .= "        self::\$instance = null;" . PHP_EOL;
-        self::$accumulator .= "        \$this->data = null;" . PHP_EOL;
+        self::$accumulator .= "        \$this->data = [];" . PHP_EOL;
         self::$accumulator .= "    }" . PHP_EOL;
         self::$accumulator .= "}" . PHP_EOL;
 
