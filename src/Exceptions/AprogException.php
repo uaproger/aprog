@@ -26,7 +26,6 @@ class AprogException extends Exception
      */
     public function __construct(string $message = null, int $code = 0, ?Throwable $previous = null, array $params = [])
     {
-
         if (!is_null($message)) {
             parent::__construct(__($message, $params), $code, $previous);
             $errors = AccumulatedErrorsService::init();
@@ -35,5 +34,8 @@ class AprogException extends Exception
         } else {
             parent::__construct($message, $code, $previous);
         }
+
+        # Прінтемо логи якщо вони є
+        bugger()->print();
     }
 }
