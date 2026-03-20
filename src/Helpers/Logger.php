@@ -115,3 +115,32 @@ if (!function_exists('bugger')) {
         return $bugger;
     }
 }
+
+/**
+ * --- Слава Україні 🇺🇦 ---
+ *  --------------------------------------------------------------------------
+ *   debugException()
+ *  --------------------------------------------------------------------------
+ *
+ * Copyright (c) 2026 AlexProger.
+ */
+if (!function_exists('debugException')) {
+    function debugException(Throwable $throwable, ?string $key = null, bool $clearInstance = false, int $length = 10): void
+    {
+        $key = $key ?? 'THROWABLE';
+        bugger()->addError(bold("[$key]"), $throwable->getMessage())
+            ->addError(bold('[FILE]'), $throwable->getFile() . '(' . $throwable->getLine() . ')');
+        $trace = $throwable->getTrace();
+        $slice = array_slice($trace, 0, $length);
+
+        foreach ($slice as $i => $item) {
+            $file = wrap($item)->val('file');
+            $line = wrap($item)->val('line');
+            $class = wrap($item)->val('class');
+            $type = wrap($item)->val('type');
+            $function = wrap($item)->val('function');
+            bugger()->addError(bold('[TRACE]'), "#$i $file($line); $class$type$function()");
+        }
+        bugger()->echo($clearInstance, code_location());
+    }
+}
