@@ -131,7 +131,7 @@ if (!function_exists('debugException')) {
         bugger()->addError(bold("[$key]"), $throwable->getMessage())
             ->addError(bold('[FILE]'), $throwable->getFile() . '(' . $throwable->getLine() . ')');
         $trace = $throwable->getTrace();
-        $slice = array_slice($trace, 0, $length);
+        $slice = $length === 0 ? [] : array_slice($trace, 0, $length);
 
         foreach ($slice as $i => $item) {
             $file = wrap($item)->val('file');
