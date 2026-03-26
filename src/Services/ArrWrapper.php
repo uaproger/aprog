@@ -146,7 +146,7 @@ class ArrWrapper
         if (!is_null($keyOrPath)) {
             $segments = explode('.', $keyOrPath);
             if (count($segments) > 1) {
-                return $this->path($keyOrPath, $default)->value;
+                return $this->path($keyOrPath, $default);
             }
             return $this->get($keyOrPath, $default)->value;
         }

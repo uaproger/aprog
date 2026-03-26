@@ -55,7 +55,7 @@ final class LogAccumulator
     public function print(): void
     {
         $trace = code_location();
-        blockInfo($trace, $this->data);
+        if (!empty($this->data)) blockInfo($trace, $this->data);
         $this->echo(false, $trace);
         $this->reset();
     }
