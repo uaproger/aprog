@@ -40,7 +40,7 @@ final class LogAccumulator
         $hash = $this->currentHash();
         $newKey = $this->validateKey($key);
         $symbol = $throwable ? '❌' : '';
-        $this->data["[$hash]$newKey"] = $log ?? '#####';
+        $this->data["[$hash]$symbol$newKey"] = $log ?? '#####';
         $this->next();
 
         return $this;
