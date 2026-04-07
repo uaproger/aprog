@@ -128,8 +128,8 @@ if (!function_exists('debugException')) {
     function debugException(Throwable $throwable, ?string $key = null, bool $clearInstance = false, int $length = 10): void
     {
         $key = $key ?? 'THROWABLE';
-        bugger()->addError(bold("[$key]"), $throwable->getMessage())
-            ->addError(bold('[FILE]'), $throwable->getFile() . '(' . $throwable->getLine() . ')');
+        bugger()->addError($key, $throwable->getMessage())
+            ->addError('FILE', $throwable->getFile() . '(' . $throwable->getLine() . ')');
         $trace = $throwable->getTrace();
         $slice = $length === 0 ? [] : array_slice($trace, 0, $length);
 
@@ -139,7 +139,7 @@ if (!function_exists('debugException')) {
             $class = wrap($item)->val('class');
             $type = wrap($item)->val('type');
             $function = wrap($item)->val('function');
-            bugger()->addError(bold('[TRACE]'), "#$i $file($line); $class$type$function()");
+            bugger()->addError('TRACE', "#$i $file($line); $class$type$function()");
         }
         bugger()->echo($clearInstance, code_location());
     }

@@ -35,10 +35,12 @@ final class LogAccumulator
         return self::$instance ??= new LogAccumulator();
     }
 
-    public function add(string $key, mixed $log = null): LogAccumulator
+    public function add(string $key, mixed $log = null, bool $throwable = false): LogAccumulator
     {
         $hash = $this->currentHash();
-        $this->data["[$hash]$key"] = $log ?? '#####';
+        $newKey = $this->validateKey($key);
+        $symbol = $throwable ? '❌' : '';
+        $this->data["[$hash]$newKey"] = $log ?? '#####';
         $this->next();
 
         return $this;
@@ -46,7 +48,8 @@ final class LogAccumulator
 
     public function addError(string $key = 'Error', mixed $error = null): LogAccumulator
     {
-        $this->errors["[$this->index]$key"] = $error ?? '#####';
+        $newKey = $this->validateKey($key);
+        $this->errors["[$this->index]$newKey"] = $error ?? '#####';
         $this->index++;
 
         return $this;
@@ -79,6 +82,7 @@ final class LogAccumulator
     public function resetError(bool $resetInstance = false): void
     {
         if ($resetInstance) self::$instance = null;
+
         $this->errors = [];
         $this->index = 0;
     }
@@ -94,15 +98,19 @@ final class LogAccumulator
     private function next(): void
     {
         $base = count($this->alphabet);
-
         for ($i = $this->length - 1; $i >= 0; $i--) {
             $this->indexes[$i]++;
-
-            if ($this->indexes[$i] < $base) {
-                return;
-            }
+            if ($this->indexes[$i] < $base) return;
 
             $this->indexes[$i] = 0;
         }
+    }
+
+    private function validateKey(string $key): string
+    {
+        $exist = str_contains($key, '[') && str_contains($key, ']');
+        $existBold = str_contains($key, '<b>') && str_contains($key, '</b>');
+        $newKey = $exist ? $key : "[$key]";
+        return $existBold ? strtoupper($newKey) : bold(strtoupper($newKey));
     }
 }

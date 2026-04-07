@@ -137,18 +137,18 @@ class ArrWrapper
      *  wrap($data)->pathValue('user.profile.name');
      * ```
      *
-     * @param string|int|null $keyOrPath
+     * @param string|int|null $key
      * @param mixed $default
      * @return mixed
      */
-    public function val(string|int|null $keyOrPath = null, mixed $default = null): mixed
+    public function val(string|int|null $key = null, mixed $default = null): mixed
     {
-        if (!is_null($keyOrPath)) {
-            $segments = explode('.', $keyOrPath);
+        if (!is_null($key)) {
+            $segments = explode('.', $key);
             if (count($segments) > 1) {
-                return $this->path($keyOrPath, $default);
+                return $this->path($key, $default);
             }
-            return $this->get($keyOrPath, $default)->value;
+            return $this->get($key, $default)->value;
         }
         return $this->value;
     }
