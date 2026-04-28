@@ -33,7 +33,7 @@ class Accumulator
         self::$accumulator .= PHP_EOL;
         self::$accumulator .= "    public static function init(): $name" . PHP_EOL;
         self::$accumulator .= "    {" . PHP_EOL;
-        self::$accumulator .= "        return self::\$instance ??= new $name()" . PHP_EOL;
+        self::$accumulator .= "        return self::\$instance ??= new $name();" . PHP_EOL;
         self::$accumulator .= "    }" . PHP_EOL;
         self::$accumulator .= PHP_EOL;
         self::$accumulator .= "    public function reset(): void" . PHP_EOL;

@@ -28,9 +28,16 @@ class Service
         self::$service .= " */" . PHP_EOL;
         self::$service .= "class $name" . PHP_EOL;
         self::$service .= "{" . PHP_EOL;
-        self::$service .= "    public function __construct()" . PHP_EOL;
+        self::$service .= "    private static ?$name \$instance = null;" . PHP_EOL;
+        self::$service .= PHP_EOL;
+        self::$service .= "    public static function init(): $name" . PHP_EOL;
         self::$service .= "    {" . PHP_EOL;
-        self::$service .= "        // code..." . PHP_EOL;
+        self::$service .= "        return self::\$instance ??= new $name();" . PHP_EOL;
+        self::$service .= "    }" . PHP_EOL;
+        self::$service .= PHP_EOL;
+        self::$service .= "    public function method()" . PHP_EOL;
+        self::$service .= "    {" . PHP_EOL;
+        self::$service .= "        # code..." . PHP_EOL;
         self::$service .= "    }" . PHP_EOL;
         self::$service .= "}" . PHP_EOL;
 
