@@ -686,8 +686,11 @@ if (!function_exists('route_remove_log')) {
     {
         if (!$filename) abort(404);
 
+        # Захист від ../
         $filename = basename($filename);
-        if (!Str::endsWith($filename, '.log')) abort(404);
+
+        # Дозволяємо тільки log файли та їх backup/version варіанти
+        if (!str_contains($filename, '.log')) abort(404);
 
         $path = storage_path("logs/{$filename}");
         if (!File::exists($path)) abort(404);
@@ -698,5 +701,31 @@ if (!function_exists('route_remove_log')) {
             'success' => true,
             'message' => "{$filename} removed",
         ]);
+    }
+}
+
+/**
+ * --- Слава Україні 🇺🇦 ---
+ *  --------------------------------------------------------------------------
+ *   file_put()
+ *  --------------------------------------------------------------------------
+ *
+ * Функція запису даних у файл
+ *
+ * Copyright (c) 2026 AlexProger.
+ */
+if (!function_exists('file_put')) {
+    function file_put(string|array|object $content, ?string $file = null, bool $json = true, bool $base = true, bool $public = false): bool|int
+    {
+        if ($json) {
+            $content = json_encode($content, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            $dir = dirname('json');
+            if (!File::exists($dir)) File::makeDirectory($dir, 0777, true);
+            $file = $file ?? date('Y_m_d_H_i_s');
+            $file = "json/$file.json";
+        }
+        if ($base) return File::put(base_path($file), $content);
+        if ($public) return File::put(public_path($file), $content);
+        return File::put($file, $content);
     }
 }
