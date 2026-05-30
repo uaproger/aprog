@@ -23,8 +23,15 @@ class AprogException extends Exception
      * @param int $code
      * @param Throwable|null $previous
      * @param array $params
+     * @param bool $print
      */
-    public function __construct(string $message = null, int $code = 0, ?Throwable $previous = null, array $params = [])
+    public function __construct(
+        string $message = null,
+        int $code = 0,
+        ?Throwable $previous = null,
+        array $params = [],
+        bool $print = true
+    )
     {
         if (!is_null($message)) {
             parent::__construct(__($message, $params), $code, $previous);
@@ -36,6 +43,6 @@ class AprogException extends Exception
         }
 
         # Прінтемо логи якщо вони є
-        bugger()->print();
+        if ($print) bugger()->add('Aprog Exception', __($message, $params), $print)->print();
     }
 }
