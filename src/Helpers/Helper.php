@@ -729,3 +729,24 @@ if (!function_exists('file_put')) {
         return File::put($file, $content);
     }
 }
+
+/**
+ * --- Слава Україні 🇺🇦 ---
+ *  --------------------------------------------------------------------------
+ *   file_get()
+ *  --------------------------------------------------------------------------
+ *
+ * Функція отримання даних з файлу
+ *
+ * Copyright (c) 2026 AlexProger.
+ */
+if (!function_exists('file_get')) {
+    function file_get(string $file, bool $json = true)
+    {
+        if ($json) {
+            $file = "json/$file.json";
+            return File::get(base_path($file));
+        }
+        return File::get($file);
+    }
+}
