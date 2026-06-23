@@ -15,7 +15,7 @@ namespace Aprog\Accumulators;
  */
 final class LogAccumulator
 {
-    private static ?self $instance = null;
+    private static array $instances = [];
     private array $data = [];
     private array $errors = [];
     private array $alphabet = ['A', 'B', 'C'];
@@ -23,16 +23,17 @@ final class LogAccumulator
     private array $indexes = [];
     private int $index = 0;
 
-    private function __construct()
-    {
+    private function __construct(
+        private readonly string $name = 'default'
+    ) {
         $this->alphabet = config('app.log.alphabet', $this->alphabet);
         $this->length = config('app.log.length', $this->length);
         $this->indexes = array_fill(0, $this->length, 0);
     }
 
-    public static function init(): LogAccumulator
+    public static function init(string $name = 'default'): LogAccumulator
     {
-        return self::$instance ??= new LogAccumulator();
+        return self::$instances[$name] ??= new self($name);
     }
 
     public function add(string $key, mixed $log = null, bool $throwable = false): LogAccumulator
@@ -58,7 +59,7 @@ final class LogAccumulator
     public function print(): void
     {
         $trace = code_location();
-        if (!empty($this->data)) blockInfo($trace, $this->data);
+        if (!empty($this->data)) blockInfo("$this->name | $trace", $this->data);
         $this->echo(false, $trace);
         $this->reset();
     }
@@ -66,7 +67,8 @@ final class LogAccumulator
     public function echo(bool $resetInstance = false, ?string $trace = null): LogAccumulator
     {
         if (!empty($this->errors)) {
-            blockLogError($trace ?? code_location(), $this->errors);
+            $trace = $trace ?? code_location();
+            blockLogError("$this->name | $trace", $this->errors);
             $this->resetError($resetInstance);
         }
 
@@ -75,14 +77,16 @@ final class LogAccumulator
 
     public function reset(): void
     {
-        self::$instance = null;
+        unset(self::$instances[$this->name]);
         $this->data = [];
+        $this->errors = [];
+        $this->indexes = array_fill(0, $this->length, 0);
+        $this->index = 0;
     }
 
     public function resetError(bool $resetInstance = false): void
     {
-        if ($resetInstance) self::$instance = null;
-
+        if ($resetInstance) unset(self::$instances[$this->name]);
         $this->errors = [];
         $this->index = 0;
     }

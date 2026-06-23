@@ -106,13 +106,12 @@ if (!function_exists('blockExceptionError')) {
  * Copyright (c) 2026 AlexProger.
  */
 if (!function_exists('bugger')) {
-    function bugger(?string $key = null, mixed $log = null): LogAccumulator
+    function bugger(?string $key = null, mixed $log = null, string $channel = 'default'): LogAccumulator
     {
-        $bugger = LogAccumulator::init();
-
-        if (!is_null($key) && !is_null($log)) return $bugger->add($key, $log);
-
-        return $bugger;
+        $bugger = LogAccumulator::init($channel);
+        return !is_null($key) && !is_null($log)
+            ? $bugger->add($key, $log)
+            : $bugger;
     }
 }
 
