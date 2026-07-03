@@ -75,5 +75,8 @@ class AprogServiceProvider extends ServiceProvider
 
         # Публікація міграцій
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+
+        # Реєстрація web роутів
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
     }
 }

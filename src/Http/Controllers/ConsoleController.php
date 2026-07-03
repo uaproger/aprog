@@ -1,6 +1,6 @@
 <?php
 
-namespace Aprog\Controllers;
+namespace Aprog\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class ConsoleController extends Controller
     {
         $request->session()->put('console.cwd', base_path());
 
-        return view('console.index', ['cwd' => base_path()]);
+        return view('aprog::console.index', ['cwd' => base_path()]);
     }
 
     public function run(Request $request)
