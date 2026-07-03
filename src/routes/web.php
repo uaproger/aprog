@@ -1,6 +1,6 @@
 <?php
 
-use Aprog\Controllers\ConsoleController;
+use Aprog\Http\Controllers\ConsoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('aprog/console')->group(function () {
