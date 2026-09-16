@@ -70,6 +70,16 @@ class AprogServiceProvider extends ServiceProvider
             __DIR__ . '/views/emails/for_developer.blade.php' => resource_path('views/emails/for_developer.blade.php'),
         ], 'views');
 
+        # Можливість скопіювати favicon у public проєкту
+        $this->publishes([
+            __DIR__ . '/../resources/assets/favicon.png' => public_path('favicon.png'),
+        ], 'aprog-favicon');
+
+        # Шрифт Aprog
+        $this->publishes([
+            __DIR__ . '/../resources/fonts' => public_path('vendor/aprog/fonts'),
+        ], 'aprog-fonts');
+
         # Реєстрація namespace для переглядів
         $this->loadViewsFrom(__DIR__ . '/views', 'aprog');
 
@@ -78,5 +88,16 @@ class AprogServiceProvider extends ServiceProvider
 
         # Реєстрація web роутів
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+
+        # Іконка Aprog
+        Route::get('/aprog/favicon.png', function (): BinaryFileResponse {
+            return response()->file(
+                __DIR__ . '/../resources/assets/favicon.png',
+                [
+                    'Content-Type' => 'image/png',
+                    'Cache-Control' => 'public, max-age=86400',
+                ]
+            );
+        })->name('aprog.favicon');
     }
 }
