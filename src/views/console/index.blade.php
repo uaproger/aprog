@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Aprog Web Console</title>
+        <link rel="icon" type="image/x-icon" href="{{ route('aprog.favicon') }}">
         <style>
             body {
                 margin: 0;
