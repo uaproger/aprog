@@ -4,10 +4,12 @@ namespace Aprog;
 
 use Aprog\Console\MakeAccumulatorCommand;
 use Aprog\Console\MakeEnumCommand;
-use Illuminate\Support\ServiceProvider;
 use Aprog\Console\MakePropertyCommand;
 use Aprog\Console\MakeServiceCommand;
 use Aprog\Services\AccumulatedErrorsService;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * AprogServiceProvider
