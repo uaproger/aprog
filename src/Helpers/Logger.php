@@ -24,17 +24,20 @@ if (!function_exists('blockLogError')) {
             $message = $url;
             $url = code_location();
         }
+
         Log::error(PHP_EOL);
-        Log::error(bold('❌ BLOCK ERROR START'));
-        Log::error(bold($url));
+        Log::error(bold('❌ BLOCK ERROR END'));
+
         if (is_array($message) || is_object($message)) {
-            foreach ($message as $key => $value) {
+            foreach (array_reverse((array)$message, true) as $key => $value) {
                 Log::error("$key => " . json_encode($value, JSON_UNESCAPED_UNICODE));
             }
         } else {
             Log::error($message);
         }
-        Log::error(bold('❌ BLOCK ERROR END'));
+
+        Log::error(bold($url));
+        Log::error(bold('❌ BLOCK ERROR START'));
         Log::error(PHP_EOL);
     }
 }
@@ -60,17 +63,20 @@ if (!function_exists('blockInfo')) {
             $message = $url;
             $url = code_location();
         }
+
         Log::info(PHP_EOL);
-        Log::info(bold('✔️ BLOCK INFO START'));
-        Log::info(bold($url));
+        Log::info(bold('✔️ BLOCK INFO END'));
+
         if (is_array($message) || is_object($message)) {
-            foreach ($message as $key => $value) {
+            foreach (array_reverse((array)$message, true) as $key => $value) {
                 Log::info("$key => " . json_encode($value, JSON_UNESCAPED_UNICODE));
             }
         } else {
             Log::info($message);
         }
-        Log::info(bold('✔️ BLOCK INFO END'));
+
+        Log::info(bold($url));
+        Log::info(bold('✔️ BLOCK INFO START'));
         Log::info(PHP_EOL);
     }
 }
@@ -127,19 +133,22 @@ if (!function_exists('debugException')) {
     function debugException(Throwable $throwable, ?string $key = null, bool $clearInstance = false, int $length = 10): void
     {
         $key = $key ?? 'THROWABLE';
-        bugger()->addError($key, $throwable->getMessage())
-            ->addError('FILE', $throwable->getFile() . '(' . $throwable->getLine() . ')');
         $trace = $throwable->getTrace();
         $slice = $length === 0 ? [] : array_slice($trace, 0, $length);
 
-        foreach ($slice as $i => $item) {
+        foreach (array_reverse($slice, true) as $i => $item) {
             $file = wrap($item)->val('file');
             $line = wrap($item)->val('line');
             $class = wrap($item)->val('class');
             $type = wrap($item)->val('type');
             $function = wrap($item)->val('function');
+
             bugger()->addError('TRACE', "#$i $file($line); $class$type$function()");
         }
+
+        bugger()->addError('FILE', $throwable->getFile() . '(' . $throwable->getLine() . ')')
+            ->addError($key, $throwable->getMessage());
+
         bugger()->echo($clearInstance, code_location());
     }
 }
