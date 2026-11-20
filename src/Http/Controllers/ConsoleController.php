@@ -3,93 +3,111 @@
 namespace Aprog\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Composer\InstalledVersions;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
-use Throwable;
 
-/**
- * class ConsoleController
- * @package Aprog\Controllers
- * @author Copyright (c) 2026 AlexProger.
- */
+/** Copyright (c) 2026 AlexProger. */
 class ConsoleController extends Controller
 {
     public function index(Request $request)
     {
-        $request->session()->put('console.cwd', base_path());
-
-        return view('aprog::console.index', ['cwd' => base_path()]);
+        return view('aprog::console.index', ['cwd' => $this->cwd($request)]);
     }
 
     public function run(Request $request)
     {
-        $command = trim((string) $request->input('command'));
-        if ($command === '') return response()->json([
-            'cwd' => $this->cwd($request),
-            'output' => '',
-        ]);
-
+        $request->validate(['command' => 'required|string|max:1024']);
+        [$name, $arg] = array_pad(preg_split('/\s+/', trim($request->input('command')), 2), 2, '');
         $cwd = $this->cwd($request);
-        if (str_starts_with($command, 'cd')) return $this->changeDirectory($request, $command, $cwd);
+        $code = 0;
 
-        $process = $this->makeProcess($command, $cwd);
-        $process->setTimeout(300);
-        $output = '';
-
-        try {
-            $process->run(function ($type, $buffer) use (&$output) {
-                $output .= $buffer;
-            });
-
-            return response()->json([
-                'cwd' => $cwd,
-                'output' => $output ?: '[OK]',
-                'exit_code' => $process->getExitCode(),
-            ]);
-        } catch (Throwable $e) {
-            return response()->json([
-                'cwd' => $cwd,
-                'output' => $e->getMessage(),
-                'exit_code' => 1,
-            ], 500);
+        switch ($name) {
+            case 'about':
+                $output = implode(PHP_EOL, [
+                    'Застосунок   ' . config('app.name'),
+                    'Середовище   ' . app()->environment(),
+                    'Laravel      ' . app()->version(),
+                    'PHP Web      ' . PHP_VERSION,
+                    'PHP CLI      ' . $this->cliVersion(),
+                    'APROG        ' . (InstalledVersions::getPrettyVersion('uaproger/aprog') ?? '—'),
+                ]);
+                break;
+            case 'php':
+                if ($arg === '-v') {
+                    $output = $this->cliVersion();
+                    break;
+                }
+                // Інші команди PHP відсутні в переліку діагностики.
+                $output = 'Доступна команда: php -v';
+                $code = 1;
+                break;
+            case 'routes':
+                $rows = [];
+                foreach (Route::getRoutes() as $route) {
+                    $columns = [implode('|', $route->methods()), $route->uri(), $route->getName() ?? '', implode(', ', $route->gatherMiddleware())];
+                    $row = implode('  ', $columns);
+                    if ($arg === '' || stripos($row, $arg) !== false) {
+                        $rows[] = $row;
+                    }
+                }
+                $output = $rows ? "Метод  URI  Назва  Middleware\n" . implode(PHP_EOL, $rows) : 'Маршрутів не знайдено.';
+                break;
+            case 'pwd':
+                $output = $cwd;
+                break;
+            case 'ls':
+                $entries = array_diff(scandir($cwd) ?: [], ['.', '..']);
+                $output = implode(PHP_EOL, $entries);
+                break;
+            case 'cd':
+                $root = realpath(base_path());
+                $path = trim($arg, "\"'");
+                $target = $path === '' || $path === '~' ? $root : realpath(str_starts_with($path, DIRECTORY_SEPARATOR) ? $path : $cwd . DIRECTORY_SEPARATOR . $path);
+                if (!$this->inProject($target)) {
+                    $output = 'Каталог відсутній або поза проєктом.';
+                    $code = 1;
+                    break;
+                }
+                $cwd = $target;
+                $request->session()->put('console.cwd', $cwd);
+                $output = $cwd;
+                break;
+            default:
+                $output = 'Невідома команда. Введи help.';
+                $code = 1;
         }
+
+        return response()->json(['cwd' => $cwd, 'output' => $output, 'exit_code' => $code], 200, [], JSON_INVALID_UTF8_SUBSTITUTE);
     }
 
     private function cwd(Request $request): string
     {
-        $cwd = $request->session()->get('console.cwd', base_path());
-        if (!File::isDirectory($cwd)) return base_path();
-
-        return $cwd;
+        $cwd = realpath($request->session()->get('console.cwd', base_path()));
+        return $this->inProject($cwd) ? $cwd : base_path();
     }
 
-    private function changeDirectory(Request $request, string $command, string $cwd)
+    private function inProject($path): bool
     {
-        $path = trim(substr($command, 2));
-        if ($path === '' || $path === '~') $newPath = base_path();
-        elseif (str_starts_with($path, '/')) $newPath = $path;
-        else $newPath = realpath($cwd . DIRECTORY_SEPARATOR . $path);
-
-        if (!$newPath || !File::isDirectory($newPath)) return response()->json([
-            'cwd' => $cwd,
-            'output' => "Directory not found: $path",
-            'exit_code' => 1,
-        ]);
-
-        $request->session()->put('console.cwd', $newPath);
-
-        return response()->json([
-            'cwd' => $newPath,
-            'output' => '',
-            'exit_code' => 0,
-        ]);
+        $root = realpath(base_path());
+        return $path && is_dir($path) && ($path === $root || str_starts_with($path, $root . DIRECTORY_SEPARATOR));
     }
 
-    private function makeProcess(string $command, string $cwd): Process
+    private function cliVersion(): string
     {
-        if (PHP_OS_FAMILY === 'Windows') return new Process(['cmd', '/C', $command], $cwd);
-
-        return new Process(['/bin/bash', '-lc', $command], $cwd);
+        try {
+            $binary = (new PhpExecutableFinder())->find(false);
+            if ($binary) {
+                $process = new Process([$binary, '-v']);
+                $process->setTimeout(3);
+                $process->mustRun();
+                return strtok($process->getOutput(), "\r\n") ?: '—';
+            }
+        } catch (\Exception $exception) {
+            report($exception);
+        }
+        return 'Недоступна';
     }
 }
