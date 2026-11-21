@@ -5,6 +5,7 @@ namespace Aprog\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Composer\InstalledVersions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -94,11 +95,22 @@ class ConsoleController extends Controller
 
     private function projectCommand(string $tool, string $args): array
     {
-        $args = preg_replace('/\s+/', ' ', trim($args));
+        $args = trim($args);
         if ($tool === 'artisan') {
             $commands = ['', 'list', 'optimize:clear', 'route:list', 'migrate:status'];
-            if (!in_array($args, $commands, true)) {
-                return [1, 'Доступні команди Artisan: list, optimize:clear, route:list, migrate:status.'];
+            [$name] = preg_split('/\s+/', $args, 2);
+            if ($name !== '' && !in_array($args, $commands, true)) {
+                $command = Artisan::all()[$name] ?? null;
+                if ($command && str_starts_with(get_class($command), app()->getNamespace())) {
+                    try {
+                        $code = Artisan::call($args . ' --no-interaction --no-ansi');
+                        return [$code, Artisan::output()];
+                    } catch (\Exception $exception) {
+                        report($exception);
+                        return [1, $exception->getMessage()];
+                    }
+                }
+                return [1, 'Доступні команди класів застосунку та list, optimize:clear, route:list, migrate:status.'];
             }
             $binary = (new PhpExecutableFinder())->find(false);
             if (!$binary) {
@@ -106,6 +118,7 @@ class ConsoleController extends Controller
             }
             $argv = [$binary, base_path('artisan'), $args ?: 'list', '--no-interaction', '--no-ansi'];
         } else {
+            $args = preg_replace('/\s+/', ' ', $args);
             if (!preg_match('/^(?:|list|--version|validate|show(?: [a-z0-9_.-]+\/[a-z0-9_.-]+)?)$/D', $args)) {
                 return [1, 'Доступні команди Composer: list, --version, validate, show [vendor/package].'];
             }
