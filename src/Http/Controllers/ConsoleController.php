@@ -97,7 +97,7 @@ class ConsoleController extends Controller
     {
         $args = trim($args);
         if ($tool === 'artisan') {
-            $commands = ['', 'list', 'optimize:clear', 'route:list', 'migrate:status'];
+            $commands = ['', 'list', 'optimize:clear', 'route:list', 'migrate', 'migrate:status'];
             [$name] = preg_split('/\s+/', $args, 2);
             if ($name !== '' && !in_array($args, $commands, true)) {
                 $command = Artisan::all()[$name] ?? null;
@@ -110,7 +110,7 @@ class ConsoleController extends Controller
                         return [1, $exception->getMessage()];
                     }
                 }
-                return [1, 'Доступні команди класів застосунку та list, optimize:clear, route:list, migrate:status.'];
+                return [1, 'Доступні команди класів застосунку та list, optimize:clear, route:list, migrate, migrate:status.'];
             }
             $binary = (new PhpExecutableFinder())->find(false);
             if (!$binary) {
