@@ -362,6 +362,20 @@ mail_content_exception()
 
 ---
 
+## Aprog Console
+
+Сторінка `/aprog/console` приймає команди у форматах `php artisan …` і `artisan …`. Введи `help`, щоб переглянути довідку вебконсолі.
+
+| Команди | Підтримка у браузері |
+|---|---|
+| Класи команд у просторі імен застосунку (типово `App\\`) | Зареєстровані команди приймають свої аргументи й опції, наприклад `php artisan download:services --offset=10`, якщо застосунок визначає цю команду. |
+| Вбудовані команди Laravel | `list`, `route:list`, `optimize:clear`, `migrate` і `migrate:status` приймаються без додаткових опцій. |
+| Composer | `list`, `--version`, `validate`, `show` і `show vendor/package`. |
+
+Команда `php artisan list` показує реєстр Laravel, який включає також команди поза переліком вебконсолі. Для доступу до всього реєстру відкрий термінал у корені Laravel-застосунку або в його PHP-контейнері. У проєкті з Sail можна викликати Artisan через `./vendor/bin/sail artisan`.
+
+---
+
 # English
 
 **aprog** is a utility library for Laravel that provides a collection of reusable components, helpers, services, and Artisan commands designed to simplify and speed up application development.
