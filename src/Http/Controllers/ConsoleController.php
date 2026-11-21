@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Composer\InstalledVersions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -40,9 +41,17 @@ class ConsoleController extends Controller
                     $output = $this->cliVersion();
                     break;
                 }
-                // Інші команди PHP відсутні в переліку діагностики.
-                $output = 'Доступна команда: php -v';
-                $code = 1;
+                [$tool, $args] = array_pad(preg_split('/\s+/', $arg, 2), 2, '');
+                if ($tool !== 'artisan') {
+                    $output = 'Використовуй php -v або php artisan.';
+                    $code = 1;
+                    break;
+                }
+                [$code, $output] = $this->projectCommand('artisan', $args);
+                break;
+            case 'artisan':
+            case 'composer':
+                [$code, $output] = $this->projectCommand($name, $arg);
                 break;
             case 'routes':
                 $rows = [];
@@ -81,6 +90,40 @@ class ConsoleController extends Controller
         }
 
         return response()->json(['cwd' => $cwd, 'output' => $output, 'exit_code' => $code], 200, [], JSON_INVALID_UTF8_SUBSTITUTE);
+    }
+
+    private function projectCommand(string $tool, string $args): array
+    {
+        $args = preg_replace('/\s+/', ' ', trim($args));
+        if ($tool === 'artisan') {
+            $commands = ['', 'list', 'optimize:clear', 'route:list', 'migrate:status'];
+            if (!in_array($args, $commands, true)) {
+                return [1, 'Доступні команди Artisan: list, optimize:clear, route:list, migrate:status.'];
+            }
+            $binary = (new PhpExecutableFinder())->find(false);
+            if (!$binary) {
+                return [1, 'Не знайдено PHP CLI.'];
+            }
+            $argv = [$binary, base_path('artisan'), $args ?: 'list', '--no-interaction', '--no-ansi'];
+        } else {
+            if (!preg_match('/^(?:|list|--version|validate|show(?: [a-z0-9_.-]+\/[a-z0-9_.-]+)?)$/D', $args)) {
+                return [1, 'Доступні команди Composer: list, --version, validate, show [vendor/package].'];
+            }
+            $binary = (new ExecutableFinder())->find('composer');
+            if (!$binary) {
+                return [1, 'Composer відсутній у PATH вебпроцесу.'];
+            }
+            $argv = [$binary, '--no-plugins', '--no-scripts', '--no-interaction', '--no-ansi', ...explode(' ', $args ?: 'list')];
+        }
+
+        try {
+            $process = new Process($argv, base_path());
+            $code = $process->run();
+            return [$code, trim($process->getOutput() . PHP_EOL . $process->getErrorOutput())];
+        } catch (\Symfony\Component\Process\Exception\ExceptionInterface $exception) {
+            report($exception);
+            return [1, 'Помилка запуску: ' . $exception->getMessage()];
+        }
     }
 
     private function cwd(Request $request): string
