@@ -114,6 +114,8 @@
                     result.textContent = [
                         "about           Застосунок, середовище та версії",
                         "routes console  Маршрути за фільтром (routes — усі)",
+                        "php artisan     list, optimize:clear, route:list, migrate:status",
+                        "composer        list, --version, validate, show [vendor/package]",
                         "php -v          Версія PHP CLI",
                         "pwd / ls        Поточний каталог / його вміст",
                         "cd каталог      Перехід; cd ~ повертає до кореня проєкту",
