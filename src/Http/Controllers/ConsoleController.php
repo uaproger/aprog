@@ -118,19 +118,43 @@ class ConsoleController extends Controller
             }
             $argv = [$binary, base_path('artisan'), $args ?: 'list', '--no-interaction', '--no-ansi'];
         } else {
-            $args = preg_replace('/\s+/', ' ', $args);
-            if (!preg_match('/^(?:|list|--version|validate|show(?: [a-z0-9_.-]+\/[a-z0-9_.-]+)?)$/D', $args)) {
-                return [1, 'Доступні команди Composer: list, --version, validate, show [vendor/package].'];
+            $tokens = preg_split('/\s+/', $args ?: 'list');
+            $name = array_shift($tokens);
+            $aliases = ['du' => 'dump-autoload', 'dumpautoload' => 'dump-autoload', 'i' => 'install', 'why' => 'depends'];
+            $name = $aliases[$name] ?? $name;
+            $usage = [
+                'install' => ['--no-dev', '--dry-run', '--prefer-dist', '-o', '--optimize-autoloader'],
+                'dump-autoload' => ['-o', '--optimize', '-a', '--classmap-authoritative', '--no-dev'],
+                'show' => ['--direct', '--locked', '--tree', '--platform'],
+                'outdated' => ['--direct', '--locked'],
+                'audit' => ['--locked', '--no-dev'],
+                'check-platform-reqs' => ['--lock', '--no-dev'],
+                'validate' => ['--strict'],
+                'depends' => ['--tree'],
+                'licenses' => [], 'list' => [], '--version' => [],
+            ];
+            if (!array_key_exists($name, $usage)) {
+                return [1, 'Доступні команди Composer: ' . implode(', ', array_keys($usage)) . '.'];
+            }
+            foreach ($tokens as $token) {
+                $package = in_array($name, ['depends', 'show', 'outdated'], true)
+                    && preg_match('~^[a-z0-9][a-z0-9_.-]*/[a-z0-9][a-z0-9_.-]*$~D', $token);
+                if (!$package && !in_array($token, $usage[$name], true)) {
+                    return [1, "Непідтримуваний аргумент Composer: $token"];
+                }
             }
             $binary = (new ExecutableFinder())->find('composer');
             if (!$binary) {
                 return [1, 'Composer відсутній у PATH вебпроцесу.'];
             }
-            $argv = [$binary, '--no-plugins', '--no-scripts', '--no-interaction', '--no-ansi', ...explode(' ', $args ?: 'list')];
+            $argv = [$binary, '--no-plugins', '--no-scripts', '--no-interaction', '--no-ansi', $name, ...$tokens];
         }
 
         try {
             $process = new Process($argv, base_path());
+            if ($tool === 'composer') {
+                $process->setTimeout(300);
+            }
             $code = $process->run();
             return [$code, trim($process->getOutput() . PHP_EOL . $process->getErrorOutput())];
         } catch (\Symfony\Component\Process\Exception\ExceptionInterface $exception) {
