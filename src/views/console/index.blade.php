@@ -115,7 +115,7 @@
                         "about           Застосунок, середовище та версії",
                         "routes console  Маршрути за фільтром (routes — усі)",
                         "php artisan     Команди класів застосунку з аргументами (наприклад download:services), list, optimize:clear, route:list, migrate, migrate:status",
-                        "composer        list, --version, validate, show [vendor/package]",
+                        "composer        install, du -o, show, depends, outdated, audit, check-platform-reqs, validate, licenses, list, --version",
                         "php -v          Версія PHP CLI",
                         "pwd / ls        Поточний каталог / його вміст",
                         "cd каталог      Перехід; cd ~ повертає до кореня проєкту",
