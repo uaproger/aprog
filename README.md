@@ -370,7 +370,9 @@ mail_content_exception()
 |---|---|
 | Класи команд у просторі імен застосунку (типово `App\\`) | Зареєстровані команди приймають свої аргументи й опції, наприклад `php artisan download:services --offset=10`, якщо застосунок визначає цю команду. |
 | Вбудовані команди Laravel | `list`, `route:list`, `optimize:clear`, `migrate` і `migrate:status` приймаються без додаткових опцій. |
-| Composer | `list`, `--version`, `validate`, `show` і `show vendor/package`. |
+| Composer | `install`, `dump-autoload` (скорочено `du`), `show`, `depends` (`why`), `outdated`, `audit`, `check-platform-reqs`, `validate`, `licenses`, `list`, `--version`. |
+
+Наприклад, `composer install --no-dev -o` встановлює залежності, а `composer du -o` перебудовує оптимізований автозавантажувач. Вебконсоль запускає Composer з кореня проєкту з `--no-scripts` та `--no-plugins`. Laravel-хуки з `composer.json`, зокрема `post-autoload-dump`, автоматично не виконуються. Ліміт дочірнього процесу Composer становить 300 секунд. HTTP-сервер може завершити запит раніше.
 
 Команда `php artisan list` показує реєстр Laravel, який включає також команди поза переліком вебконсолі. Для доступу до всього реєстру відкрий термінал у корені Laravel-застосунку або в його PHP-контейнері. У проєкті з Sail можна викликати Artisan через `./vendor/bin/sail artisan`.
 
